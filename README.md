@@ -7,8 +7,6 @@
 
 * Globally installed [npm](https://www.npmjs.org/) >= 3.0
 
-* Globally installed [rnpm](https://github.com/rnpm/rnpm) *(only if React Native version < 0.29)*
-
 * Globally installed [react-native CLI](https://facebook.github.io/react-native/docs/getting-started.html)
 
 
