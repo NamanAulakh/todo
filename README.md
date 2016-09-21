@@ -11,18 +11,15 @@
 
 * Globally installed [react-native CLI](https://facebook.github.io/react-native/docs/getting-started.html)
 
-* Install [CodePush](https://microsoft.github.io/code-push/) globally and get keys for your app.
-
-
 
 ###2. Installation
 
 On the command prompt run the following commands
 
 ```sh
-$ git clone https://github.com/start-react/native-starter-kit.git
+$ git clone https://github.com/new-black/babylon-coversheet-editor-module.git
 
-$ cd native-starter-kit/
+$ cd babylon-coversheet-editor-module/
 
 $ npm install
 ```
@@ -44,16 +41,6 @@ $ react-native link
 **Method One**
 
 *	Open the project in XCode from **ios/NativeStarterKit.xcodeproj**
-
-*	[CodePush](https://github.com/Microsoft/react-native-code-push) plugin installation:
-
-*	CodePush key deployment
-
-	*	Go to **"Build Settings"** and search for keyword - **codepush**.
-
-	*	Add the **codepush production key** in place of **Release key**
-
-	*	Add the **codepush staging key** in place of **Debug key**
 
 *	Hit the play button.
 
