@@ -4,17 +4,19 @@
 import type {Action} from './types';
 
 export const MOVE_CARD = "MOVE_CARD";
+export const ADD_CARD = "ADD_CARD";
 
-export function moveCard(payload:object):Action {
+export function moveCard(payload:object, index: integer):Action {
 
     return {
         type: MOVE_CARD,
-        payload: payload
+        payload: payload,
+        index: index
     }
 }
 
-// export function closeDrawer():Action {
-//     return {
-//         type: CLOSE_DRAWER
-//     }
-// }
+export function addCard():Action {
+    return {
+        type: ADD_CARD
+    }
+}
