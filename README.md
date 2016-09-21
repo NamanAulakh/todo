@@ -24,14 +24,6 @@ $ cd babylon-coversheet-editor-module/
 $ npm install
 ```
 
-If React Native < 0.29
-
-```sh
-$rnpm link
-```
-
-If React Native >= 0.29
-
 ```sh
 $ react-native link
 ```
