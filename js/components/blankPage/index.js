@@ -19,7 +19,7 @@ import { drag, pinch, GestureView } from 'react-native-gestures';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'red',
+    backgroundColor: '#565051',
     flex: 1
   },
   baseText: {
@@ -67,41 +67,35 @@ class BlankPage extends Component {
         };
 
         return (
+              <View name='Draggable Container' style={styles.container}>
+                  <GestureView
+                        style={movable}
+                        gestures={[drag, pinch]}
+                        type="View"
+                        toStyle={(layout) => {
+                          let rotate = this.state.rotate;
+                          this.moveCard(this.state)
 
-        <Container theme={myTheme} style={{backgroundColor: '#565051'}}>
-                <Header>
-                    <Title>{(name) ? name : 'Editor'}</Title>
-                </Header>
+                          this.setState({
+                            top: layout.y,
+                            left : layout.x,
+                            width: layout.width,
+                            height: layout.height,
+                            rotate: layout.rotate ? layout.rotate : rotate 
+                          })
 
-                    <View name='Draggable Container'>
-                        <GestureView
-                              style={movable}
-                              gestures={[drag, pinch]}
-                              type="View"
-                              toStyle={(layout) => {
-                                let rotate = this.state.rotate;
-                                this.moveCard(this.state)
-                                
-                                this.setState({
-                                  top: layout.y,
-                                  left : layout.x,
-                                  width: layout.width,
-                                  height: layout.height,
-                                  rotate: layout.rotate ? layout.rotate : rotate 
-                                })
-                                return {
-                                  top: this.props.card.top,
-                                  left: this.props.card.left,
-                                  width: this.props.card.width,
-                                  height: this.props.card.height,
-                                  transform: [{rotate: `${this.props.card.rotate}deg`}]
-                                }
-                              }}
-                              onError={console.error.bind(console)}>
-                              <Text>TEST</Text>
-                            </GestureView>
-                      </View>
-            </Container>
+                          return {
+                            top: this.props.card.top,
+                            left: this.props.card.left,
+                            width: this.props.card.width,
+                            height: this.props.card.height,
+                            transform: [{rotate: `${this.props.card.rotate}deg`}]
+                          }
+                        }}
+                        onError={console.error.bind(console)}>
+                        <Text>TEST</Text>
+                      </GestureView>
+                </View>
 
                   
         )

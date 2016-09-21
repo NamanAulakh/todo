@@ -14,7 +14,7 @@ export type State = {
 
 const initialState = {
         top: 100, 
-        left: 100,
+        left: 10,
         height: 100,
         width: 100,
         rotate: 0
