@@ -49,7 +49,6 @@ class BlankPage extends Component {
 
     componentWillMount() {
 
-        console.log("hello");
         this._panResponder = PanResponder.create({
               // Ask to be the responder:
           onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -111,8 +110,6 @@ class BlankPage extends Component {
     render() {
 
         const { props: { name, index, list } } = this;
-
-        
         return (
 
               <Container theme={myTheme} style={{backgroundColor: '#565051'}} >
@@ -152,6 +149,7 @@ class BlankPage extends Component {
                             }
 
                             return <GestureView
+                                    key={i}
                                     style={movable}
                                     pointerEvents="box-none"
                                     onPress={()=>{this.test()}}
