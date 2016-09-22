@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { openDrawer } from '../../actions/drawer';
 import { popRoute } from '../../actions/route';
-import { moveCard, addCard, makeActive } from '../../actions/card';
+import { moveCard, addCard, makeActive, bringToTop } from '../../actions/card';
 
 import { Container, Header, Title, Content, Text, Button, Icon, View } from 'native-base';
 import { StyleSheet, Image, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback, PanResponder } from 'react-native';
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const currentIndex = 0;
+const currentIndex = -1;
+
 class BlankPage extends Component {
 
     constructor(props) {
@@ -92,6 +93,10 @@ class BlankPage extends Component {
 
     addCard() {
         this.props.addCard();
+    } 
+
+    bringToTop(i) {
+        this.props.bringToTop(i);
     }
 
     makeActive(i) {
@@ -109,6 +114,7 @@ class BlankPage extends Component {
 
     render() {
 
+
         const { props: { name, index, list } } = this;
         return (
 
@@ -119,6 +125,10 @@ class BlankPage extends Component {
 
                     <Button transparent onPress={()=>this.addCard()}>
                         <Icon name='ios-add' />
+                    </Button>
+
+                    <Button transparent onPress={()=>this.bringToTop(currentIndex)}>
+                        <Icon name='ios-arrow-up' />
                     </Button>
 
                 </Header>
@@ -132,8 +142,9 @@ class BlankPage extends Component {
                     {   
                         this.props.card.map((obj, i)=>{
 
+                            
+
                             var movable = {
-                                backgroundColor: 'green',
                                 width: obj.width,
                                 height: obj.height,
                                 position: 'absolute',
@@ -143,9 +154,14 @@ class BlankPage extends Component {
 
                             // console.log(obj, "here");
                             if(obj.active == 1) {
+                                currentIndex = i;
+                                movable.backgroundColor = "rgba(76,174,76, 1)";
                                 movable.borderRadius = 4;
                                 movable.borderWidth = 0.5;
                                 movable.borderColor = "#d6d7da";
+                            } else {
+                                movable.backgroundColor = "rgba(76,174,76, 0.5)";
+
                             }
 
                             return <GestureView
@@ -191,7 +207,8 @@ function bindAction(dispatch) {
         popRoute: () => dispatch(popRoute()),
         moveCard: (obj, i) =>dispatch(moveCard(obj, i)),
         addCard: () =>dispatch(addCard()),
-        makeActive: (i) =>dispatch(makeActive(i))
+        makeActive: (i) =>dispatch(makeActive(i)),
+        bringToTop: (i) =>dispatch(bringToTop(i))
     }
 }
 

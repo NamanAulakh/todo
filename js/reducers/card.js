@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import { MOVE_CARD, ADD_CARD, MAKE_ACTIVE } from '../actions/card';
+import { MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP } from '../actions/card';
 
 // export type State = {
 //     top : integer,
@@ -55,6 +55,26 @@ function active(index, arr) {
 
     return newArr;
 }
+function bringToTop(index, arr) {
+    var newArr = [];
+    var lastItem = null;
+
+    arr.map(function(elem, i)  {
+        var obj = elem;
+        if(index == i) {
+            lastItem = obj;
+        } else {
+            newArr.push(obj);
+        }
+    });
+
+    if(lastItem) {
+        // console.log("here");
+        newArr.push(lastItem);
+    }
+
+    return newArr;
+}
 
 export default function (state:State = initialState, action:Action): State {
 
@@ -82,6 +102,13 @@ export default function (state:State = initialState, action:Action): State {
         return {
             ...state,
             card : [...active(action.index, state.card)]
+        }
+    }
+
+    if (action.type === BRING_TO_TOP) {
+        return {
+            ...state,
+            card : [...bringToTop(action.index, state.card)]
         }
     }
 
