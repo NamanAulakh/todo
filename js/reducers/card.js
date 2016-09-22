@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import { MOVE_CARD, ADD_CARD } from '../actions/card';
+import { MOVE_CARD, ADD_CARD, MAKE_ACTIVE } from '../actions/card';
 
 // export type State = {
 //     top : integer,
@@ -33,6 +33,22 @@ function edit(index, arr, payload) {
             obj.height = payload.height;
             obj.width = payload.width;
             obj.rotate = payload.rotate;
+            obj.active = elem.active;
+        }
+        newArr.push(obj);
+    });
+
+    return newArr;
+}
+
+function active(index, arr) {
+    var newArr = [];
+    arr.map(function(elem,i)  {
+        var obj = elem;
+        if(index == i) {
+            obj.active = 1;
+        } else {
+            obj.active = 0;
         }
         newArr.push(obj);
     });
@@ -56,10 +72,19 @@ export default function (state:State = initialState, action:Action): State {
                 left: 10,
                 height: 150,
                 width: 100,
-                rotate: 0
+                rotate: 0,
+                active: 0
             }]
         }
     }
+
+    if (action.type === MAKE_ACTIVE) {
+        return {
+            ...state,
+            card : [...active(action.index, state.card)]
+        }
+    }
+
 
     return state;
 }

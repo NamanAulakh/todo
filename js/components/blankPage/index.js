@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 
 import { openDrawer } from '../../actions/drawer';
 import { popRoute } from '../../actions/route';
-import { moveCard, addCard } from '../../actions/card';
+import { moveCard, addCard, makeActive } from '../../actions/card';
 
 import { Container, Header, Title, Content, Text, Button, Icon, View } from 'native-base';
-import { StyleSheet, Image, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback, PanResponder } from 'react-native';
 
 
 import myTheme from '../../themes/base-theme';
@@ -19,7 +19,7 @@ import { drag, pinch, GestureView } from 'react-native-gestures';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#565051'
+    position: 'absolute'
   },
 
   baseText: {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   }
 });
 
-
+const currentIndex = 0;
 class BlankPage extends Component {
 
     constructor(props) {
@@ -47,6 +47,45 @@ class BlankPage extends Component {
         // }
     }
 
+    componentWillMount() {
+
+        console.log("hello");
+        this._panResponder = PanResponder.create({
+              // Ask to be the responder:
+          onStartShouldSetPanResponder: (evt, gestureState) => true,
+          onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+          onMoveShouldSetPanResponder: (evt, gestureState) => true,
+          onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+
+          onPanResponderGrant: (evt, gestureState) => {
+            // The guesture has started. Show visual feedback so the user knows
+            // what is happening!
+
+            // gestureState.{x,y}0 will be set to zero now
+          },
+          onPanResponderMove: (evt, gestureState) => {
+            // console.log("kaash");
+            // The most recent move distance is gestureState.move{X,Y}
+
+            // The accumulated gesture distance since becoming responder is
+            // gestureState.d{x,y}
+          },
+          onPanResponderTerminationRequest: (evt, gestureState) => true,
+          onPanResponderRelease: (evt, gestureState) => {
+            // The user has released all touches while this view is the
+            // responder. This typically means a gesture has succeeded
+          },
+          onPanResponderTerminate: (evt, gestureState) => {
+            // Another component has become the responder, so this gesture
+            // should be cancelled
+          },
+          onShouldBlockNativeResponder: (evt, gestureState) => {
+            // Returns whether this component should block native components from becoming the JS
+            // responder. Returns true by default. Is currently only supported on android.
+            return true;
+          },
+        });
+    }
     moveCard(obj, i) {
         // console.log("here", i);
         this.props.moveCard(obj, i);
@@ -54,6 +93,10 @@ class BlankPage extends Component {
 
     addCard() {
         this.props.addCard();
+    }
+
+    makeActive(i) {
+        this.props.makeActive(i);
     }
 
 
@@ -72,7 +115,7 @@ class BlankPage extends Component {
         
         return (
 
-              <Container theme={myTheme} style={{backgroundColor: '#565051'}}>
+              <Container theme={myTheme} style={{backgroundColor: '#565051'}} >
                 <Header>
                     
                     <Title>{(name) ? name : 'Editor'}</Title>
@@ -82,47 +125,60 @@ class BlankPage extends Component {
                     </Button>
 
                 </Header>
+                <View>
+                    <View {...this._panResponder.panHandlers} style={{width: 1000, height: 1000, position:"absolute", backgroundColor: 'transparent'}}>
 
+                    </View>
 
-                 <View pointerEvents="box-none" name='Draggable Container' style={styles.container}>
-                {   
-                    this.props.card.map((obj, i)=>{
-                        const movable = {
-                          backgroundColor: 'green',
-                          width: obj.width,
-                          height: obj.height,
-                          position: 'absolute',
-                          left: obj.left,
-                          top: obj.top
-                        };
+                    <View pointerEvents="box-none" name='Draggable Container' style={styles.container} >
 
-                        return <GestureView
-                                style={movable}
-                                pointerEvents="box-none"
-                                onPress={()=>{this.test()}}
-                                gestures={[drag, pinch]}
-                                tapCallback={()=>{}}
-                                onRelease={()=>{}}
-                                onMove={(x, y, z)=>{}}
-                                type="View"
-                                toStyle={(layout) => {
-                                    let rotate = obj.rotate;
-                                    layout.rotate = layout.rotate ? layout.rotate : rotate;
-                                    this.moveCard(layout, i)
-                                    return {
-                                      top: obj.top,
-                                      left: obj.left,
-                                      width: obj.width,
-                                      height: obj.height,
-                                      transform: [{rotate: `${obj.rotate}deg`}]
-                                  }
-                              }}
-                              onError={console.error.bind(console)}>
-                               <Text>TEST {i}</Text>
-                              </GestureView>
-                    })
-                }
+                    {   
+                        this.props.card.map((obj, i)=>{
 
+                            var movable = {
+                                backgroundColor: 'green',
+                                width: obj.width,
+                                height: obj.height,
+                                position: 'absolute',
+                                left: obj.left,
+                                top: obj.top
+                            };
+
+                            // console.log(obj, "here");
+                            if(obj.active == 1) {
+                                movable.borderRadius = 4;
+                                movable.borderWidth = 0.5;
+                                movable.borderColor = "#d6d7da";
+                            }
+
+                            return <GestureView
+                                    style={movable}
+                                    pointerEvents="box-none"
+                                    onPress={()=>{this.test()}}
+                                    gestures={[drag, pinch]}
+                                    tapCallback={()=>{ this.makeActive(i) }}
+                                    onRelease={()=>{ this.makeActive(i) }}
+                                    onMove={()=>{ this.makeActive(i) }}
+                                    type="View"
+                                    toStyle={(layout) => {
+                                        let rotate = obj.rotate;
+                                        layout.rotate = layout.rotate ? layout.rotate : rotate;
+                                        this.moveCard(layout, i)
+                                        return {
+                                            top: obj.top,
+                                            left: obj.left,
+                                            width: obj.width,
+                                            height: obj.height,
+                                            transform: [{rotate: `${obj.rotate}deg`}]
+                                      }
+                                  }}
+                                  onError={console.error.bind(console)}>
+                                   <Text>{i}</Text>
+                                  </GestureView>
+                        })
+                    }
+
+                    </View>
                 </View>
                 
             </Container>
@@ -136,7 +192,8 @@ function bindAction(dispatch) {
         openDrawer: ()=>dispatch(openDrawer()),
         popRoute: () => dispatch(popRoute()),
         moveCard: (obj, i) =>dispatch(moveCard(obj, i)),
-        addCard: () =>dispatch(addCard())
+        addCard: () =>dispatch(addCard()),
+        makeActive: (i) =>dispatch(makeActive(i))
     }
 }
 
