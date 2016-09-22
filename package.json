@@ -16,7 +16,7 @@
     "react-native-button": "^1.6.0",
     "react-native-code-push": "1.13.5-beta",
     "react-native-easy-grid": "^0.1.6",
-    "react-native-gestures": "git+https://github.com/react-utils/react-native-gestures.git",
+    "react-native-gestures": "git+https://github.com/surajahmed/react-native-gestures.git",
     "react-native-image-picker": "^0.22.7",
     "react-native-modalbox": "^1.3.4",
     "react-native-vector-icons": "^2.0.3",

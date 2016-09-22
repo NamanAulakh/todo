@@ -100,7 +100,10 @@ class BlankPage extends Component {
                                 style={movable}
                                 pointerEvents="box-none"
                                 onPress={()=>{this.test()}}
-                                gestures={[drag]}
+                                gestures={[drag, pinch]}
+                                tapCallback={()=>{}}
+                                onRelease={()=>{}}
+                                onMove={(x, y, z)=>{}}
                                 type="View"
                                 toStyle={(layout) => {
                                     let rotate = obj.rotate;
