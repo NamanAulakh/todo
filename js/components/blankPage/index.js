@@ -98,7 +98,6 @@ class BlankPage extends Component {
     }
 
     addCard() {
-        console.log("here");
         this.props.addCard();
     } 
 
@@ -120,7 +119,6 @@ class BlankPage extends Component {
     }
 
     render() {
-        console.log(this.props.card, "cards");
         const { props: { name, index, list } } = this;
         return (
 
@@ -185,13 +183,17 @@ class BlankPage extends Component {
                                     onMove={()=>{ this.makeActive(i) }}
                                     type="View"
                                     gestureCallback={(layout)=>{
+                                        
+                                    }}
+                                    toStyle={(layout) => {
+
                                         var coordinate = layout;
                                         coordinate.rotateNow = layout.rotate ? layout.rotate : 0;
                                         coordinate.rotateBefore = obj.rotateBefore;
-                                        coordinate.rotate = layout.rotate + (coordinate.rotateBefore? coordinate.rotateBefore: 0) ;
+                                        coordinate.rotate = coordinate.rotateNow + (coordinate.rotateBefore? coordinate.rotateBefore: 0) ;
                                         this.moveCard(coordinate, i)
-                                    }}
-                                    toStyle={(layout) => {
+
+
                                         return {
                                             top: obj.top,
                                             left: obj.left,
