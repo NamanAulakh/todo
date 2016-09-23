@@ -125,7 +125,7 @@ class AppNavigator extends Component {
                     configureScene={(route) => {
                         return Navigator.SceneConfigs.FloatFromRight;
                     }}
-                    initialRoute={{id: (Platform.OS === "android") ? 'splashscreen' : 'blankPage', statusBarHidden: true}}
+                    initialRoute={{id: (Platform.OS === "android") ? 'blankPage' : 'blankPage', statusBarHidden: true}}
                     renderScene={this.renderScene}
                   />
             </Drawer>

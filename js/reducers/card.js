@@ -4,20 +4,6 @@
 import type {Action} from '../actions/types';
 import { MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP } from '../actions/card';
 
-// export type State = {
-//     top : integer,
-//     left : integer,
-//     height : integer,
-//     width : integer,
-//     rotate : integer
-// }
-
-// ,
-        // top: 100, 
-        // left: 10,
-        // height: 150,
-        // width: 100,
-        // rotate: 0
 const initialState = {
         card: []
 };
@@ -33,6 +19,8 @@ function edit(index, arr, payload) {
             obj.height = payload.height;
             obj.width = payload.width;
             obj.rotate = payload.rotate;
+            obj.rotateNow = payload.rotateNow;
+            obj.rotateBefore = payload.rotateBefore;
             obj.active = elem.active;
         }
         newArr.push(obj);
@@ -93,7 +81,9 @@ export default function (state:State = initialState, action:Action): State {
                 height: 150,
                 width: 100,
                 rotate: 0,
-                active: 0
+                active: 0,
+                rotateBefore: 0,
+                rotateNow: 0
             }]
         }
     }

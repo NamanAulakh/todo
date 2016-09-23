@@ -171,13 +171,23 @@ class BlankPage extends Component {
                                     onPress={()=>{this.test()}}
                                     gestures={[drag, pinch]}
                                     tapCallback={()=>{ this.makeActive(i) }}
-                                    onRelease={()=>{ this.makeActive(i) }}
+                                    onRelease={(x, y, layout)=>{ 
+                                        var coordinate = layout;
+                                        coordinate.rotateBefore = obj.rotate ? obj.rotate : 0;
+                                        coordinate.rotateNow = 0;
+                                        this.moveCard(coordinate, i);
+                                        this.makeActive(i) 
+
+                                    }}
                                     onMove={()=>{ this.makeActive(i) }}
                                     type="View"
+                                    gestureCallback={(layout)=>{}}
                                     toStyle={(layout) => {
-                                        let rotate = obj.rotate;
-                                        layout.rotate = layout.rotate ? layout.rotate : rotate;
-                                        this.moveCard(layout, i)
+                                        var coordinate = layout;
+                                        coordinate.rotateNow = layout.rotate ? layout.rotate : 0;
+                                        coordinate.rotateBefore = obj.rotateBefore;
+                                        coordinate.rotate = coordinate.rotateNow + (coordinate.rotateBefore? coordinate.rotateBefore: 0) ;
+                                        this.moveCard(coordinate, i)
                                         return {
                                             top: obj.top,
                                             left: obj.left,
