@@ -9,7 +9,7 @@ import { popRoute } from '../../actions/route';
 import { moveCard, addCard, makeActive, bringToTop } from '../../actions/card';
 
 import { Container, Header, Title, Content, Text, Button, Icon, View } from 'native-base';
-import { StyleSheet, Image, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback, PanResponder } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, TouchableHighlight, TouchableWithoutFeedback, PanResponder, Dimensions } from 'react-native';
 
 
 import myTheme from '../../themes/base-theme';
@@ -17,9 +17,15 @@ import myTheme from '../../themes/base-theme';
 
 import { drag, pinch, GestureView } from 'react-native-gestures';
 
+var deviceWidth = Dimensions.get('window').width;
+var deviceHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute'
+    position: 'absolute',
+    flex: 1,
+    width: deviceWidth,
+    height: deviceHeight,
   },
 
   baseText: {
@@ -92,6 +98,7 @@ class BlankPage extends Component {
     }
 
     addCard() {
+        console.log("here");
         this.props.addCard();
     } 
 
@@ -113,6 +120,7 @@ class BlankPage extends Component {
     }
 
     render() {
+        console.log(this.props.card, "cards");
         const { props: { name, index, list } } = this;
         return (
 
@@ -130,8 +138,8 @@ class BlankPage extends Component {
                     </Button>
 
                 </Header>
-                <View>
-                    <View {...this._panResponder.panHandlers} style={{width: 1000, height: 1000, position:"absolute", backgroundColor: 'transparent'}}>
+                <View style={{flex: 1}}>
+                    <View {...this._panResponder.panHandlers} style={{width: deviceWidth, height: deviceHeight, position:"absolute", backgroundColor: 'transparent'}}>
 
                     </View>
 
@@ -165,7 +173,6 @@ class BlankPage extends Component {
                                     key={i}
                                     style={movable}
                                     pointerEvents="box-none"
-                                    onPress={()=>{this.test()}}
                                     gestures={[drag, pinch]}
                                     tapCallback={()=>{ this.makeActive(i) }}
                                     onRelease={(x, y, layout)=>{ 
