@@ -42,3 +42,13 @@ $ react-native link
 ```sh
 $ react-native run-ios
 ```
+
+###4. Simulate for Android
+
+*	Make sure you have an **Android emulator** installed / **Android device** connected and running.
+
+*	Run the following command in your terminal
+
+```sh
+$ react-native run-android
+```
