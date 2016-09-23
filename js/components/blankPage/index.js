@@ -113,8 +113,6 @@ class BlankPage extends Component {
     }
 
     render() {
-
-
         const { props: { name, index, list } } = this;
         return (
 
@@ -142,14 +140,13 @@ class BlankPage extends Component {
                     {   
                         this.props.card.map((obj, i)=>{
 
-                            
-
                             var movable = {
                                 width: obj.width,
                                 height: obj.height,
                                 position: 'absolute',
                                 left: obj.left,
-                                top: obj.top
+                                top: obj.top,
+                                transform: [{rotate: `${obj.rotateBefore}deg`}]
                             };
 
                             // console.log(obj, "here");
@@ -176,18 +173,18 @@ class BlankPage extends Component {
                                         coordinate.rotateBefore = obj.rotate ? obj.rotate : 0;
                                         coordinate.rotateNow = 0;
                                         this.moveCard(coordinate, i);
-                                        this.makeActive(i) 
 
                                     }}
                                     onMove={()=>{ this.makeActive(i) }}
                                     type="View"
-                                    gestureCallback={(layout)=>{}}
-                                    toStyle={(layout) => {
+                                    gestureCallback={(layout)=>{
                                         var coordinate = layout;
                                         coordinate.rotateNow = layout.rotate ? layout.rotate : 0;
                                         coordinate.rotateBefore = obj.rotateBefore;
-                                        coordinate.rotate = coordinate.rotateNow + (coordinate.rotateBefore? coordinate.rotateBefore: 0) ;
+                                        coordinate.rotate = layout.rotate + (coordinate.rotateBefore? coordinate.rotateBefore: 0) ;
                                         this.moveCard(coordinate, i)
+                                    }}
+                                    toStyle={(layout) => {
                                         return {
                                             top: obj.top,
                                             left: obj.left,
