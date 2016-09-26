@@ -177,20 +177,21 @@ class BlankPage extends Component {
                     type="View"
                     gestureCallback={() => {}}
                     toStyle={(layout) => {
-                      const coordinate = layout;
-                      coordinate.rotateNow = layout.rotate ? layout.rotate : 0;
-                      coordinate.rotateBefore = obj.rotateBefore;
-                      coordinate.rotate = coordinate.rotateNow +
-                                          (coordinate.rotateBefore ? coordinate.rotateBefore : 0);
-                      this.moveCard(coordinate, i);
+                        const coordinate = layout;
+                        coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
+                        coordinate.rotateBefore = obj.rotateBefore;
+                        coordinate.rotate = coordinate.rotateNow +
+                                            (coordinate.rotateBefore ? coordinate.rotateBefore : 0);
+                        this.moveCard(coordinate, i);
+                        return {
+                          top: obj.top,
+                          left: obj.left,
+                          width: obj.width,
+                          height: obj.height,
+                          transform: [{rotate: `${obj.rotate}deg`}]
+                        };
 
-                      return {
-                        top: obj.top,
-                        left: obj.left,
-                        width: obj.width,
-                        height: obj.height,
-                        transform: [{rotate: `${obj.rotate}deg`}]
-                      };
+
                     }}
                     onError={() => {}}
                   >
