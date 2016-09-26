@@ -44,7 +44,7 @@ class BlankPage extends Component {
     bringToTop: React.PropTypes.func.isRequired,
     makeActive: React.PropTypes.func.isRequired,
     popRoute: React.PropTypes.func.isRequired,
-    card: React.PropTypes.Array
+    card: React.PropTypes.any
   }
   // constructor(props) {
   //   super(props);

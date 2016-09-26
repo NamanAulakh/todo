@@ -15,7 +15,6 @@ import styles from './style';
 class SideBar extends Component {
 
     static propTypes = {
-        store: React.PropTypes.any.isRequired,
         setIndex: React.PropTypes.func.isRequired,
         closeDrawer: React.PropTypes.func.isRequired,
         replaceOrPushRoute: React.PropTypes.func.isRequired
