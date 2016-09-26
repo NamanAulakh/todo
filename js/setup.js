@@ -1,12 +1,11 @@
 
 'use strict';
 
-import React, { Component } from 'React';
-import { StyleSheet, View } from 'react-native';
-import { Provider } from 'react-redux';
+import React, {Component} from 'React';
+import {Provider} from 'react-redux';
 
 import App from './App';
-import configureStore from './configureStore'
+import configureStore from './configureStore';
 
 function setup():React.Component {
 
@@ -16,7 +15,7 @@ function setup():React.Component {
             super();
             this.state = {
                 isLoading: false,
-                store: configureStore(()=> this.setState({isLoading: false})),
+                store: configureStore(()=> this.setState({isLoading: false}))
             };
         }
 
@@ -28,7 +27,7 @@ function setup():React.Component {
             );
         }
     }
-    return Root
+    return Root;
 }
 
 export default setup;

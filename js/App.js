@@ -1,10 +1,10 @@
 'use strict';
 
-import React,{ Component } from 'react';
-import { StyleSheet, AppState, Dimensions, Image } from 'react-native';
+import React,{Component} from 'react';
+import {StyleSheet, Dimensions} from 'react-native';
 import CodePush from 'react-native-code-push';
 
-import { Container, Content, Text, View } from 'native-base';
+import {Container, Content, Text, View} from 'native-base';
 import Modal from 'react-native-modalbox';
 
 import AppNavigator from './AppNavigator';
@@ -17,13 +17,13 @@ let styles = StyleSheet.create({
     container: {
         flex: 1,
         width: null,
-        height: null,
+        height: null
     },
     box: {
         padding: 10,
         backgroundColor: 'transparent',
         flex: 1,
-        height: height-70
+        height: height - 70
     },
     space: {
         marginTop: 10,
@@ -39,26 +39,29 @@ let styles = StyleSheet.create({
 
     },
     modal2: {
-        height: height-78,
+        height: height - 78,
         position: 'relative',
-        justifyContent: 'center',
-    },
+        justifyContent: 'center'
+    }
 });
 
 class App extends Component {
-    
+
+    static propTypes = {
+        store: React.PropTypes.any.isRequired
+    }
     constructor(props) {
         super(props);
         this.state = {
             showDownloadingModal: false,
             showInstalling: false,
             downloadProgress: 0
-        }
+        };
     }
 
     componentDidMount() {
 
-        CodePush.sync({ updateDialog: true, installMode: CodePush.InstallMode.IMMEDIATE },
+        CodePush.sync({updateDialog: true, installMode: CodePush.InstallMode.IMMEDIATE},
             (status) => {
                 switch (status) {
                     case CodePush.SyncStatus.DOWNLOADING_PACKAGE:
@@ -72,29 +75,30 @@ class App extends Component {
                         this.refs.modal.close();
                         this.setState({showDownloadingModal: false});
                         break;
+                    default:
                 }
             },
-            ({ receivedBytes, totalBytes, }) => {
+            ({receivedBytes, totalBytes}) => {
                 this.setState({downloadProgress: receivedBytes / totalBytes * 100});
             }
         );
     }
 
     render() {
-        if(this.state.showDownloadingModal)
+        if (this.state.showDownloadingModal) {
             return (
                 <Container theme={theme} style={{backgroundColor: theme.defaultBackgroundColor}}>
                     <Content style={styles.container}>
                         <Modal style={[styles.modal, styles.modal1]} backdrop={false} ref={'modal'} swipeToClose={false} >
 
-                            <View style={{flex:1, alignSelf: 'stretch', justifyContent: 'center', padding:20}}>
+                            <View style={{flex: 1, alignSelf: 'stretch', justifyContent: 'center', padding: 20}}>
                                 {this.state.showInstalling ?
-                                    <Text style={{color: theme.brandPrimary, textAlign: 'center',marginBottom: 15, fontSize: 15 }}>
+                                    <Text style={{color: theme.brandPrimary, textAlign: 'center',marginBottom: 15, fontSize: 15}}>
                                         Installing update...
                                     </Text> :
-                                    <View style={{flex:1, alignSelf: 'stretch', justifyContent: 'center', padding:20}}>
-                                        <Text style={{color: theme.brandPrimary, textAlign: 'center',marginBottom: 15, fontSize: 15 }}>Downloading update... {parseInt(this.state.downloadProgress) + ' %'}</Text>
-                                        <ProgressBar color='theme.brandPrimary' progress={parseInt(this.state.downloadProgress)} />
+                                    <View style={{flex: 1, alignSelf: 'stretch', justifyContent: 'center', padding: 20}}>
+                                        <Text style={{color: theme.brandPrimary, textAlign: 'center',marginBottom: 15, fontSize: 15}}>Downloading update... {parseInt(this.state.downloadProgress, 0) + ' %'}</Text>
+                                        <ProgressBar color="theme.brandPrimary" progress={parseInt(this.state.downloadProgress, 0)} />
                                     </View>
                                 }
                             </View>
@@ -104,11 +108,12 @@ class App extends Component {
                 </Container>
 
             );
-        else
-            return(
+        } else {
+            return (
                 <AppNavigator store={this.props.store} />
             );
+        }
     }
 }
 
-export default App
+export default App;

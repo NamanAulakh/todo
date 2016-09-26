@@ -1,20 +1,24 @@
 
 'use strict';
 
-import React, { Component } from 'react';
-import { DeviceEventEmitter, Dimensions, Image } from 'react-native';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {Dimensions, Image} from 'react-native';
+import {connect} from 'react-redux';
 
-import { replaceRoute } from '../../actions/route';
-import { setUser } from '../../actions/user';
+import {replaceRoute} from '../../actions/route';
+import {setUser} from '../../actions/user';
 
-import { Container, Content, InputGroup, Input, Button, Icon, View } from 'native-base';
+import {Container, Content, InputGroup, Input, Button, Icon, View} from 'native-base';
 
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
 class Login extends Component {
 
+    static propTypes = {
+        setUser: React.PropTypes.func.isRequired,
+        replaceRoute: React.PropTypes.func.isRequired
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -42,13 +46,13 @@ class Login extends Component {
                         <Image source={require('../../../images/shadow.png')} style={styles.shadow}>
                             <View style={styles.bg}>
                                 <InputGroup style={styles.input}>
-                                    <Icon name='ios-person' />
-                                    <Input placeholder='EMAIL' onChangeText={(name) => this.setState({name})} />
+                                    <Icon name="ios-person" />
+                                    <Input placeholder="EMAIL" onChangeText={(name) => this.setState({name})} />
                                 </InputGroup>
                                 <InputGroup style={styles.input}>
-                                    <Icon name='ios-unlock-outline' />
+                                    <Icon name="ios-unlock-outline" />
                                     <Input
-                                        placeholder='PASSWORD'
+                                        placeholder="PASSWORD"
                                         secureTextEntry={true}
                                     />
                                 </InputGroup>
@@ -60,15 +64,15 @@ class Login extends Component {
                     </Content>
                 </View>
             </Container>
-        )
+        );
     }
 }
 
 function bindActions(dispatch){
     return {
-        replaceRoute:(route)=>dispatch(replaceRoute(route)),
-        setUser:(name)=>dispatch(setUser(name))
-    }
+        replaceRoute: (route)=>dispatch(replaceRoute(route)),
+        setUser: (name)=>dispatch(setUser(name))
+    };
 }
 
 export default connect(null, bindActions)(Login);

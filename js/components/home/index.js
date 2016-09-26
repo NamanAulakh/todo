@@ -1,24 +1,33 @@
 
 'use strict';
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-import { TouchableOpacity } from 'react-native';
+import {TouchableOpacity} from 'react-native';
+import {Grid, Row} from 'react-native-easy-grid';
 
-import { openDrawer, closeDrawer } from '../../actions/drawer';
-import { setIndex } from '../../actions/list';
-import { replaceRoute, replaceOrPushRoute } from '../../actions/route';
+import {openDrawer, closeDrawer} from '../../actions/drawer';
+import {setIndex} from '../../actions/list';
+import {replaceRoute, replaceOrPushRoute} from '../../actions/route';
 
-import { Container, Header, Title, Content, View, Text, Button, Icon } from 'native-base';
-import { Grid, Col, Row } from 'react-native-easy-grid';
+import {Container, Header, Title, Content, Text, Button, Icon} from 'native-base';
 
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
 class Home extends Component {
 
+    static propTypes = {
+        name: React.PropTypes.string,
+        list: React.PropTypes.Array,
+        replaceRoute: React.PropTypes.func.isRequired,
+        openDrawer: React.PropTypes.func.isRequired,
+        closeDrawer: React.PropTypes.func.isRequired,
+        setIndex: React.PropTypes.func.isRequired,
+        replaceOrPushRoute: React.PropTypes.func.isRequired
 
+    }
     replaceRoute(route) {
         this.props.replaceRoute(route);
     }
@@ -34,13 +43,13 @@ class Home extends Component {
             <Container theme={myTheme}style={{backgroundColor: '#565051'}}>
                 <Header>
                     <Button transparent onPress={() => this.replaceRoute('login')}>
-                        <Icon name='ios-power' />
+                        <Icon name="ios-power" />
                     </Button>
 
                     <Title>{(this.props.name) ? this.props.name : 'Home'}</Title>
 
                     <Button transparent onPress={this.props.openDrawer}>
-                        <Icon name='ios-menu' />
+                        <Icon name="ios-menu" />
                     </Button>
                 </Header>
 
@@ -59,7 +68,7 @@ class Home extends Component {
                     </Grid>
                 </Content>
             </Container>
-        )
+        );
     }
 }
 
@@ -67,11 +76,11 @@ function bindAction(dispatch) {
     return {
         openDrawer: ()=>dispatch(openDrawer()),
         closeDrawer: ()=>dispatch(closeDrawer()),
-        replaceRoute:(route)=>dispatch(replaceRoute(route)),
-        replaceOrPushRoute:(route)=>dispatch(replaceOrPushRoute(route)),
-        setIndex:(index)=>dispatch(setIndex(index))
+        replaceRoute: (route)=>dispatch(replaceRoute(route)),
+        replaceOrPushRoute: (route)=>dispatch(replaceOrPushRoute(route)),
+        setIndex: (index)=>dispatch(setIndex(index))
 
-    }
+    };
 }
 
 function mapStateToProps(state) {

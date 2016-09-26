@@ -2,10 +2,14 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import { MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP } from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP} from '../actions/card';
+
+export type State = {
+    card: Array
+}
 
 const initialState = {
-        card: []
+    card: []
 };
 
 
@@ -13,7 +17,7 @@ function edit(index, arr, payload) {
     var newArr = [];
     arr.map(function(elem,i)  {
         var obj = elem;
-        if(index == i) {
+        if (index === i) {
             obj.top = payload.y;
             obj.left = payload.x;
             obj.height = payload.height;
@@ -33,7 +37,7 @@ function active(index, arr) {
     var newArr = [];
     arr.map(function(elem,i)  {
         var obj = elem;
-        if(index == i) {
+        if (index === i) {
             obj.active = 1;
         } else {
             obj.active = 0;
@@ -49,14 +53,14 @@ function bringToTop(index, arr) {
 
     arr.map(function(elem, i)  {
         var obj = elem;
-        if(index == i) {
+        if (index === i) {
             lastItem = obj;
         } else {
             newArr.push(obj);
         }
     });
 
-    if(lastItem) {
+    if (lastItem) {
         // console.log("here");
         newArr.push(lastItem);
     }
@@ -68,15 +72,15 @@ export default function (state:State = initialState, action:Action): State {
 
     if (action.type === MOVE_CARD) {
         return {
-            ...state, card : [...edit(action.index, state.card, action.payload)]
-        }
+            ...state, card: [...edit(action.index, state.card, action.payload)]
+        };
     }
 
     if (action.type === ADD_CARD) {
         return {
             ...state,
-            card : [...state.card, {
-                top: 100, 
+            card: [...state.card, {
+                top: 100,
                 left: 10,
                 height: 150,
                 width: 100,
@@ -85,21 +89,21 @@ export default function (state:State = initialState, action:Action): State {
                 rotateBefore: 0,
                 rotateNow: 0
             }]
-        }
+        };
     }
 
     if (action.type === MAKE_ACTIVE) {
         return {
             ...state,
-            card : [...active(action.index, state.card)]
-        }
+            card: [...active(action.index, state.card)]
+        };
     }
 
     if (action.type === BRING_TO_TOP) {
         return {
             ...state,
-            card : [...bringToTop(action.index, state.card)]
-        }
+            card: [...bringToTop(action.index, state.card)]
+        };
     }
 
 

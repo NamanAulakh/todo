@@ -1,16 +1,17 @@
 'use strict';
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View } from 'native-base';
+import React, {Component} from 'react';
+import {View} from 'native-base';
 
 export default class SplashPage extends Component {
-
+    static propTypes = {
+        navigator: React.PropTypes.any
+    }
     componentWillMount () {
         var navigator = this.props.navigator;
-        setTimeout (() => {
+        setTimeout(() => {
             navigator.replace({
-                id: 'index',
+                id: 'index'
             });
         }, 1500);
     }

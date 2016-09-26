@@ -1,19 +1,25 @@
 
 'use strict';
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-import { closeDrawer } from '../../actions/drawer';
-import { setIndex } from '../../actions/list';
-import { replaceOrPushRoute } from '../../actions/route';
+import {closeDrawer} from '../../actions/drawer';
+import {setIndex} from '../../actions/list';
+import {replaceOrPushRoute} from '../../actions/route';
 
-import {Content, Text, List, ListItem } from 'native-base';
+import {Content, Text, List, ListItem} from 'native-base';
 
 import styles from './style';
 
 class SideBar extends Component {
 
+    static propTypes = {
+        store: React.PropTypes.any.isRequired,
+        setIndex: React.PropTypes.func.isRequired,
+        closeDrawer: React.PropTypes.func.isRequired,
+        replaceOrPushRoute: React.PropTypes.func.isRequired
+    }
     navigateTo(route) {
         this.props.closeDrawer();
         this.props.setIndex(undefined);
@@ -39,9 +45,9 @@ class SideBar extends Component {
 function bindAction(dispatch) {
     return {
         closeDrawer: ()=>dispatch(closeDrawer()),
-        replaceOrPushRoute:(route)=>dispatch(replaceOrPushRoute(route)),
-        setIndex:(index)=>dispatch(setIndex(index))
-    }
+        replaceOrPushRoute: (route)=>dispatch(replaceOrPushRoute(route)),
+        setIndex: (index)=>dispatch(setIndex(index))
+    };
 }
 
 export default connect(null, bindAction)(SideBar);

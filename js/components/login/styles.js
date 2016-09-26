@@ -3,7 +3,7 @@
 
 var React = require('react-native');
 
-var { StyleSheet, Dimensions } = React;
+var {StyleSheet, Dimensions} = React;
 
 var deviceHeight = Dimensions.get('window').height;
 
@@ -24,7 +24,7 @@ module.exports = StyleSheet.create({
     },
     bg: {
         flex: 1,
-        marginTop: deviceHeight/1.75,
+        marginTop: deviceHeight / 1.75,
         backgroundColor: '#453F41',
         paddingTop: 20,
         paddingLeft: 10,

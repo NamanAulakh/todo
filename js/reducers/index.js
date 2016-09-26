@@ -1,7 +1,7 @@
 
 'use strict';
 
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 
 import drawer from './drawer';
 import route from './route';
@@ -11,10 +11,10 @@ import card from './card';
 
 export default combineReducers({
 
- 	drawer,
- 	route,
+   drawer,
+   route,
     user,
     list,
     card
-    
-})
+
+});

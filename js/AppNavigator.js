@@ -1,13 +1,12 @@
 
 'use strict';
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import _ from 'lodash/core';
-import { Drawer } from 'native-base';
-import { BackAndroid, Platform, StatusBar } from 'react-native';
-import { closeDrawer } from './actions/drawer';
-import { popRoute } from './actions/route';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Drawer} from 'native-base';
+import {BackAndroid, Platform, StatusBar} from 'react-native';
+import {closeDrawer} from './actions/drawer';
+import {popRoute} from './actions/route';
 import Navigator from 'Navigator';
 
 import Login from './components/login/';
@@ -15,7 +14,7 @@ import Home from './components/home/';
 import BlankPage from './components/blankPage/';
 import SplashPage from './components/splashscreen/';
 import SideBar from './components/sideBar';
-import { statusBarColor } from "./themes/base-theme";
+import {statusBarColor} from './themes/base-theme';
 
 Navigator.prototype.replaceWithAnimation = function (route) {
     const activeLength = this.state.presentedIndex + 1;
@@ -30,7 +29,7 @@ Navigator.prototype.replaceWithAnimation = function (route) {
     this._emitWillFocus(nextStack[destIndex]);
     this.setState({
         routeStack: nextStack,
-        sceneConfigStack: nextAnimationConfigStack,
+        sceneConfigStack: nextAnimationConfigStack
     }, () => {
         this._enableScene(destIndex);
         this._transitionTo(destIndex, nextSceneConfig.defaultTransitionVelocity, null, () => {
@@ -41,26 +40,32 @@ Navigator.prototype.replaceWithAnimation = function (route) {
 
 export var globalNav = {};
 
-const searchResultRegexp = /^search\/(.*)$/;
+// const searchResultRegexp = /^search\/(.*)$/;
 
-const reducerCreate = params=>{
-    const defaultReducer = Reducer(params);
-    return (state, action)=>{
-        var currentState = state;
+// const reducerCreate = params=>{
+//     const defaultReducer = Reducer(params);
+//     return (state, action)=>{
+//         var currentState = state;
+//
+//         if (currentState){
+//             while (currentState.children){
+//                 currentState = currentState.children[currentState.index];
+//             }
+//         }
+//         return defaultReducer(state, action);
+//     };
+// };
 
-        if(currentState){
-            while (currentState.children){
-                currentState = currentState.children[currentState.index]
-            }
-        }
-        return defaultReducer(state, action);
-    }
-};
-
-const drawerStyle  = { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3};
+// const drawerStyle  = {shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3};
 
 class AppNavigator extends Component {
-    
+
+    static propTypes = {
+        store: React.PropTypes.any.isRequired,
+        popRoute: React.PropTypes.func.isRequired,
+        closeDrawer: React.PropTypes.func.isRequired
+    }
+
     constructor(props){
         super(props);
     }
@@ -69,20 +74,21 @@ class AppNavigator extends Component {
         globalNav.navigator = this._navigator;
 
         this.props.store.subscribe(() => {
-            if(this.props.store.getState().drawer.drawerState == 'opened')
-                this.openDrawer();
+            if (this.props.store.getState().drawer.drawerState === 'opened') {
+              this.openDrawer();
+            }
 
-            if(this.props.store.getState().drawer.drawerState == 'closed')
-                this._drawer.close();
+            if (this.props.store.getState().drawer.drawerState === 'closed') {
+              this._drawer.close();
+            }
         });
 
         BackAndroid.addEventListener('hardwareBackPress', () => {
             var routes = this._navigator.getCurrentRoutes();
 
-            if(routes[routes.length - 1].id == 'home' || routes[routes.length - 1].id == 'login') {
+            if (routes[routes.length - 1].id === 'home' || routes[routes.length - 1].id === 'login') {
                 return false;
-            }
-            else {
+            } else {
                 this.popRoute();
                 return true;
             }
@@ -98,16 +104,23 @@ class AppNavigator extends Component {
     }
 
     closeDrawer() {
-        if(this.props.store.getState().drawer.drawerState == 'opened') {
+        if (this.props.store.getState().drawer.drawerState === 'opened') {
             this._drawer.close();
             this.props.closeDrawer();
         }
+    }
+    changeDrawer(ref) {
+      this._drawer = ref;
+    }
+
+    changeNavigator(ref) {
+      this._navigator = ref;
     }
 
     render() {
         return (
             <Drawer
-                ref={(ref) => this._drawer = ref}
+                ref={(ref) => this.changeDrawer(ref)}
                 type="overlay"
                 content={<SideBar navigator={this._navigator} />}
                 tapToClose={true}
@@ -121,11 +134,11 @@ class AppNavigator extends Component {
                     barStyle="light-content"
                 />
                 <Navigator
-                    ref={(ref) => this._navigator = ref}
+                    ref={(ref) => this.changeNavigator(ref) }
                     configureScene={(route) => {
                         return Navigator.SceneConfigs.FloatFromRight;
                     }}
-                    initialRoute={{id: (Platform.OS === "android") ? 'blankPage' : 'blankPage', statusBarHidden: true}}
+                    initialRoute={{id: (Platform.OS === 'android') ? 'blankPage' : 'blankPage', statusBarHidden: true}}
                     renderScene={this.renderScene}
                   />
             </Drawer>
@@ -152,13 +165,13 @@ function bindAction(dispatch) {
     return {
         closeDrawer: () => dispatch(closeDrawer()),
         popRoute: () => dispatch(popRoute())
-    }
+    };
 }
 
 const mapStateToProps = (state) => {
     return {
         drawerState: state.drawer.drawerState
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, bindAction) (AppNavigator);
+export default connect(mapStateToProps, bindAction)(AppNavigator);
