@@ -82,8 +82,8 @@ export default function (state:State = initialState, action:Action): State {
             card: [...state.card, {
                 top: 100,
                 left: 10,
-                height: 150,
-                width: 100,
+                height: 120,
+                width: 120,
                 rotate: 0,
                 active: 0,
                 rotateBefore: 0,
