@@ -149,8 +149,8 @@ class BlankPage extends Component {
                 if (obj.active === 1) {
                   currentIndex = i;
                   movable.backgroundColor = 'rgba(76,174,76, 1)';
-                  movable.borderRadius = 4;
-                  movable.borderWidth = 0.5;
+                  movable.borderRadius = 0;
+                  movable.borderWidth = 1;
                   movable.borderColor = '#d6d7da';
                 } else {
                   movable.backgroundColor = 'rgba(76,174,76, 0.5)';
