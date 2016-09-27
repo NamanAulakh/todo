@@ -28,6 +28,8 @@ project.xcworkspace
 .gradle
 local.properties
 
+
+
 # node.js
 #
 node_modules/
@@ -38,3 +40,12 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+
+
+
+android/.gradle
+android//local.properties
+android/.DS_Store
+android/build
+android/captures
+android/.idea
