@@ -62,38 +62,42 @@ class BlankPage extends Component {
   componentWillMount() {
     this._panResponder = PanResponder.create({
               // Ask to be the responder:
-      // onStartShouldSetPanResponder: (evt, gestureState) => true,
-      // onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      // onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      // onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      //
-      // onPanResponderGrant: (evt, gestureState) => {
-      //       // The guesture has started. Show visual feedback so the user knows
-      //       // what is happening!
-      //
-      //       // gestureState.{x,y}0 will be set to zero now
-      // },
-      // onPanResponderMove: (evt, gestureState) => {
-      //       // console.log("kaash");
-      //       // The most recent move distance is gestureState.move{X,Y}
-      //
-      //       // The accumulated gesture distance since becoming responder is
-      //       // gestureState.d{x,y}
-      // },
-      // onPanResponderTerminationRequest: (evt, gestureState) => true,
-      // onPanResponderRelease: (evt, gestureState) => {
-      //       // The user has released all touches while this view is the
-      //       // responder. This typically means a gesture has succeeded
-      // },
-      // onPanResponderTerminate: (evt, gestureState) => {
-      //       // Another component has become the responder, so this gesture
-      //       // should be cancelled
-      // },
-      // onShouldBlockNativeResponder: (evt, gestureState) => {
-      //       // Returns whether this component should block native components from becoming the JS
-      //       // responder. Returns true by default. Is currently only supported on android.
-      //   return true;
-      // },
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+
+      onPanResponderGrant: (evt, gestureState) => {
+        console.log('kaash1');
+            // The guesture has started. Show visual feedback so the user knows
+            // what is happening!
+
+            // gestureState.{x,y}0 will be set to zero now
+      },
+      onPanResponderMove: (evt, gestureState) => {
+            console.log('kaash2');
+            // The most recent move distance is gestureState.move{X,Y}
+
+            // The accumulated gesture distance since becoming responder is
+            // gestureState.d{x,y}
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderRelease: (evt, gestureState) => {
+        console.log('kaash3');
+            // The user has released all touches while this view is the
+            // responder. This typically means a gesture has succeeded
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        console.log('kaash4');
+            // Another component has become the responder, so this gesture
+            // should be cancelled
+      },
+      onShouldBlockNativeResponder: (evt, gestureState) => {
+        console.log('kaash5');
+            // Returns whether this component should block native components from becoming the JS
+            // responder. Returns true by default. Is currently only supported on android.
+        return true;
+      }
     });
   }
   moveCard(obj, i) {
@@ -132,7 +136,29 @@ class BlankPage extends Component {
           </Button>
         </Header>
         <View style={{flex: 1}}>
-          <View {...this._panResponder.panHandlers} style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}} />
+          <GestureView
+              style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
+              type="View"
+              gestures={[pinch]}
+              tapCallback={() => {
+                //console.log('kaash1');
+              }}
+              onRelease={(x, y, layout) => {
+                // console.log('kaash2', this._child);
+
+              }}
+              onMove={() => {
+                //console.log('kaash3');
+              }}
+              gestureCallback={() => {}}
+              toStyle={(layout) => {
+                  let childLayout = this._child.layout;
+                  layout.height = childLayout.height;
+                  layout.width = childLayout.width;
+                  this._child.props.toStyle(layout);
+              }}
+              onError={()=>{}}
+             />
           <View pointerEvents="box-none" name="Draggable Container" style={styles.container} >
             {
               this.props.card.map((obj, i) => {
@@ -149,8 +175,8 @@ class BlankPage extends Component {
                 if (obj.active === 1) {
                   currentIndex = i;
                   movable.backgroundColor = 'rgba(76,174,76, 1)';
-                  movable.borderRadius = 4;
-                  movable.borderWidth = 0.5;
+                  movable.borderRadius = 0;
+                  movable.borderWidth = 1;
                   movable.borderColor = '#d6d7da';
                 } else {
                   movable.backgroundColor = 'rgba(76,174,76, 0.5)';
@@ -176,7 +202,9 @@ class BlankPage extends Component {
                     }}
                     type="View"
                     gestureCallback={() => {}}
+                    ref={(child) => { this._child = child; }}
                     toStyle={(layout) => {
+                      console.log("je;")
                         const coordinate = layout;
                         coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
                         coordinate.rotateBefore = obj.rotateBefore;
