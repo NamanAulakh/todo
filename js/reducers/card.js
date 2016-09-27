@@ -12,6 +12,9 @@ const initialState = {
     card: []
 };
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function edit(index, arr, payload) {
     var newArr = [];
@@ -26,6 +29,7 @@ function edit(index, arr, payload) {
             obj.rotateNow = payload.rotateNow;
             obj.rotateBefore = payload.rotateBefore;
             obj.active = elem.active;
+            obj.url = elem.url;
         }
         newArr.push(obj);
     });
@@ -82,12 +86,13 @@ export default function (state:State = initialState, action:Action): State {
             card: [...state.card, {
                 top: 100,
                 left: 10,
-                height: 120,
-                width: 120,
+                height: getRandomInt(100, 200),
+                width: getRandomInt(100, 200),
                 rotate: 0,
                 active: 0,
                 rotateBefore: 0,
-                rotateNow: 0
+                rotateNow: 0,
+                url: '../../../images/logo.png'
             }]
         };
     }
