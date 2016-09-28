@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {StyleSheet, Dimensions, PanResponder, View, Text} from 'react-native';
+import {StyleSheet, Dimensions, PanResponder, View} from 'react-native';
 import {Container, Header, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {openDrawer} from '../../actions/drawer';
 import {popRoute} from '../../actions/route';
-import {moveCard, addCard, makeActive, bringToTop} from '../../actions/card';
+import {moveCard, addCard, makeActive, bringToTop, showAll} from '../../actions/card';
 
 
 import myTheme from '../../themes/base-theme';
@@ -48,7 +48,9 @@ class BlankPage extends Component {
     bringToTop: React.PropTypes.func.isRequired,
     makeActive: React.PropTypes.func.isRequired,
     popRoute: React.PropTypes.func.isRequired,
-    card: React.PropTypes.any
+    showAll: React.PropTypes.func.isRequired,
+    card: React.PropTypes.any,
+    show: React.PropTypes.any
   }
   // constructor(props) {
   //   super(props);
@@ -120,10 +122,23 @@ class BlankPage extends Component {
     this.props.makeActive(i);
   }
 
+  showAll() {
+    this.props.showAll();
+  }
 
   popRoute() {
     this.props.popRoute();
   }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //     let image = (nextProps.image !== this.state.image) ? `${nextProps.picture}?t=${new Date().getTime()}` : nextProps.picture;
+  //
+  //     this.setState({image: image});
+  // }
+  //
+  // shouldComponentUpdate(nextProps) {
+  //     return (nextProps.picture !== this.props.picture);
+  // }
 
   render() {
     const {props: {name}} = this;
@@ -144,7 +159,7 @@ class BlankPage extends Component {
               type="View"
               gestures={[pinch]}
               tapCallback={() => {
-                // console.log("hello");
+                this.showAll();
               }}
               onRelease={(x, y, layout) => {
                 startWidth = 0;
@@ -195,19 +210,26 @@ class BlankPage extends Component {
                 };
 
               // console.log(obj, "here");
+
+              if (this.props.show === true) {
+                movable.opacity = 1;
+              } else {
                 if (obj.active === 1) {
                   currentIndex = i;
-                  movable.backgroundColor = 'rgba(76,174,76, 1)';
+                  // movable.backgroundColor = 'rgba(76,174,76, 1)';
                   movable.borderRadius = 0;
                   movable.borderWidth = 1;
                   movable.borderColor = '#d6d7da';
+                  movable.opacity = 1;
                 } else {
-                  movable.backgroundColor = 'rgba(76,174,76, 0.5)';
+                  // movable.backgroundColor = 'rgba(76,174,76, 0.5)';
+                  movable.opacity = 0.5;
                 }
+              }
 
                 return (
                   <GestureView
-                    key={i}
+                    key={ obj.url + '_' + i }
                     style={movable}
                     pointerEvents="box-none"
                     gestures={[drag, pinch]}
@@ -223,7 +245,9 @@ class BlankPage extends Component {
                     onMove={() => {
                       this.makeActive(i);
                     }}
-                    type="View"
+                    type="Image"
+                    defaultSource={require('./../../../images/logo.png')}
+                    source={{uri: obj.url}}
                     gestureCallback={() => {}}
                     ref={(child) => {
                         if (obj.active === 1) {
@@ -247,9 +271,7 @@ class BlankPage extends Component {
                         };
                     }}
                     onError={() => {}}
-                  >
-                    <Text>{i}</Text>
-                  </GestureView>
+                  />
                 );
               })
             }
@@ -270,7 +292,8 @@ function bindAction(dispatch) {
     moveCard: (obj, i) => dispatch(moveCard(obj, i)),
     addCard: () => dispatch(addCard()),
     makeActive: i => dispatch(makeActive(i)),
-    bringToTop: i => dispatch(bringToTop(i))
+    bringToTop: i => dispatch(bringToTop(i)),
+    showAll: () => dispatch(showAll())
   };
 }
 
@@ -279,7 +302,8 @@ function mapStateToProps(state) {
     name: state.user.name,
     index: state.list.selectedIndex,
     list: state.list.list,
-    card: state.card.card
+    card: state.card.card,
+    show: state.card.show
   };
 }
 

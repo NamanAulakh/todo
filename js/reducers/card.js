@@ -2,14 +2,98 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SHOW_ALL} from '../actions/card';
 
+const images = [
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/170991132.png',
+    height: 400,
+    width: 188
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/181547901.png',
+    height: 400,
+    width: 247
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183270113.png',
+    height: 400,
+    width: 377
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/184019230.png',
+    height: 400,
+    width: 336
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/175808492.png',
+    height: 172,
+    width: 400
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/182010866.png',
+    height: 340,
+    width: 400
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183304240.png',
+    height: 400,
+    width: 378
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/185250876.png',
+    height: 400,
+    width: 162
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/177082432.png',
+    height: 400,
+    width: 149
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/182139204.png',
+    height: 400,
+    width: 349
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183369275.png',
+    height: 400,
+    width: 124
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/185415448.png',
+    height: 400,
+    width: 266
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/181180070.png',
+    height: 340,
+    width: 400
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/182718890.png',
+    height: 400,
+    width: 302
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183887580.png',
+    height: 400,
+    width: 388
+  },
+  {
+    url: 'http://babylon-coversheet-images.sac.sahusoft.info/195679393.png',
+    height: 400,
+    width: 350
+  }
+];
 export type State = {
-    card: Array
+    card: Array,
+    show: boolean
 }
 
 const initialState = {
-    card: []
+    card: [],
+    show: false
 };
 
 function getRandomInt(min, max) {
@@ -65,7 +149,6 @@ function bringToTop(index, arr) {
     });
 
     if (lastItem) {
-        // console.log("here");
         newArr.push(lastItem);
     }
 
@@ -76,38 +159,53 @@ export default function (state:State = initialState, action:Action): State {
 
     if (action.type === MOVE_CARD) {
         return {
-            ...state, card: [...edit(action.index, state.card, action.payload)]
+            ...state, card: [...edit(action.index, state.card, action.payload)],  show: false
         };
     }
 
     if (action.type === ADD_CARD) {
-        return {
-            ...state,
-            card: [...state.card, {
-                top: 100,
-                left: 10,
-                height: getRandomInt(100, 200),
-                width: getRandomInt(100, 200),
-                rotate: 0,
-                active: 0,
-                rotateBefore: 0,
-                rotateNow: 0,
-                url: '../../../images/logo.png'
-            }]
-        };
+
+        let image = images[getRandomInt(0, images.length - 1)];
+         return {
+             ...state,
+             card: [...state.card, {
+                 top: 100,
+                 left: 10,
+                 height: image.height / 2,//getRandomInt(100, 200),
+                 width: image.width / 2,//getRandomInt(100, 200),
+                 rotate: 0,
+                 active: 0,
+                 rotateBefore: 0,
+                 rotateNow: 0,
+                 url: image.url//'../../../images/logo.png'
+             }],
+             show: false
+         };
+
+
     }
 
     if (action.type === MAKE_ACTIVE) {
         return {
             ...state,
-            card: [...active(action.index, state.card)]
+            card: [...active(action.index, state.card)],
+            show: false
         };
     }
 
     if (action.type === BRING_TO_TOP) {
         return {
             ...state,
-            card: [...bringToTop(action.index, state.card)]
+            card: [...bringToTop(action.index, state.card)],
+            show: false
+        };
+    }
+
+    if (action.type === SHOW_ALL) {
+        return {
+            ...state,
+            card: state.card,
+            show: true
         };
     }
 

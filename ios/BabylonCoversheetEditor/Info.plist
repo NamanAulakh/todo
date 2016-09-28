@@ -47,6 +47,11 @@
           <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
           <true/>
         </dict>
+        <key>babylon-coversheet-images.sac.sahusoft.info</key>
+        <dict>
+          <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+          <true/>
+        </dict>
       </dict>
     </dict>
     <key>UIAppFonts</key>

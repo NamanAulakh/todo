@@ -7,6 +7,7 @@ export const MOVE_CARD = 'MOVE_CARD';
 export const ADD_CARD = 'ADD_CARD';
 export const MAKE_ACTIVE = 'MAKE_ACTIVE';
 export const BRING_TO_TOP = 'BRING_TO_TOP';
+export const SHOW_ALL = 'SHOW_ALL';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -33,5 +34,10 @@ export function bringToTop(index:Number):Action {
     return {
         type: BRING_TO_TOP,
         index: index
+    };
+}
+export function showAll():Action {
+    return {
+        type: SHOW_ALL
     };
 }
