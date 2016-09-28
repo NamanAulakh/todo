@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
 });
 
 let currentIndex = -1;
+let startWidth = 0;
+let startHeight = 0;
+let startY = 0;
+let startX = 0;
 
 class BlankPage extends Component {
 
@@ -58,7 +62,6 @@ class BlankPage extends Component {
   //       // }
   // }
 
-
   componentWillMount() {
     this._panResponder = PanResponder.create({
               // Ask to be the responder:
@@ -68,14 +71,14 @@ class BlankPage extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        console.log('kaash1');
+        // console.log('kaash1');
             // The guesture has started. Show visual feedback so the user knows
             // what is happening!
 
             // gestureState.{x,y}0 will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
-            console.log('kaash2');
+            // console.log('kaash2');
             // The most recent move distance is gestureState.move{X,Y}
 
             // The accumulated gesture distance since becoming responder is
@@ -83,17 +86,17 @@ class BlankPage extends Component {
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
-        console.log('kaash3');
+        // console.log('kaash3');
             // The user has released all touches while this view is the
             // responder. This typically means a gesture has succeeded
       },
       onPanResponderTerminate: (evt, gestureState) => {
-        console.log('kaash4');
+        // console.log('kaash4');
             // Another component has become the responder, so this gesture
             // should be cancelled
       },
       onShouldBlockNativeResponder: (evt, gestureState) => {
-        console.log('kaash5');
+        // console.log('kaash5');
             // Returns whether this component should block native components from becoming the JS
             // responder. Returns true by default. Is currently only supported on android.
         return true;
@@ -141,21 +144,41 @@ class BlankPage extends Component {
               type="View"
               gestures={[pinch]}
               tapCallback={() => {
-                //console.log('kaash1');
+                // console.log("hello");
               }}
               onRelease={(x, y, layout) => {
-                // console.log('kaash2', this._child);
-
+                startWidth = 0;
+                startHeight = 0;
+                startY = 0;
+                startX = 0;
               }}
               onMove={() => {
-                //console.log('kaash3');
               }}
-              gestureCallback={() => {}}
+              gestureCallback={() => {
+                // console.log("here");
+              }}
               toStyle={(layout) => {
-                  let childLayout = this._child.layout;
-                  layout.height = childLayout.height;
-                  layout.width = childLayout.width;
-                  this._child.props.toStyle(layout);
+                  // console.log(_child);
+                  let childLayout = this._child ? this._child.layout : null;
+                  if (childLayout) {
+                    startWidth = startWidth ? startWidth : childLayout.width;
+                    startHeight = startHeight ? startHeight : childLayout.height;
+                    startY = startY ? startY : childLayout.y;
+                    startX = startX ? startX : childLayout.x;
+
+                    layout.height = startHeight * layout.scale;// childLayout.height;
+                    layout.width = startWidth * layout.scale;// * layout.scale;
+
+                    if (layout.scale > 0) {
+                      layout.y = startY - (layout.height - startHeight) / 2;//  layout.scale;// * layout.scale;
+                      layout.x = startX - (layout.width - startWidth) / 2;// * layout.scale;
+                    } else {
+                      layout.y = startY + (layout.height - startHeight) / 2;//  layout.scale;// * layout.scale;
+                      layout.x = startX + (layout.width - startWidth) / 2;// * layout.scale;
+                    }
+                    layout.rotate = 0;
+                    this._child.props.toStyle(layout);
+                  }
               }}
               onError={()=>{}}
              />
@@ -202,9 +225,13 @@ class BlankPage extends Component {
                     }}
                     type="View"
                     gestureCallback={() => {}}
-                    ref={(child) => { this._child = child; }}
+                    ref={(child) => {
+                        if (obj.active === 1) {
+                          this._child = child;
+                        }
+                      }
+                    }
                     toStyle={(layout) => {
-                      console.log("je;")
                         const coordinate = layout;
                         coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
                         coordinate.rotateBefore = obj.rotateBefore;
@@ -218,8 +245,6 @@ class BlankPage extends Component {
                           height: obj.height,
                           transform: [{rotate: `${obj.rotate}deg`}]
                         };
-
-
                     }}
                     onError={() => {}}
                   >
