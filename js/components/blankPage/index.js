@@ -8,9 +8,7 @@ import {openDrawer} from '../../actions/drawer';
 import {popRoute} from '../../actions/route';
 import {moveCard, addCard, makeActive, bringToTop, flipImage, showAll, duplicateImage, removeImage} from '../../actions/card';
 
-
 import myTheme from '../../themes/base-theme';
-
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -174,7 +172,7 @@ class BlankPage extends Component {
               <Icon name="ios-menu" />
           </Button>
         </Header>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, overflow: 'hidden'}}>
           <GestureView
               style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
               type="View"
