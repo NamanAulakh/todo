@@ -176,9 +176,10 @@ class BlankPage extends Component {
           <GestureView
               style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
               type="View"
-              gestures={[pinch]}
+              gestures={[drag, pinch]}
               tapCallback={() => {
                 currentIndex = -1;
+                this._child = null;
                 this.showAll();
               }}
               onRelease={(x, y, layout) => {
@@ -200,18 +201,18 @@ class BlankPage extends Component {
                     startHeight = startHeight ? startHeight : childLayout.height;
                     startY = startY ? startY : childLayout.y;
                     startX = startX ? startX : childLayout.x;
+                    let scale = layout.scale ? layout.scale : 1;
+                    layout.height = startHeight * scale;// childLayout.height;
+                    layout.width = startWidth * scale;// * scale;
 
-                    layout.height = startHeight * layout.scale;// childLayout.height;
-                    layout.width = startWidth * layout.scale;// * layout.scale;
-
-                    if (layout.scale > 0) {
-                      layout.y = startY - (layout.height - startHeight) / 2;//  layout.scale;// * layout.scale;
-                      layout.x = startX - (layout.width - startWidth) / 2;// * layout.scale;
-                    } else {
-                      layout.y = startY + (layout.height - startHeight) / 2;//  layout.scale;// * layout.scale;
-                      layout.x = startX + (layout.width - startWidth) / 2;// * layout.scale;
-                    }
-                    layout.rotate = 0;
+                    // if (scale > 0) {
+                    layout.y = layout.y + startY + (layout.height - startHeight) / 2;//  scale;// * scale;
+                    layout.x = layout.x + startX + (layout.width - startWidth) / 2;// * scale;
+                    // } else {
+                    //   layout.y = layout.y + startY + (layout.height - startHeight) / 2;//  scale;// * scale;
+                    //   layout.x = layout.x + startX + (layout.width - startWidth) / 2;// * scale;
+                    // }
+                    layout.rotate = 0;//layout.rotate ? layout.rotate : 0;
                     this._child.props.toStyle(layout);
                   }
               }}
@@ -266,7 +267,6 @@ class BlankPage extends Component {
                       this.makeActive(i);
                     }}
                     type="Image"
-                    defaultSource={require('./../../../images/logo.png')}
                     source={{uri: obj.url}}
                     gestureCallback={() => {}}
                     ref={(child) => {
