@@ -6,7 +6,7 @@ import {Container, Header, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {openDrawer} from '../../actions/drawer';
 import {popRoute} from '../../actions/route';
-import {moveCard, addCard, makeActive, bringToTop, flipImage, showAll, duplicateImage} from '../../actions/card';
+import {moveCard, addCard, makeActive, bringToTop, flipImage, showAll, duplicateImage, removeImage} from '../../actions/card';
 
 
 import myTheme from '../../themes/base-theme';
@@ -48,6 +48,7 @@ class BlankPage extends Component {
     bringToTop: React.PropTypes.func.isRequired,
     flipImage: React.PropTypes.func.isRequired,
     duplicateImage: React.PropTypes.func.isRequired,
+    removeImage: React.PropTypes.func.isRequired,
     makeActive: React.PropTypes.func.isRequired,
     popRoute: React.PropTypes.func.isRequired,
     showAll: React.PropTypes.func.isRequired,
@@ -128,6 +129,10 @@ class BlankPage extends Component {
     this.props.duplicateImage(i);
   }
 
+  removeImage(i) {
+    this.props.removeImage(i);
+  }
+
   makeActive(i) {
     this.props.makeActive(i);
   }
@@ -166,6 +171,9 @@ class BlankPage extends Component {
           </Button>
           <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
             <Icon name="ios-copy" />
+          </Button>
+          <Button transparent onPress={() => this.removeImage(currentIndex)}>
+            <Icon name="ios-trash" />
           </Button>
         </Header>
         <View style={{flex: 1}}>
@@ -311,7 +319,8 @@ function bindAction(dispatch) {
     bringToTop: i => dispatch(bringToTop(i)),
     showAll: () => dispatch(showAll()),
     flipImage: i => dispatch(flipImage(i)),
-    duplicateImage: i => dispatch(duplicateImage(i))
+    duplicateImage: i => dispatch(duplicateImage(i)),
+    removeImage: i => dispatch(removeImage(i))
   };
 }
 

@@ -10,6 +10,7 @@ export const BRING_TO_TOP = 'BRING_TO_TOP';
 export const SHOW_ALL = 'SHOW_ALL';
 export const FLIP_IMAGE = 'FLIP_IMAGE';
 export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
+export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -49,6 +50,13 @@ export function flipImage(index:Number):Action {
 export function duplicateImage(index:Number):Action {
     return {
         type: DUPLICATE_IMAGE,
+        index: index
+    };
+}
+
+export function removeImage(index:Number):Action {
+    return {
+        type: REMOVE_IMAGE,
         index: index
     };
 }

@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, FLIP_IMAGE, DUPLICATE_IMAGE, SHOW_ALL} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL} from '../actions/card';
 
 const images = [
   {
@@ -197,7 +197,7 @@ function duplicateImage(index, arr) {
         var obj = elem;
         if (index === i) {
             item = obj;
-            item.active = 0
+            item.active = 0;
         }
         newArr.push(obj);
     });
@@ -217,6 +217,19 @@ function duplicateImage(index, arr) {
         newItem.url = item.url;
         newArr.push(newItem);
     }
+
+    return newArr;
+}
+
+
+function removeImage(index, arr) {
+    var newArr = [];
+    arr.map(function(elem, i)  {
+        var obj = elem;
+        if (index !== i) {
+          newArr.push(obj);
+        }
+    });
 
     return newArr;
 }
@@ -281,6 +294,13 @@ export default function (state:State = initialState, action:Action): State {
         return {
             ...state,
             card: [...duplicateImage(action.index, state.card)],
+            show: state.show
+        };
+    }
+    if (action.type === REMOVE_IMAGE) {
+        return {
+            ...state,
+            card: [...removeImage(action.index, state.card)],
             show: state.show
         };
     }
