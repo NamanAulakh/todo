@@ -6,82 +6,82 @@ import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, FLIP_IMAGE, DUPLICATE_IM
 
 const images = [
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/170991132.png',
+    url: 'http://babylon.geekydev.com/images/170991132.png',
     height: 400,
     width: 188
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/181547901.png',
+    url: 'http://babylon.geekydev.com/images/181547901.png',
     height: 400,
     width: 247
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183270113.png',
+    url: 'http://babylon.geekydev.com/images/183270113.png',
     height: 400,
     width: 377
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/184019230.png',
+    url: 'http://babylon.geekydev.com/images/184019230.png',
     height: 400,
     width: 336
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/175808492.png',
+    url: 'http://babylon.geekydev.com/images/175808492.png',
     height: 172,
     width: 400
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/182010866.png',
+    url: 'http://babylon.geekydev.com/images/182010866.png',
     height: 340,
     width: 400
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183304240.png',
+    url: 'http://babylon.geekydev.com/images/183304240.png',
     height: 400,
     width: 378
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/185250876.png',
+    url: 'http://babylon.geekydev.com/images/185250876.png',
     height: 400,
     width: 162
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/177082432.png',
+    url: 'http://babylon.geekydev.com/images/177082432.png',
     height: 400,
     width: 149
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/182139204.png',
+    url: 'http://babylon.geekydev.com/images/182139204.png',
     height: 400,
     width: 349
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183369275.png',
+    url: 'http://babylon.geekydev.com/images/183369275.png',
     height: 400,
     width: 124
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/185415448.png',
+    url: 'http://babylon.geekydev.com/images/185415448.png',
     height: 400,
     width: 266
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/181180070.png',
+    url: 'http://babylon.geekydev.com/images/181180070.png',
     height: 340,
     width: 400
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/182718890.png',
+    url: 'http://babylon.geekydev.com/images/182718890.png',
     height: 400,
     width: 302
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/183887580.png',
+    url: 'http://babylon.geekydev.com/images/183887580.png',
     height: 400,
     width: 388
   },
   {
-    url: 'http://babylon-coversheet-images.sac.sahusoft.info/195679393.png',
+    url: 'http://babylon.geekydev.com/images/195679393.png',
     height: 400,
     width: 350
   }
