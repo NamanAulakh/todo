@@ -8,6 +8,8 @@ export const ADD_CARD = 'ADD_CARD';
 export const MAKE_ACTIVE = 'MAKE_ACTIVE';
 export const BRING_TO_TOP = 'BRING_TO_TOP';
 export const SHOW_ALL = 'SHOW_ALL';
+export const FLIP_IMAGE = 'FLIP_IMAGE';
+export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -33,6 +35,20 @@ export function makeActive(index:Number):Action {
 export function bringToTop(index:Number):Action {
     return {
         type: BRING_TO_TOP,
+        index: index
+    };
+}
+
+export function flipImage(index:Number):Action {
+    return {
+        type: FLIP_IMAGE,
+        index: index
+    };
+}
+
+export function duplicateImage(index:Number):Action {
+    return {
+        type: DUPLICATE_IMAGE,
         index: index
     };
 }

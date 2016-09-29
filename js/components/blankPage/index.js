@@ -6,7 +6,7 @@ import {Container, Header, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {openDrawer} from '../../actions/drawer';
 import {popRoute} from '../../actions/route';
-import {moveCard, addCard, makeActive, bringToTop, showAll} from '../../actions/card';
+import {moveCard, addCard, makeActive, bringToTop, flipImage, showAll, duplicateImage} from '../../actions/card';
 
 
 import myTheme from '../../themes/base-theme';
@@ -46,6 +46,8 @@ class BlankPage extends Component {
     moveCard: React.PropTypes.func.isRequired,
     addCard: React.PropTypes.func.isRequired,
     bringToTop: React.PropTypes.func.isRequired,
+    flipImage: React.PropTypes.func.isRequired,
+    duplicateImage: React.PropTypes.func.isRequired,
     makeActive: React.PropTypes.func.isRequired,
     popRoute: React.PropTypes.func.isRequired,
     showAll: React.PropTypes.func.isRequired,
@@ -118,6 +120,14 @@ class BlankPage extends Component {
     this.props.bringToTop(i);
   }
 
+  flipImage(i) {
+    this.props.flipImage(i);
+  }
+
+  duplicateImage(i) {
+    this.props.duplicateImage(i);
+  }
+
   makeActive(i) {
     this.props.makeActive(i);
   }
@@ -145,12 +155,17 @@ class BlankPage extends Component {
     return (
       <Container theme={myTheme} style={{backgroundColor: '#565051'}} >
         <Header>
-          <Title>{(name) ? name : 'Editor'} </Title>
           <Button transparent onPress={() => this.addCard()}>
             <Icon name="ios-add" />
           </Button>
           <Button transparent onPress={() => this.bringToTop(currentIndex)}>
             <Icon name="ios-arrow-up" />
+          </Button>
+          <Button transparent onPress={() => this.flipImage(currentIndex)}>
+            <Icon name="ios-log-out" />
+          </Button>
+          <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
+            <Icon name="ios-copy" />
           </Button>
         </Header>
         <View style={{flex: 1}}>
@@ -159,6 +174,7 @@ class BlankPage extends Component {
               type="View"
               gestures={[pinch]}
               tapCallback={() => {
+                currentIndex = -1;
                 this.showAll();
               }}
               onRelease={(x, y, layout) => {
@@ -206,7 +222,7 @@ class BlankPage extends Component {
                   position: 'absolute',
                   left: obj.left,
                   top: obj.top,
-                  transform: [{rotate: `${obj.rotateBefore}deg`}]
+                  transform: [{rotate: `${obj.rotateBefore}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                 };
 
               // console.log(obj, "here");
@@ -267,7 +283,7 @@ class BlankPage extends Component {
                           left: obj.left,
                           width: obj.width,
                           height: obj.height,
-                          transform: [{rotate: `${obj.rotate}deg`}]
+                          transform: [{rotate: `${obj.rotate}deg`},{scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                         };
                     }}
                     onError={() => {}}
@@ -293,7 +309,9 @@ function bindAction(dispatch) {
     addCard: () => dispatch(addCard()),
     makeActive: i => dispatch(makeActive(i)),
     bringToTop: i => dispatch(bringToTop(i)),
-    showAll: () => dispatch(showAll())
+    showAll: () => dispatch(showAll()),
+    flipImage: i => dispatch(flipImage(i)),
+    duplicateImage: i => dispatch(duplicateImage(i))
   };
 }
 

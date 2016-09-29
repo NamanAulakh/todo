@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SHOW_ALL} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, FLIP_IMAGE, DUPLICATE_IMAGE, SHOW_ALL} from '../actions/card';
 
 const images = [
   {
@@ -112,6 +112,8 @@ function edit(index, arr, payload) {
             obj.rotate = payload.rotate;
             obj.rotateNow = payload.rotateNow;
             obj.rotateBefore = payload.rotateBefore;
+            obj.scaleX = elem.scaleX;
+            obj.scaleY = elem.scaleY;
             obj.active = elem.active;
             obj.url = elem.url;
         }
@@ -155,6 +157,70 @@ function bringToTop(index, arr) {
     return newArr;
 }
 
+function showAll(arr) {
+  var newArr = [];
+
+  arr.map(function(elem, i)  {
+      var obj = elem;
+      obj.active = 0;
+      newArr.push(obj);
+  });
+
+  return newArr;
+
+}
+
+function flipImage(index, arr) {
+    var newArr = [];
+
+    arr.map(function(elem, i)  {
+        var obj = elem;
+        if (index === i) {
+          if ((obj.rotateBefore < -45 && obj.rotateBefore > -135) ||
+              (obj.rotateBefore > 45 && obj.rotateBefore < 136) ||
+              (obj.rotateBefore > 225 && obj.rotateBefore < 315) ||
+              (obj.rotateBefore < -315 && obj.rotateBefore > 45)) {
+            obj.scaleY = -obj.scaleY;
+          } else {
+            obj.scaleX = -obj.scaleX;
+          }
+        }
+        newArr.push(obj);
+    });
+    return newArr;
+}
+
+function duplicateImage(index, arr) {
+    var newArr = [];
+    var item = null;
+    arr.map(function(elem, i)  {
+        var obj = elem;
+        if (index === i) {
+            item = obj;
+            item.active = 0
+        }
+        newArr.push(obj);
+    });
+
+    if (item) {
+        let newItem = {};
+        newItem.top = item.top + 20;
+        newItem.left = item.left + 20;
+        newItem.height = item.height;
+        newItem.width = item.width;
+        newItem.rotate = item.rotate;
+        newItem.rotateNow = item.rotateNow;
+        newItem.rotateBefore = item.rotateBefore;
+        newItem.scaleX = item.scaleX;
+        newItem.scaleY = item.scaleY;
+        newItem.active = 1;
+        newItem.url = item.url;
+        newArr.push(newItem);
+    }
+
+    return newArr;
+}
+
 export default function (state:State = initialState, action:Action): State {
 
     if (action.type === MOVE_CARD) {
@@ -177,6 +243,8 @@ export default function (state:State = initialState, action:Action): State {
                  active: 0,
                  rotateBefore: 0,
                  rotateNow: 0,
+                 scaleX: 1,
+                 scaleY: 1,
                  url: image.url//'../../../images/logo.png'
              }],
              show: false
@@ -201,10 +269,26 @@ export default function (state:State = initialState, action:Action): State {
         };
     }
 
+    if (action.type === FLIP_IMAGE) {
+        return {
+            ...state,
+            card: [...flipImage(action.index, state.card)],
+            show: state.show
+        };
+    }
+
+    if (action.type === DUPLICATE_IMAGE) {
+        return {
+            ...state,
+            card: [...duplicateImage(action.index, state.card)],
+            show: state.show
+        };
+    }
+
     if (action.type === SHOW_ALL) {
         return {
             ...state,
-            card: state.card,
+            card: [...showAll(state.card)],
             show: true
         };
     }
