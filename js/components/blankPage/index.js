@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {StyleSheet, Dimensions, PanResponder, View} from 'react-native';
-import {Container, Header, Title, Button, Icon} from 'native-base';
+import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {openDrawer} from '../../actions/drawer';
 import {popRoute} from '../../actions/route';
@@ -129,6 +129,10 @@ class BlankPage extends Component {
     this.props.duplicateImage(i);
   }
 
+  saveImage(i) {
+    // this.props.saveImage(i);
+  }
+
   removeImage(i) {
     this.props.removeImage(i);
   }
@@ -158,22 +162,16 @@ class BlankPage extends Component {
   render() {
     const {props: {name}} = this;
     return (
-      <Container theme={myTheme} style={{backgroundColor: '#565051'}} >
+      <Container theme={myTheme} style={{backgroundColor: '#fff'}} >
         <Header>
-          <Button transparent onPress={() => this.addCard()}>
-            <Icon name="ios-add" />
+          <Button transparent>
+              <Icon name="ios-arrow-back" />
           </Button>
-          <Button transparent onPress={() => this.bringToTop(currentIndex)}>
-            <Icon name="ios-arrow-up" />
-          </Button>
-          <Button transparent onPress={() => this.flipImage(currentIndex)}>
-            <Icon name="ios-log-out" />
-          </Button>
-          <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
-            <Icon name="ios-copy" />
-          </Button>
-          <Button transparent onPress={() => this.removeImage(currentIndex)}>
-            <Icon name="ios-trash" />
+
+          <Title>{(name) ? name : 'Editor'}</Title>
+
+          <Button transparent>
+              <Icon name="ios-menu" />
           </Button>
         </Header>
         <View style={{flex: 1}}>
@@ -301,7 +299,28 @@ class BlankPage extends Component {
             }
           </View>
         </View>
-
+        <Footer style={{backgroundColor: '#565051'}}>
+          <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
+            <Button transparent onPress={() => this.addCard()}>
+              <Icon name="ios-add" />
+            </Button>
+            <Button transparent onPress={() => this.bringToTop(currentIndex)}>
+              <Icon name="ios-arrow-up" />
+            </Button>
+            <Button transparent onPress={() => this.flipImage(currentIndex)}>
+              <Icon name="ios-log-out" />
+            </Button>
+            <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
+              <Icon name="ios-copy" />
+            </Button>
+            <Button transparent onPress={() => this.removeImage(currentIndex)}>
+              <Icon name="ios-trash" />
+            </Button>
+            <Button transparent onPress={() => this.saveImage()}>
+              <Icon name="md-image" />
+            </Button>
+        </View>
+        </Footer>
       </Container>
 
         );
