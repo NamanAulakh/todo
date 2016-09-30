@@ -9,6 +9,7 @@ import {popRoute} from '../../actions/route';
 import {moveCard, addCard, makeActive, bringToTop, flipImage, showAll, duplicateImage, removeImage} from '../../actions/card';
 
 import myTheme from '../../themes/base-theme';
+import {takeSnapshot} from 'react-native-view-shot';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -127,7 +128,16 @@ class BlankPage extends Component {
     this.props.duplicateImage(i);
   }
 
-  saveImage(i) {
+  saveImage() {
+
+    // takeSnapshot(this._viewRef, {
+    //   format: 'png',
+    //   quality: 1
+    // })
+    // .then(
+    //   uri => alert('Image saved to ' + uri),
+    //   error => alert('Oops, snapshot failed ' + error)
+    // );
     // this.props.saveImage(i);
   }
 
@@ -172,7 +182,10 @@ class BlankPage extends Component {
               <Icon name="ios-menu" />
           </Button>
         </Header>
-        <View style={{flex: 1, overflow: 'hidden'}}>
+        <View style={{flex: 1, overflow: 'hidden'}}
+          ref={(child) => {
+            this._viewRef = child;
+          }} >
           <GestureView
               style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
               type="View"
@@ -218,7 +231,7 @@ class BlankPage extends Component {
               }}
               onError={()=>{}}
              />
-          <View pointerEvents="box-none" name="Draggable Container" style={styles.container} >
+           <View pointerEvents="box-none" name="Draggable Container" style={styles.container} >
             {
               this.props.card.map((obj, i) => {
                 const movable = {
