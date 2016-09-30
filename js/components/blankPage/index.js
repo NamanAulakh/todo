@@ -6,10 +6,10 @@ import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {openDrawer} from '../../actions/drawer';
 import {popRoute} from '../../actions/route';
-import {moveCard, addCard, makeActive, bringToTop, flipImage, showAll, duplicateImage, removeImage} from '../../actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage} from '../../actions/card';
 
 import myTheme from '../../themes/base-theme';
-import {takeSnapshot} from 'react-native-view-shot';
+// import {takeSnapshot} from 'react-native-view-shot';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -45,6 +45,7 @@ class BlankPage extends Component {
     moveCard: React.PropTypes.func.isRequired,
     addCard: React.PropTypes.func.isRequired,
     bringToTop: React.PropTypes.func.isRequired,
+    sendToBack: React.PropTypes.func.isRequired,
     flipImage: React.PropTypes.func.isRequired,
     duplicateImage: React.PropTypes.func.isRequired,
     removeImage: React.PropTypes.func.isRequired,
@@ -118,6 +119,9 @@ class BlankPage extends Component {
 
   bringToTop(i) {
     this.props.bringToTop(i);
+  }
+  sendToBack(i) {
+    this.props.sendToBack(i);
   }
 
   flipImage(i) {
@@ -318,6 +322,9 @@ class BlankPage extends Component {
             <Button transparent onPress={() => this.bringToTop(currentIndex)}>
               <Icon name="ios-arrow-up" />
             </Button>
+            <Button transparent onPress={() => this.sendToBack(currentIndex)}>
+              <Icon name="ios-arrow-down" />
+            </Button>
             <Button transparent onPress={() => this.flipImage(currentIndex)}>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <Icon name="ios-arrow-back" style={{paddingRight: 1}}/>
@@ -350,6 +357,7 @@ function bindAction(dispatch) {
     addCard: () => dispatch(addCard()),
     makeActive: i => dispatch(makeActive(i)),
     bringToTop: i => dispatch(bringToTop(i)),
+    sendToBack: i => dispatch(sendToBack(i)),
     showAll: () => dispatch(showAll()),
     flipImage: i => dispatch(flipImage(i)),
     duplicateImage: i => dispatch(duplicateImage(i)),

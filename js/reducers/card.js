@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL} from '../actions/card';
 
 const images = [
   {
@@ -156,6 +156,25 @@ function bringToTop(index, arr) {
 
     return newArr;
 }
+function sendToBack(index, arr) {
+    var newArr = [];
+    var lastItem = null;
+
+    arr.map(function(elem, i)  {
+        var obj = elem;
+        if (index === i) {
+            lastItem = obj;
+        } else {
+            newArr.push(obj);
+        }
+    });
+
+    if (lastItem) {
+        newArr.unshift(lastItem);
+    }
+
+    return newArr;
+}
 
 function showAll(arr) {
   var newArr = [];
@@ -278,7 +297,15 @@ export default function (state:State = initialState, action:Action): State {
         return {
             ...state,
             card: [...bringToTop(action.index, state.card)],
-            show: false
+            show: state.show
+        };
+    }
+
+    if (action.type === SEND_TO_BACK) {
+        return {
+            ...state,
+            card: [...sendToBack(action.index, state.card)],
+            show: state.show
         };
     }
 
