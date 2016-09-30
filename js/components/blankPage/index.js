@@ -313,10 +313,7 @@ class BlankPage extends Component {
         <Footer style={{backgroundColor: '#565051'}}>
           <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
             <Button transparent onPress={() => this.addCard()}>
-              <View>
                 <Icon name="ios-add" />
-                <Text></Text>
-              </View>
             </Button>
             <Button transparent onPress={() => this.bringToTop(currentIndex)}>
               <Icon name="ios-arrow-up" />
