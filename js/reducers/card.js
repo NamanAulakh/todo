@@ -194,11 +194,12 @@ function flipImage(index, arr) {
 
     arr.map(function(elem, i)  {
         var obj = elem;
+        console.log(obj.rotateBefore);
         if (index === i) {
-          if ((obj.rotateBefore < -45 && obj.rotateBefore > -135) ||
-              (obj.rotateBefore > 45 && obj.rotateBefore < 136) ||
-              (obj.rotateBefore > 225 && obj.rotateBefore < 315) ||
-              (obj.rotateBefore < -315 && obj.rotateBefore > 45)) {
+          if ((obj.rotateBefore % 360 < -45 && obj.rotateBefore % 360 > -135) ||
+              (obj.rotateBefore % 360 > 45 && obj.rotateBefore % 360 < 136) ||
+              (obj.rotateBefore % 360 > 225 && obj.rotateBefore % 360 < 315) ||
+              (obj.rotateBefore % 360 < -315 && obj.rotateBefore % 360 > 45)) {
             obj.scaleY = -obj.scaleY;
           } else {
             obj.scaleX = -obj.scaleX;

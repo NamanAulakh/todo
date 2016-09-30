@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 
 let currentIndex = -1;
 let startWidth = 0;
+// let startRotate = 0;
 let startHeight = 0;
 let startY = 0;
 let startX = 0;
@@ -201,9 +202,19 @@ class BlankPage extends Component {
               }}
               onRelease={(x, y, layout) => {
                 startWidth = 0;
+                // startRotate = 0;
                 startHeight = 0;
                 startY = 0;
                 startX = 0;
+
+                if (this._child) {
+                  const coordinate = this._child.layout;
+                  coordinate.rotateBefore = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
+                  coordinate.rotateNow = 0;
+                  this.moveCard(coordinate, currentIndex);
+                }
+
+
               }}
               onMove={() => {
               }}
@@ -218,18 +229,21 @@ class BlankPage extends Component {
                     startHeight = startHeight ? startHeight : childLayout.height;
                     startY = startY ? startY : childLayout.y;
                     startX = startX ? startX : childLayout.x;
+                    // startRotate = startRotate ? startRotate : (this._child.props.rotate ? this._child.props.rotate : 0);
                     let scale = layout.scale ? layout.scale : 1;
                     layout.height = startHeight * scale;// childLayout.height;
                     layout.width = startWidth * scale;// * scale;
 
                     // if (scale > 0) {
-                    layout.y = layout.y + startY + (layout.height - startHeight) / 2;//  scale;// * scale;
-                    layout.x = layout.x + startX + (layout.width - startWidth) / 2;// * scale;
+                    layout.y = layout.y + startY + (layout.height - startHeight);//  scale;// * scale;
+                    layout.x = layout.x + startX + (layout.width - startWidth);// * scale;
                     // } else {
                     //   layout.y = layout.y + startY + (layout.height - startHeight) / 2;//  scale;// * scale;
                     //   layout.x = layout.x + startX + (layout.width - startWidth) / 2;// * scale;
                     // }
-                    layout.rotate = 0;//layout.rotate ? layout.rotate : 0;
+                    // console.log(startRotate, "startRotate");
+                    layout.rotate = layout.rotate ? layout.rotate : 0;
+                    // console.log(layout.rotate, "here");
                     this._child.props.toStyle(layout);
                   }
               }}
@@ -238,13 +252,14 @@ class BlankPage extends Component {
            <View pointerEvents="box-none" name="Draggable Container" style={styles.container} >
             {
               this.props.card.map((obj, i) => {
+                // console.log("i", obj)
                 const movable = {
                   width: obj.width,
                   height: obj.height,
                   position: 'absolute',
                   left: obj.left,
                   top: obj.top,
-                  transform: [{rotate: `${obj.rotateBefore}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
+                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateBefore ? obj.rotateBefore : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                 };
 
               // console.log(obj, "here");
