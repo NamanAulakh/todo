@@ -134,15 +134,15 @@ class BlankPage extends Component {
   }
 
   saveImage() {
-
-    takeSnapshot(this._viewRef, {
-      format: 'png',
-      quality: 1
-    })
-    .then(
-      uri => alert('Image saved to ' + uri),
-      error => alert('Oops, snapshot failed ' + error)
-    );
+    console.log(this.props.card);
+    // takeSnapshot(this._viewRef, {
+    //   format: 'png',
+    //   quality: 1
+    // })
+    // .then(
+    //   uri => alert('Image saved to ' + uri),
+    //   error => alert('Oops, snapshot failed ' + error)
+    // );
     // this.props.saveImage(i);
   }
 
@@ -209,7 +209,7 @@ class BlankPage extends Component {
 
                 if (this._child) {
                   const coordinate = this._child.layout;
-                  coordinate.rotateBefore = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
+                  coordinate.rotateAngle = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
                   coordinate.rotateNow = 0;
                   this.moveCard(coordinate, currentIndex);
                 }
@@ -259,7 +259,7 @@ class BlankPage extends Component {
                   position: 'absolute',
                   left: obj.left,
                   top: obj.top,
-                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateBefore ? obj.rotateBefore : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
+                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateAngle ? obj.rotateAngle : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                 };
 
               // console.log(obj, "here");
@@ -291,7 +291,7 @@ class BlankPage extends Component {
                     }}
                     onRelease={(x, y, layout) => {
                       const coordinate = layout;
-                      coordinate.rotateBefore = obj.rotate ? obj.rotate : 0;
+                      coordinate.rotateAngle = obj.rotate ? obj.rotate : 0;
                       coordinate.rotateNow = 0;
                       this.moveCard(coordinate, i);
                     }}
@@ -310,9 +310,9 @@ class BlankPage extends Component {
                     toStyle={(layout) => {
                         const coordinate = layout;
                         coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
-                        coordinate.rotateBefore = obj.rotateBefore;
+                        coordinate.rotateAngle = obj.rotateAngle;
                         coordinate.rotate = coordinate.rotateNow +
-                                            (coordinate.rotateBefore ? coordinate.rotateBefore : 0);
+                                            (coordinate.rotateAngle ? coordinate.rotateAngle : 0);
                         this.moveCard(coordinate, i);
                         return {
                           top: obj.top,
