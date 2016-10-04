@@ -134,15 +134,15 @@ class BlankPage extends Component {
   }
 
   saveImage() {
-    console.log(this.props.card);
-    // takeSnapshot(this._viewRef, {
-    //   format: 'png',
-    //   quality: 1
-    // })
-    // .then(
-    //   uri => alert('Image saved to ' + uri),
-    //   error => alert('Oops, snapshot failed ' + error)
-    // );
+    // console.log(this.props.card);
+    takeSnapshot(this._viewRef, {
+      format: 'png',
+      quality: 1
+    })
+    .then(
+      uri => alert('Image saved to ' + uri),
+      error => alert('Oops, snapshot failed ' + error)
+    );
     // this.props.saveImage(i);
   }
 
