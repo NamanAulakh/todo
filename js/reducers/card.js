@@ -273,7 +273,7 @@ export default function (state:State = initialState, action:Action): State {
                  width: image.width / 2,//getRandomInt(100, 200),
                  rotate: 0,
                  active: 0,
-                 rotateAngle: 45,
+                 rotateAngle: 0,
                  rotateNow: 0,
                  scaleX: 1,
                  scaleY: 1,
