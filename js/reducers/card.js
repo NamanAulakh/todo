@@ -100,7 +100,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function edit(index, arr, payload) {
+function move(index, arr, payload) {
     var newArr = [];
     arr.map(function(elem,i)  {
         var obj = elem;
@@ -258,7 +258,7 @@ export default function (state:State = initialState, action:Action): State {
 
     if (action.type === MOVE_CARD) {
         return {
-            ...state, card: [...edit(action.index, state.card, action.payload)],  show: false
+            ...state, card: [...move(action.index, state.card, action.payload)],  show: false
         };
     }
 

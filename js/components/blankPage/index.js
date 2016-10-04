@@ -9,7 +9,7 @@ import {popRoute} from '../../actions/route';
 import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage} from '../../actions/card';
 
 import myTheme from '../../themes/base-theme';
-// import {takeSnapshot} from 'react-native-view-shot';
+import {takeSnapshot} from 'react-native-view-shot';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -135,14 +135,14 @@ class BlankPage extends Component {
 
   saveImage() {
 
-    // takeSnapshot(this._viewRef, {
-    //   format: 'png',
-    //   quality: 1
-    // })
-    // .then(
-    //   uri => alert('Image saved to ' + uri),
-    //   error => alert('Oops, snapshot failed ' + error)
-    // );
+    takeSnapshot(this._viewRef, {
+      format: 'png',
+      quality: 1
+    })
+    .then(
+      uri => alert('Image saved to ' + uri),
+      error => alert('Oops, snapshot failed ' + error)
+    );
     // this.props.saveImage(i);
   }
 
