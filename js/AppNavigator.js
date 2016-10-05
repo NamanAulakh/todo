@@ -14,6 +14,7 @@ import Home from './components/home/';
 import BlankPage from './components/blankPage/';
 import SplashPage from './components/splashscreen/';
 import SideBar from './components/sideBar';
+// import Editor from './components/Editor';
 import {statusBarColor} from './themes/base-theme';
 
 Navigator.prototype.replaceWithAnimation = function (route) {

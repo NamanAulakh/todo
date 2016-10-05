@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA} from '../actions/card';
 
 const images = [
   {
@@ -95,6 +95,8 @@ const initialState = {
     card: [],
     show: false
 };
+
+// var newArr1 = [];
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -211,7 +213,6 @@ function flipImage(index, arr) {
 }
 
 function duplicateImage(index, arr) {
-
     var newArr = [];
     var item = null;
     arr.map(function(elem, i)  {
@@ -238,6 +239,7 @@ function duplicateImage(index, arr) {
         newItem.url = item.url;
         newArr.push(newItem);
     }
+
     return newArr;
 }
 
@@ -260,6 +262,18 @@ export default function (state:State = initialState, action:Action): State {
         return {
             ...state, card: [...move(action.index, state.card, action.payload)],  show: false
         };
+    }
+
+    if (action.type === DATA) {
+
+        // let image = images[getRandomInt(0, images.length - 1)];
+         return {
+             ...state,
+             card: [...state.card, action.payload]
+            //  show: false
+         };
+
+
     }
 
     if (action.type === ADD_CARD) {
