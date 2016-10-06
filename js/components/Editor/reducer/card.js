@@ -113,7 +113,7 @@ function move(index, arr, payload) {
             obj.width = payload.width;
             obj.rotate = payload.rotate;
             obj.rotateNow = payload.rotateNow;
-            obj.rotateBefore = payload.rotateBefore;
+            obj.rotateAngle = payload.rotateAngle;
             obj.scaleX = elem.scaleX;
             obj.scaleY = elem.scaleY;
             obj.active = elem.active;
@@ -196,12 +196,12 @@ function flipImage(index, arr) {
 
     arr.map(function(elem, i)  {
         var obj = elem;
-        console.log(obj.rotateBefore);
+        console.log(obj.rotateAngle);
         if (index === i) {
-          if ((obj.rotateBefore % 360 < -45 && obj.rotateBefore % 360 > -135) ||
-              (obj.rotateBefore % 360 > 45 && obj.rotateBefore % 360 < 136) ||
-              (obj.rotateBefore % 360 > 225 && obj.rotateBefore % 360 < 315) ||
-              (obj.rotateBefore % 360 < -315 && obj.rotateBefore % 360 > 45)) {
+          if ((obj.rotateAngle % 360 < -45 && obj.rotateAngle % 360 > -135) ||
+              (obj.rotateAngle % 360 > 45 && obj.rotateAngle % 360 < 136) ||
+              (obj.rotateAngle % 360 > 225 && obj.rotateAngle % 360 < 315) ||
+              (obj.rotateAngle % 360 < -315 && obj.rotateAngle % 360 > 45)) {
             obj.scaleY = -obj.scaleY;
           } else {
             obj.scaleX = -obj.scaleX;
@@ -232,7 +232,7 @@ function duplicateImage(index, arr) {
         newItem.width = item.width;
         newItem.rotate = item.rotate;
         newItem.rotateNow = item.rotateNow;
-        newItem.rotateBefore = item.rotateBefore;
+        newItem.rotateAngle = item.rotateAngle;
         newItem.scaleX = item.scaleX;
         newItem.scaleY = item.scaleY;
         newItem.active = 1;
@@ -267,10 +267,14 @@ export default function (state:State = initialState, action:Action): State {
     if (action.type === DATA) {
 
         // let image = images[getRandomInt(0, images.length - 1)];
+        action.payload.map(
+          (element,index) => {
+            state.card = [...state.card, element];
+          }
+        );
          return {
              ...state,
-             card: [...state.card, action.payload]
-            //  show: false
+             show: false
          };
 
 
@@ -288,7 +292,7 @@ export default function (state:State = initialState, action:Action): State {
                  width: image.width / 2,//getRandomInt(100, 200),
                  rotate: 0,
                  active: 0,
-                 rotateBefore: 0,
+                 rotateAngle: 0,
                  rotateNow: 0,
                  scaleX: 1,
                  scaleY: 1,

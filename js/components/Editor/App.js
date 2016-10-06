@@ -102,13 +102,15 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('Change Detected in interior store: ' , nextProps);
+    // console.log('Change Detected in interior store: ' , nextProps);
     this.props.onChange(nextProps);
   }
 
   componentWillMount()  {
-    console.log('Populating interior store with data: ' , this.props.data);
-    this.props.addData(this.props.data[0]);
+    // console.log('Populating interior store with data: ' , this.props.data);
+    if (this.props.data.length !== 0) {
+      this.props.addData(this.props.data);
+    }
   }
 
   moveCard(obj, i) {
@@ -176,7 +178,7 @@ class App extends Component {
 
                 if (this._child) {
                   const coordinate = this._child.layout;
-                  coordinate.rotateBefore = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
+                  coordinate.rotateAngle = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
                   coordinate.rotateNow = 0;
                   this.moveCard(coordinate, currentIndex);
                 }
@@ -227,7 +229,7 @@ class App extends Component {
                   position: 'absolute',
                   left: obj.left,
                   top: obj.top,
-                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateBefore ? obj.rotateBefore : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
+                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateAngle ? obj.rotateAngle : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                 };
 
               // console.log(obj, "here");
@@ -259,7 +261,7 @@ class App extends Component {
                     }}
                     onRelease={(x, y, layout) => {
                       const coordinate = layout;
-                      coordinate.rotateBefore = obj.rotate ? obj.rotate : 0;
+                      coordinate.rotateAngle = obj.rotate ? obj.rotate : 0;
                       coordinate.rotateNow = 0;
                       this.moveCard(coordinate, i);
 
@@ -279,9 +281,9 @@ class App extends Component {
                     toStyle={(layout) => {
                         const coordinate = layout;
                         coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
-                        coordinate.rotateBefore = obj.rotateBefore;
+                        coordinate.rotateAngle = obj.rotateAngle;
                         coordinate.rotate = coordinate.rotateNow +
-                                            (coordinate.rotateBefore ? coordinate.rotateBefore : 0);
+                                            (coordinate.rotateAngle ? coordinate.rotateAngle : 0);
                         this.moveCard(coordinate, i);
                         return {
                           top: obj.top,
