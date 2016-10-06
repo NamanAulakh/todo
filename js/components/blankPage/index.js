@@ -5,7 +5,7 @@ import {View} from 'react-native';
 import {Container, Header, Title, Button, Icon} from 'native-base';
 import Editor from '../Editor';
 
-import myTheme from '../../themes/base-theme';
+import light from '../../themes/light';
 
 class BlankPage extends Component {
 
@@ -49,19 +49,9 @@ class BlankPage extends Component {
       ];
     return (
 
-      <Container theme={myTheme} style={{backgroundColor: '#fff'}} >
-        <Header>
-          <Button transparent>
-              <Icon name="ios-arrow-back" />
-          </Button>
+      <Container theme={light}>
 
-          <Title>{(name) ? name : 'Editor'}</Title>
 
-          <Button transparent>
-              <Icon name="ios-menu" />
-          </Button>
-
-          </Header>
           <View style={{flex: 1}}>
             <Editor onChange={
                 (payload) => {
