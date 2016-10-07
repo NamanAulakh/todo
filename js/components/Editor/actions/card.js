@@ -12,6 +12,7 @@ export const SHOW_ALL = 'SHOW_ALL';
 export const FLIP_IMAGE = 'FLIP_IMAGE';
 export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
+export const DATA = 'DATA';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -19,6 +20,14 @@ export function moveCard(payload:Object, index:Number):Action {
         type: MOVE_CARD,
         payload: payload,
         index: index
+    };
+}
+
+export function addData(payload:Object):Action {
+
+    return {
+        type: DATA,
+        payload: payload
     };
 }
 

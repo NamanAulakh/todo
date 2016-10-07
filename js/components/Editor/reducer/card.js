@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA} from '../actions/card';
 
 const images = [
   {
@@ -96,10 +96,37 @@ const initialState = {
     show: false
 };
 
+// var newArr1 = [];
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function add(arr) {
+
+  var newArr = [];
+  arr.map(function(elem,i)  {
+      var obj = elem;
+      obj.active = 0;
+      newArr.push(obj);
+  });
+  let image = images[getRandomInt(0, images.length - 1)];
+  newArr.push({
+      top: 100,
+      left: 10,
+      height: image.height / 2,//getRandomInt(100, 200),
+      width: image.width / 2,//getRandomInt(100, 200),
+      rotate: 0,
+      active: 1,
+      rotateAngle: 0,
+      rotateNow: 0,
+      scaleX: 1,
+      scaleY: 1,
+      url: image.url//'../../../images/logo.png'
+  });
+  return newArr;
+
+}
 function move(index, arr, payload) {
     var newArr = [];
     arr.map(function(elem,i)  {
@@ -262,24 +289,26 @@ export default function (state:State = initialState, action:Action): State {
         };
     }
 
-    if (action.type === ADD_CARD) {
+    if (action.type === DATA) {
 
-        let image = images[getRandomInt(0, images.length - 1)];
+        // let image = images[getRandomInt(0, images.length - 1)];
+        action.payload.map(
+          (element,index) => {
+            state.card = [...state.card, element];
+          }
+        );
          return {
              ...state,
-             card: [...state.card, {
-                 top: 100,
-                 left: 10,
-                 height: image.height / 2,//getRandomInt(100, 200),
-                 width: image.width / 2,//getRandomInt(100, 200),
-                 rotate: 0,
-                 active: 0,
-                 rotateAngle: 0,
-                 rotateNow: 0,
-                 scaleX: 1,
-                 scaleY: 1,
-                 url: image.url//'../../../images/logo.png'
-             }],
+             show: false
+         };
+
+
+    }
+
+    if (action.type === ADD_CARD) {
+         return {
+             ...state,
+             card: [...add(state.card)],
              show: false
          };
 
