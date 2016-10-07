@@ -46,7 +46,6 @@
 		BF31FACF644442CEAB1016CE /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8EA73188E67470181B9763C /* Arial Black.ttf */; };
 		D36AC78F3E4D4D6AA70A5640 /* Georgia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6806E505C984D4698173A43 /* Georgia.ttf */; };
 		D64AECB16F074900A2F161C6 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7A278FFFD9646C4B41140EE /* Ionicons.ttf */; };
-		E0D1B0141DA620D400141DD6 /* libReact-Native-Webview-Bridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D1B0131DA6203600141DD6 /* libReact-Native-Webview-Bridge.a */; };
 		E719AA3774A8494A99972C1D /* Andale Mono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D63586FFC76B4DCF9D5EA646 /* Andale Mono.ttf */; };
 		E89FFDC39C3E4F8C82510484 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C90BF3C53A644010B9C192DA /* libCodePush.a */; };
 		EE5246FACDFA44F790047465 /* Comic Sans MS.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F33E8C01665344418FF0D7B9 /* Comic Sans MS.ttf */; };
@@ -165,13 +164,6 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
-		E0D1B0121DA6203600141DD6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E0D1B00E1DA6203500141DD6 /* React-Native-Webview-Bridge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4114DC4C1C187C3A003CD988;
-			remoteInfo = "React-Native-Webview-Bridge";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -222,7 +214,6 @@
 		D1784DC268044578BC150080 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		D5268127D0334E218F7FA7ED /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		D63586FFC76B4DCF9D5EA646 /* Andale Mono.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Andale Mono.ttf"; path = "../node_modules/native-base/Fonts/Andale Mono.ttf"; sourceTree = "<group>"; };
-		E0D1B00E1DA6203500141DD6 /* React-Native-Webview-Bridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "React-Native-Webview-Bridge.xcodeproj"; path = "../node_modules/react-native-webview-bridge/ios/React-Native-Webview-Bridge.xcodeproj"; sourceTree = "<group>"; };
 		E3265EEF50AA4514A839C676 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F33E8C01665344418FF0D7B9 /* Comic Sans MS.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Comic Sans MS.ttf"; path = "../node_modules/native-base/Fonts/Comic Sans MS.ttf"; sourceTree = "<group>"; };
 		F6806E505C984D4698173A43 /* Georgia.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Georgia.ttf; path = "../node_modules/native-base/Fonts/Georgia.ttf"; sourceTree = "<group>"; };
@@ -242,7 +233,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0D1B0141DA620D400141DD6 /* libReact-Native-Webview-Bridge.a in Frameworks */,
 				449CE3751D90135300DF0EF8 /* libRNImagePicker.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -430,7 +420,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				E0D1B00E1DA6203500141DD6 /* React-Native-Webview-Bridge.xcodeproj */,
 				449CE3631D90133200DF0EF8 /* RNImagePicker.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -497,14 +486,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E0D1B00F1DA6203600141DD6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E0D1B0131DA6203600141DD6 /* libReact-Native-Webview-Bridge.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -558,7 +539,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = J8QHV4W9R4;
+						DevelopmentTeam = 3U46ZGS47L;
 					};
 				};
 			};
@@ -613,10 +594,6 @@
 				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
-				},
-				{
-					ProductGroup = E0D1B00F1DA6203600141DD6 /* Products */;
-					ProjectRef = E0D1B00E1DA6203500141DD6 /* React-Native-Webview-Bridge.xcodeproj */;
 				},
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
@@ -751,13 +728,6 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 94E1E0391D70844B00180C44 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E0D1B0131DA6203600141DD6 /* libReact-Native-Webview-Bridge.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libReact-Native-Webview-Bridge.a";
-			remoteRef = E0D1B0121DA6203600141DD6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -931,6 +901,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.BabylonCoversheetEditor1;
 				PRODUCT_NAME = BabylonCoversheetEditor;
 				PROVISIONING_PROFILE = "";
 			};
@@ -964,6 +935,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.BabylonCoversheetEditor1;
 				PRODUCT_NAME = BabylonCoversheetEditor;
 				PROVISIONING_PROFILE = "";
 			};
