@@ -8,7 +8,7 @@ import {BackAndroid, Platform, StatusBar} from 'react-native';
 import {closeDrawer} from './actions/drawer';
 import {popRoute} from './actions/route';
 import Navigator from 'Navigator';
-
+import TestCanvas from './components/testCanvas/';
 import Login from './components/login/';
 import Home from './components/home/';
 import BlankPage from './components/blankPage/';

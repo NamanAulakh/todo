@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-
-import {StyleSheet, Dimensions, PanResponder, View} from 'react-native';
+import GenerateImage from './../generateImage/index.js';
+import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio} from 'react-native';
 import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {openDrawer} from '../../actions/drawer';
@@ -14,12 +14,101 @@ import {takeSnapshot} from 'react-native-view-shot';
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
+const imageHeight = 1024/PixelRatio.get();
+const imageWidth = 1024/PixelRatio.get();
+// function renderCanvas(canvas,images) {
+//
+//
+//   // Canvas demo is from here: http://codepen.io/antoniskamamis/pen/ECrKd
+//
+//   var ctx = canvas.getContext('2d');
+//   var img1 = loadImage(images[0].url, main);
+//   var img2 = loadImage('http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png', main);
+//
+//   var imagesLoaded = 0;
+//
+//   function main() {
+//
+//           // composite now
+//           resizeCanvasImage(img1, canvas, 1080, 720);
+//           // ctx.drawImage(img1,0,0,img1.width/6,img1.height/6);
+//
+//   }
+//
+// function loadImage(src, onload) {
+//     // http://www.thefutureoftheweb.com/blog/image-onload-isnt-being-called
+//     var img = new Image();
+//
+//     img.onload = onload;
+//     img.src = src;
+//
+//
+//     console.log('this is image',img)
+//     return img;
+// }
+// function resizeCanvasImage(img, canvas, maxWidth, maxHeight) {
+//     var imgWidth = img.width,
+//         imgHeight = img.height;
+//
+//     var ratio = 1, ratio1 = 1, ratio2 = 1;
+//     ratio1 = maxWidth / imgWidth;
+//     ratio2 = maxHeight / imgHeight;
+//
+//     // Use the smallest ratio that the image best fit into the maxWidth x maxHeight box.
+//     if (ratio1 < ratio2) {
+//         ratio = ratio1;
+//     }
+//     else {
+//         ratio = ratio2;
+//     }
+//
+//     var canvasContext = canvas.getContext("2d");
+//     var canvasCopy = document.createElement("canvas");
+//     var copyContext = canvasCopy.getContext("2d");
+//     var canvasCopy2 = document.createElement("canvas");
+//     var copyContext2 = canvasCopy2.getContext("2d");
+//     canvasCopy.width = imgWidth;
+//     canvasCopy.height = imgHeight;
+//     copyContext.drawImage(img, 0, 0);
+//
+//     // init
+//     canvasCopy2.width = imgWidth;
+//     canvasCopy2.height = imgHeight;
+//     copyContext2.drawImage(canvasCopy, 0, 0, canvasCopy.width, canvasCopy.height, 0, 0, canvasCopy2.width, canvasCopy2.height);
+//
+//
+//     var rounds = 2;
+//     var roundRatio = ratio * rounds;
+//     for (var i = 1; i <= rounds; i++) {
+//         console.log("Step: "+i);
+//
+//         // tmp
+//         canvasCopy.width = imgWidth * roundRatio / i;
+//         canvasCopy.height = imgHeight * roundRatio / i;
+//
+//         copyContext.drawImage(canvasCopy2, 0, 0, canvasCopy2.width, canvasCopy2.height, 0, 0, canvasCopy.width, canvasCopy.height);
+//
+//         // copy back
+//         canvasCopy2.width = imgWidth * roundRatio / i;
+//         canvasCopy2.height = imgHeight * roundRatio / i;
+//         copyContext2.drawImage(canvasCopy, 0, 0, canvasCopy.width, canvasCopy.height, 0, 0, canvasCopy2.width, canvasCopy2.height);
+//
+//     } // end for
+//
+//
+//     // copy back to canvas
+//     canvas.width = imgWidth * roundRatio / rounds;
+//     canvas.height = imgHeight * roundRatio / rounds;
+//     canvasContext.drawImage(canvasCopy2, 0, 0, canvasCopy2.width, canvasCopy2.height, 0, 0, canvas.width, canvas.height);
+//
+//
+// }
+// }
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     flex: 1,
-    width: deviceWidth,
-    height: deviceHeight
+    zIndex:1
   },
 
   baseText: {
@@ -38,9 +127,10 @@ let startWidth = 0;
 let startHeight = 0;
 let startY = 0;
 let startX = 0;
+let mainViewHeight,mainViewWidth;
 
 class BlankPage extends Component {
-
+  static flag = 0;
   static propTypes = {
     name: React.PropTypes.string,
     moveCard: React.PropTypes.func.isRequired,
@@ -116,6 +206,7 @@ class BlankPage extends Component {
 
   addCard() {
     this.props.addCard();
+    console.log('this is card',this.props.card);
   }
 
   bringToTop(i) {
@@ -132,20 +223,42 @@ class BlankPage extends Component {
   duplicateImage(i) {
     this.props.duplicateImage(i);
   }
-
+  getRatio() {
+    this._mainView.measure( function (ox, oy,width, height, px, py) {
+    mainViewWidth = width;
+    mainViewHeight = height;
+    console.log("width: " + width);
+    console.log("height: " + height);
+  })
+  return mainViewHeight/mainViewWidth;
+  }
   saveImage() {
+    BlankPage.flag = 1;
+    console.log('blank value is ',BlankPage.flag);
+    this._mainView.measure( function (ox, oy,width, height, px, py) {
+    mainViewWidth = width;
+    mainViewHeight = height;
+    console.log("width: " + width);
+    console.log("height: " + height);
 
-    takeSnapshot(this._viewRef, {
-      format: 'png',
-      quality: 1
-    })
-    .then(
-      uri => alert('Image saved to ' + uri),
-      error => alert('Oops, snapshot failed ' + error)
-    );
+  })
+
+    this.screenShot();
     // this.props.saveImage(i);
   }
 
+screenShot() {
+  takeSnapshot(this._viewRef, {
+    format: 'jpg',
+    quality: 1
+  })
+  .then(
+
+    uri =>console.log(uri),
+    error => alert('Oops, snapshot failed ' + error)
+  );
+  BlankPage.flag = 0;
+}
   removeImage(i) {
     this.props.removeImage(i);
   }
@@ -171,12 +284,14 @@ class BlankPage extends Component {
   // shouldComponentUpdate(nextProps) {
   //     return (nextProps.picture !== this.props.picture);
   // }
-
+componentDidMount() {
+  console.log('this is view',this._viewRef);
+}
   render() {
     const {props: {name}} = this;
     return (
       <Container theme={myTheme} style={{backgroundColor: '#fff'}} >
-        <Header>
+        <Header style={{height:60}}>
           <Button transparent>
               <Icon name="ios-arrow-back" />
           </Button>
@@ -187,12 +302,15 @@ class BlankPage extends Component {
               <Icon name="ios-menu" />
           </Button>
         </Header>
-        <View style={{flex: 1, overflow: 'hidden'}}
-          ref={(child) => {
-            this._viewRef = child;
-          }} >
+
+        <View style={{flex: 1, overflow: 'hidden'}} ref={(child) => {
+          this._mainView = child;
+        }}>
+
+
           <GestureView
-              style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
+
+              style={{width: deviceWidth, height: deviceHeight,zIndex:1, position: 'absolute', backgroundColor: 'transparent'}}
               type="View"
               gestures={[drag, pinch]}
               tapCallback={() => {
@@ -209,7 +327,7 @@ class BlankPage extends Component {
 
                 if (this._child) {
                   const coordinate = this._child.layout;
-                  coordinate.rotateBefore = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
+                  coordinate.rotateAngle = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
                   coordinate.rotateNow = 0;
                   this.moveCard(coordinate, currentIndex);
                 }
@@ -249,6 +367,7 @@ class BlankPage extends Component {
               }}
               onError={()=>{}}
              />
+
            <View pointerEvents="box-none" name="Draggable Container" style={styles.container} >
             {
               this.props.card.map((obj, i) => {
@@ -259,7 +378,7 @@ class BlankPage extends Component {
                   position: 'absolute',
                   left: obj.left,
                   top: obj.top,
-                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateBefore ? obj.rotateBefore : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
+                  transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateAngle ? obj.rotateAngle : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                 };
 
               // console.log(obj, "here");
@@ -291,7 +410,7 @@ class BlankPage extends Component {
                     }}
                     onRelease={(x, y, layout) => {
                       const coordinate = layout;
-                      coordinate.rotateBefore = obj.rotate ? obj.rotate : 0;
+                      coordinate.rotateAngle = obj.rotate ? obj.rotate : 0;
                       coordinate.rotateNow = 0;
                       this.moveCard(coordinate, i);
                     }}
@@ -310,9 +429,9 @@ class BlankPage extends Component {
                     toStyle={(layout) => {
                         const coordinate = layout;
                         coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
-                        coordinate.rotateBefore = obj.rotateBefore;
+                        coordinate.rotateAngle = obj.rotateAngle;
                         coordinate.rotate = coordinate.rotateNow +
-                                            (coordinate.rotateBefore ? coordinate.rotateBefore : 0);
+                                            (coordinate.rotateAngle ? coordinate.rotateAngle : 0);
                         this.moveCard(coordinate, i);
                         return {
                           top: obj.top,
@@ -328,7 +447,22 @@ class BlankPage extends Component {
               })
             }
           </View>
+
+          <View style={{opacity:0}}>
+            <View style={{height:imageHeight, width:imageWidth}} ref={(child) => {
+              this._viewRef = child;
+            }}>
+              <GenerateImage
+                data = {this.props.card}
+                imageHeight = {imageHeight}
+                imageWidh = {imageWidth}
+                heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
+                />
+              </View>
+            </View>
         </View>
+
+
         <Footer style={{backgroundColor: '#565051'}}>
           <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
             <Button transparent onPress={() => this.addCard()}>
