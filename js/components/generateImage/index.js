@@ -2,9 +2,22 @@
 
 import React, {Component} from 'react';
 import {Animated, View,WebView,Image,Dimensions,Text,PixelRatio,Alert} from 'react-native';
+import {takeScreenshot} from './actions/card';
+
 import {connect} from 'react-redux';
 class GenerateImage extends Component {
+  static propTypes = {
+    screenshot: React.PropTypes.any,
+    takeScreenshot: React.PropTypes.func.isRequired
+  }
+  takeScreenshot() {
+    this.props.takeScreenshot();
+  }
+  // componentDidMount() {
+  //   this.takeScreenshot();
+  // }
   render() {
+    console.log('this is render of generate image');
     var images = this.props.data,
         {height, width} = Dimensions.get('window'),
         pixelRatio = PixelRatio.get(),
@@ -17,7 +30,7 @@ class GenerateImage extends Component {
       var horizontalScale = requiredWidth/originalWidth;
       var verticalScale = requiredHeight/originalHeight;
       return (
-        <View style = {{height: this.props.imageHeight, width: this.props.imageWidth}}>
+      <View style = {{height: this.props.imageHeight, width: this.props.imageWidth}}>
           <View style={{width:requiredWidth,height:requiredHeight,alignSelf:'center'}}>
             {
               images.map(function(item,i) {
@@ -44,6 +57,16 @@ class GenerateImage extends Component {
     }
   }
 }
+function mapStateToProps(state) {
+  return {
+    screenshot: state.card.screenshot
+  };
+}
+function bindAction(dispatch) {
+  return {
 
+    takeScreenshot: () => dispatch(takeScreenshot())
+  };
+}
 
-export default GenerateImage;
+export default connect(mapStateToProps)(GenerateImage,bindAction);

@@ -2,11 +2,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import GenerateImage from './../generateImage';
+import GenerateImage from './generateImage';
 import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio} from 'react-native';
 import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData} from './actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData, takeScreenshot} from './actions/card';
 
 import myTheme from '../../themes/base-theme';
 import {takeSnapshot} from 'react-native-view-shot';
@@ -58,9 +58,11 @@ class App extends Component {
     showAll: React.PropTypes.func.isRequired,
     addData: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    takeScreenshot: React.PropTypes.func.isRequired,
     card: React.PropTypes.any,
     show: React.PropTypes.any,
-    data: React.PropTypes.any
+    data: React.PropTypes.any,
+    screenshot: React.PropTypes.any
   }
 
   componentWillMount() {
@@ -140,7 +142,9 @@ class App extends Component {
   duplicateImage(i) {
     this.props.duplicateImage(i);
   }
-
+  takeScreenshot() {
+    this.props.takeScreenshot();
+  }
   saveImage() {
     //
     // this._mainView.measure( function (ox, oy,width, height, px, py) {
@@ -149,14 +153,17 @@ class App extends Component {
     // console.log("width: " + width);
     // console.log("height: " + height);
     //
+    this.takeScreenshot();
+    console.log('toogglleee before',this.props.screenshot);
     takeSnapshot(this._viewRef, {
       format: 'png',
       quality: 1
     })
     .then(
-      uri =>alert("Image saved to " + uri),
+      uri => {this.takeScreenshot();console.log('image saved',uri);},
       error => alert('Oops, snapshot failed ' + error)
     );
+    console.log('after toogglleee',this.props.screenshot);
   }
 
   removeImage(i) {
@@ -172,6 +179,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('toogglleee render',this.props.screenshot);
     return (
       <Container theme={myTheme} style={{backgroundColor: '#fff'}} >
         <View style={{flex: 1, overflow: 'hidden'}}>
@@ -319,14 +327,15 @@ class App extends Component {
             <View style={{height:imageHeight, width:imageWidth}} ref={(child) => {
               this._viewRef = child;
             }}>
-              <GenerateImage
-                data = {this.props.card}
+              {!this.props.screenshot ?
+              <GenerateImage data = {this.props.card}
                 imageHeight = {imageHeight}
                 imageWidh = {imageWidth}
                 heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
-                />
+                />:<View></View>}
             </View>
           </View>
+
         </View>
         <Footer style={{backgroundColor: '#565051'}}>
           <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
@@ -366,6 +375,7 @@ function bindAction(dispatch) {
   return {
     moveCard: (obj, i) => dispatch(moveCard(obj, i)),
     addCard: () => dispatch(addCard()),
+    takeScreenshot: () => dispatch(takeScreenshot()),
     makeActive: i => dispatch(makeActive(i)),
     bringToTop: i => dispatch(bringToTop(i)),
     sendToBack: i => dispatch(sendToBack(i)),
@@ -383,7 +393,8 @@ function mapStateToProps(state) {
     index: state.list.selectedIndex,
     list: state.list.list,
     card: state.card.card,
-    show: state.card.show
+    show: state.card.show,
+    screenshot: state.card.screenshot
   };
 }
 

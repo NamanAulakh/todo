@@ -13,6 +13,7 @@ export const FLIP_IMAGE = 'FLIP_IMAGE';
 export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const DATA = 'DATA';
+export const TOGGLE = 'TOGGLE'
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -81,4 +82,11 @@ export function showAll():Action {
     return {
         type: SHOW_ALL
     };
+}
+
+export function takeScreenshot():Action {
+  console.log('hi i m in takeScreenshot');
+  return {
+    type: TOGGLE
+  };
 }

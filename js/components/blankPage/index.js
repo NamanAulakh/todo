@@ -5,7 +5,6 @@ import {View} from 'react-native';
 import {Container, Header, Title, Button, Icon} from 'native-base';
 import Editor from '../Editor';
 import myTheme from '../../themes/base-theme';
-
 class BlankPage extends Component {
   static propTypes = {
     name: React.PropTypes.string

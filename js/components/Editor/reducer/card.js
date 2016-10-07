@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE} from '../actions/card';
 
 const images = [
   {
@@ -41,29 +41,14 @@ const images = [
     width: 378
   },
   {
-    url: 'http://babylon.geekydev.com/images/185250876.png',
-    height: 400,
-    width: 162
-  },
-  {
     url: 'http://babylon.geekydev.com/images/177082432.png',
     height: 400,
     width: 149
   },
   {
-    url: 'http://babylon.geekydev.com/images/182139204.png',
-    height: 400,
-    width: 349
-  },
-  {
     url: 'http://babylon.geekydev.com/images/183369275.png',
     height: 400,
     width: 124
-  },
-  {
-    url: 'http://babylon.geekydev.com/images/185415448.png',
-    height: 400,
-    width: 266
   },
   {
     url: 'http://babylon.geekydev.com/images/181180070.png',
@@ -88,12 +73,14 @@ const images = [
 ];
 export type State = {
     card: Array,
-    show: boolean
+    show: boolean,
+    screenshot: boolean
 }
 
 const initialState = {
     card: [],
-    show: false
+    show: false,
+    screenshot: false
 };
 
 // var newArr1 = [];
@@ -280,7 +267,6 @@ function removeImage(index, arr) {
 
     return newArr;
 }
-
 export default function (state:State = initialState, action:Action): State {
 
     if (action.type === MOVE_CARD) {
@@ -367,6 +353,13 @@ export default function (state:State = initialState, action:Action): State {
             ...state,
             card: [...showAll(state.card)],
             show: true
+        };
+    }
+    if (action.type === TOGGLE) {
+      console.log('hi i m in takeScreenshot reducer');
+        return {
+            ...state,screenshot: !state.screenshot
+
         };
     }
 
