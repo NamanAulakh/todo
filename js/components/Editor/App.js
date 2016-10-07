@@ -324,7 +324,7 @@ class App extends Component {
           </View>
 
           <View style={{opacity:0}} pointerEvents="none">
-            <View style={{height:imageHeight, width:imageWidth}} ref={(child) => {
+            <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
               this._viewRef = child;
             }}>
               {!this.props.screenshot ?
