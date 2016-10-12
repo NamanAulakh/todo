@@ -14,6 +14,8 @@ import Home from './components/home/';
 import BlankPage from './components/blankPage/';
 import SplashPage from './components/splashscreen/';
 import SideBar from './components/sideBar';
+import MinItems from './components/MijnItems';
+
 // import Editor from './components/Editor';
 import {statusBarColor} from './themes/base-theme';
 
@@ -155,7 +157,7 @@ class AppNavigator extends Component {
             case 'home':
                 return <Home navigator={navigator} />;
             case 'blankPage':
-                return <BlankPage navigator={navigator} />;
+                return <MinItems navigator={navigator} />;
             default :
                 return <Login navigator={navigator}  />;
         }
