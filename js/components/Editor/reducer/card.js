@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE} from '../actions/card';
 
 const images = [
   {
@@ -86,14 +86,19 @@ const images = [
     width: 350
   }
 ];
+
 export type State = {
     card: Array,
-    show: boolean
+    show: boolean,
+    arrowUp: boolean,
+    collective: boolean,
 }
 
 const initialState = {
     card: [],
-    show: false
+    show: false,
+    arrowUp: true,
+    collective: true,
 };
 
 // var newArr1 = [];
@@ -257,6 +262,18 @@ function removeImage(index, arr) {
 }
 
 export default function (state:State = initialState, action:Action): State {
+    console.log('###Inside card store###');
+
+    if (action.type === TOGGLE) {
+        console.log('...case:(TOGGLE)... ');
+
+        console.log('state.arrowUp:(Before toggle) ' , state.arrowUp);
+        state.arrowUp=!state.arrowUp;
+        console.log('state.arrowUp:(After toggle) ' , state.arrowUp);
+        return {
+            ...state
+        };
+    }
 
     if (action.type === MOVE_CARD) {
         return {

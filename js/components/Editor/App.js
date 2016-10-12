@@ -3,14 +3,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {StyleSheet, Dimensions, PanResponder, View, ScrollView, TouchableOpacity, Image} from 'react-native';
+import {Container, Footer, Button, Icon, Text} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData} from './actions/card';
-import {Container, Header, Title, Button, Icon, Text, Footer} from 'native-base';
 
 import light from '../../themes/light';
 // import {takeSnapshot} from 'react-native-view-shot';
+import ScrollMe from '../scrollMe';
+import Test from '../test';
 
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -58,7 +59,7 @@ class App extends Component {
     onChange: React.PropTypes.func.isRequired,
     card: React.PropTypes.any,
     show: React.PropTypes.any,
-    data: React.PropTypes.any
+    data: React.PropTypes.any,
   }
 
   componentWillMount() {
@@ -104,16 +105,27 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('Change Detected in interior store: ' , nextProps);
+    console.log('componentWillReceiveProps:(App.js)...');
+
+    console.log('nextProps : componentWillReceiveProps(App.js:Editor): ' , nextProps);
     this.props.onChange(nextProps);
+
+    console.log('...componentWillReceiveProps:(App.js)');
   }
 
-  componentWillMount()  {
-    // console.log('Populating interior store with data: ' , this.props.data);
-    if (this.props.data.length !== 0) {
-      this.props.addData(this.props.data);
-    }
-  }
+  // componentWillMount()  {
+  //   console.log('componentWillMount:App.js...');
+  //
+  //   // if (this.props.data.length !== 0) {
+  //   //   console.log('Populating interior store with following data from outside: ' , this.props.data.length);
+  //   //   this.props.addData(this.props.data);
+  //   // }
+  //   // else {
+  //   //   console.log('No data from outside');
+  //   // }
+  //   //
+  //   // console.log('...componentWillMount:App.js');
+  // }
 
   moveCard(obj, i) {
     this.props.moveCard(obj, i);
@@ -126,6 +138,7 @@ class App extends Component {
   bringToTop(i) {
     this.props.bringToTop(i);
   }
+
   sendToBack(i) {
     this.props.sendToBack(i);
   }
@@ -155,42 +168,22 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <ParallaxScrollView
-            backgroundColor="rgba(238,238,238,1)"
-            contentBackgroundColor="rgba(238,238,238,1)"
-            parallaxHeaderHeight={550}
-            fadeOutForeground={true}
-            renderFixedHeader={() => (
-              <Header style={{backgroundColor:'white'}}>
-                <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',}}>
-                  <View>
-                    <Button transparent>
-                        <Icon name="ios-arrow-back" style={{color:'black'}}/>
-                    </Button>
-                  </View>
+    console.log('index.js:(App.js)');
+    console.log('this.props: ' , this.props);
+    if(this.props.arrowUp)  {
+      return (
 
-                  <View>
-                    <Button style={{borderRadius:0,paddingHorizontal:20,backgroundColor:'black',}}>POST</Button>
-                  </View>
-
-                  <View>
-                    <Button transparent>
-                        <Icon name="ios-menu" style={{color:'black'}}/>
-                    </Button>
-                  </View>
+        <Container theme={light} style={{backgroundColor: '#fff'}} >
+          <View style={{flex:1,backgroundColor:'rgba(238,238,238,1)'}}>
+            <View style={{flex: 2, paddingHorizontal:10, overflow: 'hidden',}}
+              ref={(child) => {
+                this._viewRef = child;
+              }} >
+                <View style={{flex:1, justifyContent:'center'}}>
+                  <Text>Collage / Dressed like a princess</Text>
                 </View>
-              </Header>
-            )}
-            renderForeground={() => (
-              <View style={{flex: 6, paddingHorizontal:10, overflow: 'hidden'}}
-                ref={(child) => {
-                  this._viewRef = child;
-                }} >
-                  <View style={{flex:1, justifyContent:'center'}}>
-                    <Text>Collage / Dressed like a princess</Text>
-                  </View>
-                  <View style={{flex:9,backgroundColor:'white',marginBottom:25}}>
+                <View style={{flex:9,backgroundColor:'white',marginBottom:20}}>
+                  <View style={{flex:9}}>
                     <GestureView
                         style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
                         type="View"
@@ -331,51 +324,53 @@ class App extends Component {
                       }
                     </View>
                   </View>
-              </View>
-            )}>
-            <View style={{flex:3,backgroundColor:'rgba(238,238,238,1)',}}>
-              <View style={{flex:1,backgroundColor:'white',}}>
-                <View style={{flex:1,backgroundColor:'white',margin:5,flexDirection:'row'}}>
-                  <Button transparent style={{flex:1,alignSelf:'center',}}>
-                    <Icon name='ios-arrow-up'/>
-                  </Button>
-                  <TouchableOpacity transparent style={{flex:4,alignSelf:'center',borderBottomWidth:2,marginRight:10,paddingBottom:2}}>
-                    <Text>Collective</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity transparent style={{flex:4,alignSelf:'center',borderBottomWidth:2,paddingBottom:2}}>
-                    <Text>Mijn items</Text>
-                  </TouchableOpacity>
-                  <Button transparent style={{flex:1,alignSelf:'center'}}>
-                    <Icon name='ios-camera-outline'/>
-                  </Button>
-                </View>
-              </View>
-              <ScrollView style={{flex:3,marginHorizontal:10,marginTop:20,}}>
-                <View style={{flex:1,flexDirection:'row',}}>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',marginRight:15,}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,marginLeft:5}}/>
+                  <View style={{flex:1}}>
+                    <View style={{flex:1,backgroundColor: 'rgba(255,255,255,.8)',}}>
+                      <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems:'center',}}>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
+                            <Icon name="ios-add" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(currentIndex)}>
+                          <Icon name="ios-arrow-up" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.sendToBack(currentIndex)}>
+                          <Icon name="ios-arrow-down" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.flipImage(currentIndex)}>
+                          <Icon name="ios-arrow-back" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.flipImage(currentIndex)}>
+                          <Icon name="ios-arrow-forward" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.duplicateImage(currentIndex)}>
+                          <Icon name="ios-copy" style={{}} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.removeImage(currentIndex)}>
+                          <Icon name="ios-trash" style={{}} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.saveImage()}>
+                          <Icon name="md-image" style={{}} />
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                    <Text>Yo</Text>
-                    <Text>Yo</Text>
-                    <Text>Yo</Text>
-                    <Text>Yo</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,marginLeft:5}}/>
-                    </View>
-                    <Text>Yo</Text>
-                    <Text>Yo</Text>
-                    <Text>Yo</Text>
-                    <Text>Yo</Text>
-                  </TouchableOpacity>
+                  </View>
                 </View>
-              </ScrollView>
             </View>
-          </ParallaxScrollView>
+            <View style={{flex:1,backgroundColor:'rgba(238,238,238,1)',}}>
+              <ScrollMe />
+            </View>
+          </View>
+        </Container>
+      );
+    }
+    else {
+      return(
+        <View style={{flex:1}}>
+          <ScrollMe />
+        </View>
+      );
+    }
 
-        );
   }
 }
 
@@ -390,7 +385,7 @@ function bindAction(dispatch) {
     flipImage: i => dispatch(flipImage(i)),
     duplicateImage: i => dispatch(duplicateImage(i)),
     removeImage: i => dispatch(removeImage(i)),
-    addData: (obj) => dispatch(addData(obj))
+    addData: (obj) => dispatch(addData(obj)),
   };
 }
 
@@ -400,236 +395,11 @@ function mapStateToProps(state) {
     index: state.list.selectedIndex,
     list: state.list.list,
     card: state.card.card,
-    show: state.card.show
+    show: state.card.show,
+    arrowUp:  state.card.arrowUp,
+    collective:  state.card.collective,
   };
 }
 
 
 export default connect(mapStateToProps, bindAction)(App);
-
-
-// <Footer style={{backgroundColor: '#565051'}}>
-//   <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
-//     <Button transparent onPress={() => this.addCard()}>
-//         <Icon name="ios-add" />
-//     </Button>
-//     <Button transparent onPress={() => this.bringToTop(currentIndex)}>
-//       <Icon name="ios-arrow-up" />
-//     </Button>
-//     <Button transparent onPress={() => this.sendToBack(currentIndex)}>
-//       <Icon name="ios-arrow-down" />
-//     </Button>
-//     <Button transparent onPress={() => this.flipImage(currentIndex)}>
-//         <View style={{flex: 1, flexDirection: 'row'}}>
-//           <Icon name="ios-arrow-back" style={{paddingRight: 1}}/>
-//           <Icon name="ios-arrow-forward" style={{paddingLeft: 1}}/>
-//         </View>
-//     </Button>
-//     <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
-//       <Icon name="ios-copy" />
-//     </Button>
-//     <Button transparent onPress={() => this.removeImage(currentIndex)}>
-//       <Icon name="ios-trash" />
-//     </Button>
-//     <Button transparent onPress={() => this.saveImage()}>
-//       <Icon name="md-image" />
-//     </Button>
-// </View>
-// </Footer>
-
-      //
-      // //
-      //
-      // <Container theme={light} style={{backgroundColor: '#fff'}} >
-      //   <View style={{flex:1,backgroundColor:'rgba(238,238,238,1)'}}>
-      //     <View style={{flex: 6, paddingHorizontal:10, overflow: 'hidden'}}
-      //       ref={(child) => {
-      //         this._viewRef = child;
-      //       }} >
-      //         <View style={{flex:1, justifyContent:'center'}}>
-      //           <Text>Collage / Dressed like a princess</Text>
-      //         </View>
-      //         <View style={{flex:9,backgroundColor:'white',marginBottom:25}}>
-      //           <GestureView
-      //               style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
-      //               type="View"
-      //               gestures={[drag, pinch]}
-      //               tapCallback={() => {
-      //                 currentIndex = -1;
-      //                 this._child = null;
-      //                 this.showAll();
-      //               }}
-      //               onRelease={(x, y, layout) => {
-      //                 startWidth = 0;
-      //                 // startRotate = 0;
-      //                 startHeight = 0;
-      //                 startY = 0;
-      //                 startX = 0;
-      //
-      //                 if (this._child) {
-      //                   const coordinate = this._child.layout;
-      //                   coordinate.rotateAngle = this.props.card[currentIndex].rotate ? this.props.card[currentIndex].rotate : 0;
-      //                   coordinate.rotateNow = 0;
-      //                   this.moveCard(coordinate, currentIndex);
-      //                 }
-      //
-      //
-      //               }}
-      //               onMove={() => {
-      //               }}
-      //               gestureCallback={() => {
-      //                 // console.log("here");
-      //               }}
-      //               toStyle={(layout) => {
-      //                   // console.log(_child);
-      //                   let childLayout = this._child ? this._child.layout : null;
-      //                   if (childLayout) {
-      //                     startWidth = startWidth ? startWidth : childLayout.width;
-      //                     startHeight = startHeight ? startHeight : childLayout.height;
-      //                     startY = startY ? startY : childLayout.y;
-      //                     startX = startX ? startX : childLayout.x;
-      //                     // startRotate = startRotate ? startRotate : (this._child.props.rotate ? this._child.props.rotate : 0);
-      //                     let scale = layout.scale ? layout.scale : 1;
-      //                     layout.height = startHeight * scale;// childLayout.height;
-      //                     layout.width = startWidth * scale;// * scale;
-      //
-      //                     // if (scale > 0) {
-      //                     layout.y = layout.y + startY + (layout.height - startHeight);//  scale;// * scale;
-      //                     layout.x = layout.x + startX + (layout.width - startWidth);// * scale;
-      //                     // } else {
-      //                     //   layout.y = layout.y + startY + (layout.height - startHeight) / 2;//  scale;// * scale;
-      //                     //   layout.x = layout.x + startX + (layout.width - startWidth) / 2;// * scale;
-      //                     // }
-      //                     // console.log(startRotate, "startRotate");
-      //                     layout.rotate = layout.rotate ? layout.rotate : 0;
-      //                     // console.log(layout.rotate, "here");
-      //                     this._child.props.toStyle(layout);
-      //                   }
-      //               }}
-      //               onError={()=>{}}
-      //              />
-      //            <View pointerEvents="box-none" name="Draggable Container" style={styles.container} >
-      //             {
-      //               this.props.card.map((obj, i) => {
-      //                 // console.log("obj:", obj);
-      //                 // this.props.onChange(obj);
-      //                 const movable = {
-      //                   width: obj.width,
-      //                   height: obj.height,
-      //                   position: 'absolute',
-      //                   left: obj.left,
-      //                   top: obj.top,
-      //                   transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateAngle ? obj.rotateAngle : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
-      //                 };
-      //
-      //               // console.log(obj, "here");
-      //
-      //               if (this.props.show === true) {
-      //                 movable.opacity = 1;
-      //               } else {
-      //                 if (obj.active === 1) {
-      //                   currentIndex = i;
-      //                   // movable.backgroundColor = 'rgba(76,174,76, 1)';
-      //                   movable.borderRadius = 0;
-      //                   movable.borderWidth = 1;
-      //                   movable.borderColor = '#d6d7da';
-      //                   movable.opacity = 1;
-      //                 } else {
-      //                   // movable.backgroundColor = 'rgba(76,174,76, 0.5)';
-      //                   movable.opacity = 0.5;
-      //                 }
-      //               }
-      //
-      //                 return (
-      //                   <GestureView
-      //                     key={ obj.url + '_' + i }
-      //                     style={movable}
-      //                     pointerEvents="box-none"
-      //                     gestures={[drag, pinch]}
-      //                     tapCallback={() => {
-      //                       this.makeActive(i);
-      //                     }}
-      //                     onRelease={(x, y, layout) => {
-      //                       const coordinate = layout;
-      //                       coordinate.rotateAngle = obj.rotate ? obj.rotate : 0;
-      //                       coordinate.rotateNow = 0;
-      //                       this.moveCard(coordinate, i);
-      //
-      //                     }}
-      //                     onMove={() => {
-      //                       this.makeActive(i);
-      //                     }}
-      //                     type="Image"
-      //                     source={{uri: obj.url}}
-      //                     gestureCallback={() => {}}
-      //                     ref={(child) => {
-      //                         if (obj.active === 1) {
-      //                           this._child = child;
-      //                         }
-      //                       }
-      //                     }
-      //                     toStyle={(layout) => {
-      //                         const coordinate = layout;
-      //                         coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
-      //                         coordinate.rotateAngle = obj.rotateAngle;
-      //                         coordinate.rotate = coordinate.rotateNow +
-      //                                             (coordinate.rotateAngle ? coordinate.rotateAngle : 0);
-      //                         this.moveCard(coordinate, i);
-      //                         return {
-      //                           top: obj.top,
-      //                           left: obj.left,
-      //                           width: obj.width,
-      //                           height: obj.height,
-      //                           transform: [{rotate: `${obj.rotate}deg`},{scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
-      //                         };
-      //                     }}
-      //                     onError={() => {}}
-      //                   />
-      //                 );
-      //               })
-      //             }
-      //           </View>
-      //         </View>
-      //     </View>
-      //     <View style={{flex:3,backgroundColor:'rgba(238,238,238,1)',}}>
-      //       <View style={{flex:1,backgroundColor:'white',}}>
-      //         <View style={{flex:1,backgroundColor:'white',margin:5,flexDirection:'row'}}>
-      //           <Button transparent style={{flex:1,alignSelf:'center',}}>
-      //             <Icon name='ios-arrow-up'/>
-      //           </Button>
-      //           <TouchableOpacity transparent style={{flex:4,alignSelf:'center',borderBottomWidth:2,marginRight:10,paddingBottom:2}}>
-      //             <Text>Collective</Text>
-      //           </TouchableOpacity>
-      //           <TouchableOpacity transparent style={{flex:4,alignSelf:'center',borderBottomWidth:2,paddingBottom:2}}>
-      //             <Text>Mijn items</Text>
-      //           </TouchableOpacity>
-      //           <Button transparent style={{flex:1,alignSelf:'center'}}>
-      //             <Icon name='ios-camera-outline'/>
-      //           </Button>
-      //         </View>
-      //       </View>
-      //       <ScrollView style={{flex:3,marginHorizontal:10,marginTop:20,}}>
-      //         <View style={{flex:1,flexDirection:'row',}}>
-      //           <TouchableOpacity style={{flex:1,backgroundColor:'white',marginRight:15,}}>
-      //             <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-      //             <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,marginLeft:5}}/>
-      //             </View>
-      //             <Text>Yo</Text>
-      //             <Text>Yo</Text>
-      //             <Text>Yo</Text>
-      //             <Text>Yo</Text>
-      //           </TouchableOpacity>
-      //           <TouchableOpacity style={{flex:1,backgroundColor:'white',}}>
-      //             <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-      //             <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,marginLeft:5}}/>
-      //             </View>
-      //             <Text>Yo</Text>
-      //             <Text>Yo</Text>
-      //             <Text>Yo</Text>
-      //             <Text>Yo</Text>
-      //           </TouchableOpacity>
-      //         </View>
-      //       </ScrollView>
-      //     </View>
-      //   </View>
-      // </Container>

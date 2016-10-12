@@ -6,19 +6,35 @@ import {Container, Header, Title, Button, Icon} from 'native-base';
 import Editor from '../Editor';
 
 import light from '../../themes/light';
+import {toggle} from '../../actions/display';
+
+// import DoIt from '../doIt';
+import Product from '../product';
+import ScrollMe from '../scrollMe';
 
 class BlankPage extends Component {
 
   static propTypes = {
-    name: React.PropTypes.string
+    toggle: React.PropTypes.func.isRequired
   }
 
   onChange(payload) {
-    // console.log('Change reflected in exterior store: ' , payload);
+    console.log('onChange:BlankPage...');
+
+    if(payload) {
+      console.log('Data(payload) from interior store: ' , payload);
+      // this.props.toggle();
+
+    }
+
+    console.log('...onChange:BlankPage');
+
   }
 
   render() {
-    const {props: {name}} = this;
+    console.log('index.js:BlankPage');
+    // const {props: {name}} = this;
+    //data to be sent to editor component.
     var data = [
         // {
         //   active: 0,
@@ -48,11 +64,32 @@ class BlankPage extends Component {
         // }
       ];
     return (
-
       <Container theme={light}>
 
 
           <View style={{flex: 1}}>
+            <Header style={{backgroundColor:'white'}}>
+              <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',}}>
+                <View>
+                  <Button transparent>
+                      <Icon name="ios-arrow-back" style={{color:'black'}}/>
+                  </Button>
+                </View>
+
+                <View>
+                  <Button style={{borderRadius:0,paddingHorizontal:20,backgroundColor:'black',}}>POST</Button>
+                </View>
+
+                <View>
+                  <Button transparent>
+                      <Icon name="ios-menu" style={{color:'black'}}/>
+                  </Button>
+                </View>
+              </View>
+            </Header>
+
+
+
             <Editor onChange={
                 (payload) => {
                   this.onChange(payload);
@@ -66,4 +103,18 @@ class BlankPage extends Component {
   }
 }
 
-export default connect()(BlankPage);
+function bindAction(dispatch) {
+    return {
+        toggle: ()=>dispatch(toggle())
+    };
+}
+
+function mapStateToProps(state) {
+    return {
+        display: state.display,
+        renderUp: state.renderUp
+    };
+}
+
+
+export default connect(mapStateToProps,bindAction)(BlankPage);

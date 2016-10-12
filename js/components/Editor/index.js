@@ -16,6 +16,7 @@ let store = configureStore();
 
 class Editor extends Component {
   render() {
+    console.log('index.js:Editor');
     return (
       <Provider store = { store }   >
         <App {...this.props} />

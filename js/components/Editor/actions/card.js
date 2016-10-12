@@ -13,6 +13,7 @@ export const FLIP_IMAGE = 'FLIP_IMAGE';
 export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const DATA = 'DATA';
+export const TOGGLE = 'TOGGLE';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -36,6 +37,13 @@ export function addCard():Action {
         type: ADD_CARD
     };
 }
+
+export function toggle():Action {
+    return {
+        type: TOGGLE
+    };
+}
+
 export function makeActive(index:Number):Action {
     return {
         type: MAKE_ACTIVE,
