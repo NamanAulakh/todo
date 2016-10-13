@@ -8,10 +8,10 @@ import {TouchableOpacity, View, ScrollView, Image,  Dimensions} from 'react-nati
 
 import {toggle} from '../Editor/actions/card';
 
-import {Container, Header, Title, Content, Text, Button, Icon} from 'native-base';
+import {Text, Button, Icon} from 'native-base';
 
-import myTheme from '../../themes/base-theme';
-import styles from './style';
+// import myTheme from '../../themes/base-theme';
+// import styles from './style';
 
 import Icone from '../../../node_modules/react-native-vector-icons/FontAwesome.js';
 
@@ -21,13 +21,16 @@ const deviceHeight = Dimensions.get('window').height;
 class ScrollMe extends Component {
 
     static propTypes = {
-        toggle: React.PropTypes.func.isRequired
+        toggle: React.PropTypes.func.isRequired,
+        arrowUp: React.PropTypes.any,
+        collective: React.PropTypes.any
     }
-    navigateTo(route, index) {
-        this.props.closeDrawer();
-        this.props.setIndex(index);
-        this.props.replaceOrPushRoute(route);
-    }
+
+    // navigateTo(route, index) {
+    //     this.props.closeDrawer();
+    //     this.props.setIndex(index);
+    //     this.props.replaceOrPushRoute(route);
+    // }
 
     toggle()  {
       console.log('toggle:(scrollMe)...');
@@ -64,228 +67,236 @@ class ScrollMe extends Component {
       console.log('index.js:(scrollMe.js)');
       console.log('this.props: ' , this.props);
         return (
-            <View style={{flex:1,backgroundColor:'rgba(238,238,238,1)',}}>
-              <View>
-                <View style={{flex:1,backgroundColor:'white',marginVertical:5,flexDirection:'row'}}>
-                  <Button transparent style={{flex:1,alignSelf:'center',}} onPress={() => this.toggle()}>
+            <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+              <TouchableOpacity>
+                <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginVertical: 5,flexDirection: 'row'}}>
+                  <Button transparent style={{flex: 1,alignSelf: 'center'}} onPress={() => this.toggle()}>
                     <Icon name={this.props.arrowUp ? 'ios-arrow-up' : 'ios-arrow-down'}/>
                   </Button>
-                  <TouchableOpacity transparent style={{flex:4,alignSelf:'center',borderBottomWidth: this.props.collective ? 2 : 1 ,marginRight:10,borderColor:this.props.collective ? 'black' : 'rgba(135,135,135,1)' ,paddingBottom:2}}>
+                  <TouchableOpacity transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.collective ? 2 : 1 ,marginRight: 10,borderColor: this.props.collective ? 'black' : 'rgba(135,135,135,1)' ,paddingBottom: 2}}>
                     <Text style={{color: this.props.collective ? 'black' : 'rgba(135,135,135,1)'}}>Collective</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity transparent style={{flex:4,alignSelf:'center',borderBottomWidth: this.props.collective ? .5 : 2 ,borderColor:this.props.collective ? 'rgba(135,135,135,1)' : 'black' ,paddingBottom:2}}>
+                  <TouchableOpacity transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.collective ? 0.5 : 2 ,borderColor: this.props.collective ? 'rgba(135,135,135,1)' : 'black' ,paddingBottom: 2}}>
                     <Text style={{color: this.props.collective ? 'rgba(135,135,135,1)' : 'black'}}>Mijn items</Text>
                   </TouchableOpacity>
-                  <Button transparent style={{flex:1,alignSelf:'center'}}>
-                    <Icon name='ios-camera-outline'/>
+                  <Button transparent style={{flex: 1,alignSelf: 'center'}}>
+                    <Icon name= "ios-camera-outline"/>
                   </Button>
-                </View>
-              </View>
-              <ScrollView style={{flex:9,marginHorizontal:10,marginTop:15,}}>
-                <View style={{flex:1,flexDirection:'row',}}>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',marginRight:15,}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,height:deviceHeight/4,marginLeft:5}}/>
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <ScrollView style={{flex: 9,marginHorizontal: 10,marginTop: 15}}>
+                <View style={{flex: 1,flexDirection: 'row'}}>
+                  <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginRight: 15}}>
+                    <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
+                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
-                    <View style={{flex:3,padding:4,borderBottomWidth:1,borderColor:'rgba(235,235,235,1)'}}>
-                      <Text style={{fontSize:12}}>Product title</Text>
-                      <View style={{flexDirection:'row',}}>
-                        <Text style={{fontSize:12,color:'rgba(25,25,25,1)'}}>¢ 229,- </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}> / </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}>vC 3106 </Text>
-                        <Text style={{fontSize:12,color:'rgba(0,182,212,1)'}}>vC 1894</Text>
+                    <View style={{flex: 3,padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
+                      <Text style={{fontSize: 12}}>Product title</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontSize: 12,color: 'rgba(25,25,25,1)'}}>¢ 229,- </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}> / </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}>vC 3106 </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(0,182,212,1)'}}>vC 1894</Text>
                       </View>
                     </View>
-                    <View style={{flex:2,}}>
-                      <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',padding:4,}}>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-heart-outline'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                    <View style={{flex: 2}}>
+                      <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between',padding: 4}}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-heart-outline"
+                            style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:2,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'rgba(135,135,135,1)'}}>124</Text>
-                          </View>
-                        </View>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-attach'style={{color:'rgba(135,135,135,1)',fontSize:20}}/>
-                          </View>
-                          <View style={{paddingLeft:20,justifyContent:'center',alignItems:'center'}}>
-                            <Icone name='upload'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                          <View style={{paddingLeft: 2,justifyContent: 'center',alignItems: 'center'}}>
+                            <Text style={{color: 'rgba(135,135,135,1)'}}>124</Text>
                           </View>
                         </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,height:deviceHeight/4,marginLeft:5}}/>
-                    </View>
-                    <View style={{flex:3,paddingHorizontal:5,borderBottomWidth:1,borderColor:'rgba(235,235,235,1)'}}>
-                      <Text style={{fontSize:12}}>Product title</Text>
-                      <View style={{flexDirection:'row',}}>
-                        <Text style={{fontSize:12,color:'rgba(25,25,25,1)'}}>¢ 229,- </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}> / </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}>vC 3106 </Text>
-                        <Text style={{fontSize:12,color:'rgba(0,182,212,1)'}}>vC 1894</Text>
-                      </View>
-                    </View>
-                    <View style={{flex:2,}}>
-                      <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',paddingHorizontal:5,}}>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-heart-outline'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-attach"style={{color: 'rgba(135,135,135,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:2,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'rgba(135,135,135,1)'}}>124</Text>
-                          </View>
-                        </View>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-attach'style={{color:'rgba(135,135,135,1)',fontSize:20}}/>
-                          </View>
-                          <View style={{paddingLeft:20,justifyContent:'center',alignItems:'center'}}>
-                            <Icone name='upload'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                          <View style={{paddingLeft: 20,justifyContent: 'center',alignItems: 'center'}}>
+                            <Icone name="upload"
+                            style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
                         </View>
                       </View>
                     </View>
                   </TouchableOpacity>
-                </View>
-                <View style={{flex:1,flexDirection:'row',paddingTop:15}}>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',marginRight:15,}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,height:deviceHeight/4,marginLeft:5}}/>
+                  <TouchableOpacity style={{flex: 1,backgroundColor: 'white'}}>
+                    <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
+                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
-                    <View style={{flex:3,padding:4,borderBottomWidth:1,borderColor:'rgba(235,235,235,1)'}}>
-                      <Text style={{fontSize:12}}>Product title</Text>
-                      <View style={{flexDirection:'row',}}>
-                        <Text style={{fontSize:12,color:'rgba(25,25,25,1)'}}>¢ 229,- </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}> / </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}>vC 3106 </Text>
-                        <Text style={{fontSize:12,color:'rgba(0,182,212,1)'}}>vC 1894</Text>
+                    <View style={{flex: 3,paddingHorizontal: 5,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
+                      <Text style={{fontSize: 12}}>Product title</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontSize: 12,color: 'rgba(25,25,25,1)'}}>¢ 229,- </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}> / </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}>vC 3106 </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(0,182,212,1)'}}>vC 1894</Text>
                       </View>
                     </View>
-                    <View style={{flex:2,}}>
-                      <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',padding:4,}}>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-heart-outline'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                    <View style={{flex: 2}}>
+                      <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between',paddingHorizontal: 5}}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-heart-outline"
+                            style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:2,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'rgba(135,135,135,1)'}}>124</Text>
-                          </View>
-                        </View>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-attach'style={{color:'rgba(135,135,135,1)',fontSize:20}}/>
-                          </View>
-                          <View style={{paddingLeft:20,justifyContent:'center',alignItems:'center'}}>
-                            <Icone name='upload'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                          <View style={{paddingLeft: 2,justifyContent: 'center',alignItems: 'center'}}>
+                            <Text style={{color: 'rgba(135,135,135,1)'}}>124</Text>
                           </View>
                         </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,height:deviceHeight/4,marginLeft:5}}/>
-                    </View>
-                    <View style={{flex:3,paddingHorizontal:5,borderBottomWidth:1,borderColor:'rgba(235,235,235,1)'}}>
-                      <Text style={{fontSize:12}}>Product title</Text>
-                      <View style={{flexDirection:'row',}}>
-                        <Text style={{fontSize:12,color:'rgba(25,25,25,1)'}}>¢ 229,- </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}> / </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}>vC 3106 </Text>
-                        <Text style={{fontSize:12,color:'rgba(0,182,212,1)'}}>vC 1894</Text>
-                      </View>
-                    </View>
-                    <View style={{flex:2,}}>
-                      <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',paddingHorizontal:5,}}>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-heart-outline'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-attach"
+                            style={{color: 'rgba(135,135,135,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:2,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'rgba(135,135,135,1)'}}>124</Text>
-                          </View>
-                        </View>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-attach'style={{color:'rgba(135,135,135,1)',fontSize:20}}/>
-                          </View>
-                          <View style={{paddingLeft:20,justifyContent:'center',alignItems:'center'}}>
-                            <Icone name='upload'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                          <View style={{paddingLeft: 20,justifyContent: 'center',alignItems: 'center'}}>
+                            <Icone name="upload"
+                            style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
                         </View>
                       </View>
                     </View>
                   </TouchableOpacity>
                 </View>
-                <View style={{flex:1,flexDirection:'row',paddingTop:15}}>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',marginRight:15,}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,height:deviceHeight/4,marginLeft:5}}/>
+                <View style={{flex: 1,flexDirection: 'row',paddingTop: 15}}>
+                  <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginRight: 15}}>
+                    <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
+                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
-                    <View style={{flex:3,padding:4,borderBottomWidth:1,borderColor:'rgba(235,235,235,1)'}}>
-                      <Text style={{fontSize:12}}>Product title</Text>
-                      <View style={{flexDirection:'row',}}>
-                        <Text style={{fontSize:12,color:'rgba(25,25,25,1)'}}>¢ 229,- </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}> / </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}>vC 3106 </Text>
-                        <Text style={{fontSize:12,color:'rgba(0,182,212,1)'}}>vC 1894</Text>
+                    <View style={{flex: 3,padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
+                      <Text style={{fontSize: 12}}>Product title</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontSize: 12,color: 'rgba(25,25,25,1)'}}>¢ 229,- </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}> / </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}>vC 3106 </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(0,182,212,1)'}}>vC 1894</Text>
                       </View>
                     </View>
-                    <View style={{flex:2,}}>
-                      <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',padding:4,}}>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-heart-outline'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                    <View style={{flex: 2}}>
+                      <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between',padding: 4}}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-heart-outline"
+                            style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:2,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'rgba(135,135,135,1)'}}>124</Text>
+                          <View style={{paddingLeft: 2,justifyContent: 'center',alignItems: 'center'}}>
+                            <Text style={{color: 'rgba(135,135,135,1)'}}>124</Text>
                           </View>
                         </View>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-attach'style={{color:'rgba(135,135,135,1)',fontSize:20}}/>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-attach"
+                            style={{color: 'rgba(135,135,135,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:20,justifyContent:'center',alignItems:'center'}}>
-                            <Icone name='upload'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                          <View style={{paddingLeft: 20,justifyContent: 'center',alignItems: 'center'}}>
+                            <Icone name="upload"
+                            style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
                         </View>
                       </View>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{flex:1,backgroundColor:'white',}}>
-                    <View style={{borderBottomWidth:1,borderColor:'rgba(235,235,235,1)',paddingVertical:5,}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex:1,width:deviceWidth/2.35,height:deviceHeight/4,marginLeft:5}}/>
+                  <TouchableOpacity style={{flex: 1,backgroundColor: 'white'}}>
+                    <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
+                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
-                    <View style={{flex:3,paddingHorizontal:5,borderBottomWidth:1,borderColor:'rgba(235,235,235,1)'}}>
-                      <Text style={{fontSize:12}}>Product title</Text>
-                      <View style={{flexDirection:'row',}}>
-                        <Text style={{fontSize:12,color:'rgba(25,25,25,1)'}}>¢ 229,- </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}> / </Text>
-                        <Text style={{fontSize:12,color:'rgba(144,144,144,1)'}}>vC 3106 </Text>
-                        <Text style={{fontSize:12,color:'rgba(0,182,212,1)'}}>vC 1894</Text>
+                    <View style={{flex: 3,paddingHorizontal: 5,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
+                      <Text style={{fontSize: 12}}>Product title</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontSize: 12,color: 'rgba(25,25,25,1)'}}>¢ 229,- </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}> / </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}>vC 3106 </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(0,182,212,1)'}}>vC 1894</Text>
                       </View>
                     </View>
-                    <View style={{flex:2,}}>
-                      <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',paddingHorizontal:5,}}>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-heart-outline'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                    <View style={{flex: 2}}>
+                      <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between',paddingHorizontal: 5}}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-heart-outline"style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:2,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'rgba(135,135,135,1)'}}>124</Text>
+                          <View style={{paddingLeft: 2,justifyContent: 'center',alignItems: 'center'}}>
+                            <Text style={{color: 'rgba(135,135,135,1)'}}>124</Text>
                           </View>
                         </View>
-                        <View style={{flexDirection:'row',}}>
-                          <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Icon name='ios-attach'style={{color:'rgba(135,135,135,1)',fontSize:20}}/>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-attach"style={{color: 'rgba(135,135,135,1)',fontSize: 20}}/>
                           </View>
-                          <View style={{paddingLeft:20,justifyContent:'center',alignItems:'center'}}>
-                            <Icone name='upload'style={{color:'rgba(228,54,104,1)',fontSize:20}}/>
+                          <View style={{paddingLeft: 20,justifyContent: 'center',alignItems: 'center'}}>
+                            <Icone name="upload"style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View style={{flex: 1,flexDirection: 'row',paddingTop: 15}}>
+                  <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginRight: 15}}>
+                    <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
+                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    </View>
+                    <View style={{flex: 3,padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
+                      <Text style={{fontSize: 12}}>Product title</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontSize: 12,color: 'rgba(25,25,25,1)'}}>¢ 229,- </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}> / </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}>vC 3106 </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(0,182,212,1)'}}>vC 1894</Text>
+                      </View>
+                    </View>
+                    <View style={{flex: 2}}>
+                      <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between',padding: 4}}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-heart-outline"style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
+                          </View>
+                          <View style={{paddingLeft: 2,justifyContent: 'center',alignItems: 'center'}}>
+                            <Text style={{color: 'rgba(135,135,135,1)'}}>124</Text>
+                          </View>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-attach"style={{color: 'rgba(135,135,135,1)',fontSize: 20}}/>
+                          </View>
+                          <View style={{paddingLeft: 20,justifyContent: 'center',alignItems: 'center'}}>
+                            <Icone name="upload"style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{flex: 1,backgroundColor: 'white'}}>
+                    <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
+                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    </View>
+                    <View style={{flex: 3,paddingHorizontal: 5,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
+                      <Text style={{fontSize: 12}}>Product title</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontSize: 12,color: 'rgba(25,25,25,1)'}}>¢ 229,- </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}> / </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(144,144,144,1)'}}>vC 3106 </Text>
+                        <Text style={{fontSize: 12,color: 'rgba(0,182,212,1)'}}>vC 1894</Text>
+                      </View>
+                    </View>
+                    <View style={{flex: 2}}>
+                      <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between',paddingHorizontal: 5}}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-heart-outline"style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
+                          </View>
+                          <View style={{paddingLeft: 2,justifyContent: 'center',alignItems: 'center'}}>
+                            <Text style={{color: 'rgba(135,135,135,1)'}}>124</Text>
+                          </View>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                            <Icon name="ios-attach"style={{color: 'rgba(135,135,135,1)',fontSize: 20}}/>
+                          </View>
+                          <View style={{paddingLeft: 20,justifyContent: 'center',alignItems: 'center'}}>
+                            <Icone name="upload"style={{color: 'rgba(228,54,104,1)',fontSize: 20}}/>
                           </View>
                         </View>
                       </View>
@@ -309,7 +320,7 @@ function mapStateToProps(state) {
     return {
         card: state.card.card,
         arrowUp: state.card.arrowUp,
-        collective:  state.card.collective,
+        collective: state.card.collective
     };
 }
 

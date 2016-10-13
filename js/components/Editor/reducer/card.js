@@ -88,46 +88,46 @@ const images = [
 ];
 
 export type State = {
-    card: Array,
-    show: boolean,
-    arrowUp: boolean,
-    collective: boolean,
+  card: Array,
+  arrowUp: boolean,
+  collective: boolean,
+  showBar: boolean,
+  allMadeActive: boolean,
 }
 
 const initialState = {
     card: [],
-    show: false,
     arrowUp: true,
     collective: true,
+    showBar: true,//make it false later
+    allMadeActive: false
 };
-
-// var newArr1 = [];
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function move(index, arr, payload) {
-    var newArr = [];
-    arr.map(function(elem,i)  {
-        var obj = elem;
-        if (index === i) {
-            obj.top = payload.y;
-            obj.left = payload.x;
-            obj.height = payload.height;
-            obj.width = payload.width;
-            obj.rotate = payload.rotate;
-            obj.rotateNow = payload.rotateNow;
-            obj.rotateAngle = payload.rotateAngle;
-            obj.scaleX = elem.scaleX;
-            obj.scaleY = elem.scaleY;
-            obj.active = elem.active;
-            obj.url = elem.url;
-        }
-        newArr.push(obj);
-    });
+  var newArr = [];
+  arr.map(function(elem,i)  {
+    var obj = elem;
+    if (index === i) {
+      obj.top = payload.y;
+      obj.left = payload.x;
+      obj.height = payload.height;
+      obj.width = payload.width;
+      obj.rotate = payload.rotate;
+      obj.rotateNow = payload.rotateNow;
+      obj.rotateAngle = payload.rotateAngle;
+      obj.scaleX = elem.scaleX;
+      obj.scaleY = elem.scaleY;
+      obj.active = elem.active;
+      obj.url = elem.url;
+    }
+    newArr.push(obj);
+  });
 
-    return newArr;
+  return newArr;
 }
 
 function active(index, arr) {
@@ -144,6 +144,7 @@ function active(index, arr) {
 
     return newArr;
 }
+
 function bringToTop(index, arr) {
     var newArr = [];
     var lastItem = null;
@@ -163,6 +164,7 @@ function bringToTop(index, arr) {
 
     return newArr;
 }
+
 function sendToBack(index, arr) {
     var newArr = [];
     var lastItem = null;
@@ -248,7 +250,6 @@ function duplicateImage(index, arr) {
     return newArr;
 }
 
-
 function removeImage(index, arr) {
     var newArr = [];
     arr.map(function(elem, i)  {
@@ -262,120 +263,133 @@ function removeImage(index, arr) {
 }
 
 export default function (state:State = initialState, action:Action): State {
-    console.log('###Inside card store###');
+  // console.log('###Inside card store###');
 
-    if (action.type === TOGGLE) {
-        console.log('...case:(TOGGLE)... ');
+  if (action.type === ADD_CARD) {
+    state.card.map((element,index) => {
+      element.active = 0;
+    });
 
-        console.log('state.arrowUp:(Before toggle) ' , state.arrowUp);
-        state.arrowUp=!state.arrowUp;
-        console.log('state.arrowUp:(After toggle) ' , state.arrowUp);
-        return {
-            ...state
-        };
-    }
-
-    if (action.type === MOVE_CARD) {
-        return {
-            ...state, card: [...move(action.index, state.card, action.payload)],  show: false
-        };
-    }
-
-    if (action.type === DATA) {
-
-        // let image = images[getRandomInt(0, images.length - 1)];
-        action.payload.map(
-          (element,index) => {
-            state.card = [...state.card, element];
+    let image = images[getRandomInt(0, images.length - 1)];
+    return {
+      ...state,
+      card:
+        [
+          ...state.card,
+          {
+            top: 100,
+            left: 10,
+            height: image.height / 2,//getRandomInt(100, 200),
+            width: image.width / 2,//getRandomInt(100, 200),
+            rotate: 0,
+            active: 1,
+            rotateAngle: 0,
+            rotateNow: 0,
+            scaleX: 1,
+            scaleY: 1,
+            url: image.url//'../../../images/logo.png'
           }
-        );
-         return {
-             ...state,
-             show: false
-         };
+        ],
+      show: false,
+      showBar: true
+    };
+  }
+
+  if (action.type === SHOW_ALL) {
+    return {
+      ...state,
+      card: [...showAll(state.card)],
+      show: true,
+      showBar: false,
+      allMadeActive: true
+    };
+  }
+
+  if (action.type === MAKE_ACTIVE) {
+    return {
+      ...state,
+      card: [...active(action.index, state.card)],
+      show: false,
+      showBar: true,
+      allMadeActive: false
+    };
+  }
+
+  if (action.type === MOVE_CARD) {
+    return {
+      ...state,
+      card: [...move(action.index, state.card, action.payload)],
+      show: true,
+      showBar: state.allMadeActive ? false : true
+    };
+  }
+
+  if (action.type === TOGGLE) {
+      console.log('...case:(TOGGLE)... ');
+
+      console.log('state.arrowUp:(Before toggle) ' , state.arrowUp);
+      state.arrowUp = !state.arrowUp;
+      console.log('state.arrowUp:(After toggle) ' , state.arrowUp);
+      return {
+          ...state
+      };
+  }
+
+  if (action.type === DATA) {
+
+      // let image = images[getRandomInt(0, images.length - 1)];
+      action.payload.map(
+        (element,index) => {
+          state.card = [...state.card, element];
+        }
+      );
+       return {
+           ...state,
+           show: false
+       };
 
 
-    }
+  }
 
-    if (action.type === ADD_CARD) {
+  if (action.type === BRING_TO_TOP) {
+      return {
+          ...state,
+          card: [...bringToTop(action.index, state.card)],
+          show: state.show
+      };
+  }
 
-        let image = images[getRandomInt(0, images.length - 1)];
-         return {
-             ...state,
-             card: [...state.card, {
-                 top: 100,
-                 left: 10,
-                 height: image.height / 2,//getRandomInt(100, 200),
-                 width: image.width / 2,//getRandomInt(100, 200),
-                 rotate: 0,
-                 active: 0,
-                 rotateAngle: 0,
-                 rotateNow: 0,
-                 scaleX: 1,
-                 scaleY: 1,
-                 url: image.url//'../../../images/logo.png'
-             }],
-             show: false
-         };
+  if (action.type === SEND_TO_BACK) {
+      return {
+          ...state,
+          card: [...sendToBack(action.index, state.card)],
+          show: state.show
+      };
+  }
 
+  if (action.type === FLIP_IMAGE) {
+      return {
+          ...state,
+          card: [...flipImage(action.index, state.card)],
+          show: state.show
+      };
+  }
 
-    }
+  if (action.type === DUPLICATE_IMAGE) {
+      return {
+          ...state,
+          card: [...duplicateImage(action.index, state.card)],
+          show: state.show
+      };
+  }
 
-    if (action.type === MAKE_ACTIVE) {
-        return {
-            ...state,
-            card: [...active(action.index, state.card)],
-            show: false
-        };
-    }
+  if (action.type === REMOVE_IMAGE) {
+      return {
+          ...state,
+          card: [...removeImage(action.index, state.card)],
+          show: state.show
+      };
+  }
 
-    if (action.type === BRING_TO_TOP) {
-        return {
-            ...state,
-            card: [...bringToTop(action.index, state.card)],
-            show: state.show
-        };
-    }
-
-    if (action.type === SEND_TO_BACK) {
-        return {
-            ...state,
-            card: [...sendToBack(action.index, state.card)],
-            show: state.show
-        };
-    }
-
-    if (action.type === FLIP_IMAGE) {
-        return {
-            ...state,
-            card: [...flipImage(action.index, state.card)],
-            show: state.show
-        };
-    }
-
-    if (action.type === DUPLICATE_IMAGE) {
-        return {
-            ...state,
-            card: [...duplicateImage(action.index, state.card)],
-            show: state.show
-        };
-    }
-    if (action.type === REMOVE_IMAGE) {
-        return {
-            ...state,
-            card: [...removeImage(action.index, state.card)],
-            show: state.show
-        };
-    }
-
-    if (action.type === SHOW_ALL) {
-        return {
-            ...state,
-            card: [...showAll(state.card)],
-            show: true
-        };
-    }
-
-
-    return state;
+  return state;
 }

@@ -15,7 +15,7 @@ const initialState = {
 };
 
 export default function (state:State = initialState, action:Action): State {
-  console.log('...Inside display store...');
+  // console.log('...Inside display store...');
   if (action.type === TOGGLE) {
     console.log('inside reducer');
       // console.log('inside reducer:flag state: ' , state.renderUp);

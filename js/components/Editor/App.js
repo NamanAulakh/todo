@@ -2,15 +2,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {StyleSheet, Dimensions, PanResponder, View, ScrollView, TouchableOpacity, Image} from 'react-native';
-import {Container, Footer, Button, Icon, Text} from 'native-base';
+import {StyleSheet, Dimensions, PanResponder, View, TouchableOpacity} from 'react-native';
+import {Container, Icon, Text} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData} from './actions/card';
 
 import light from '../../themes/light';
 // import {takeSnapshot} from 'react-native-view-shot';
 import ScrollMe from '../scrollMe';
-import Test from '../test';
+// import Test from '../test';
+
+// import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 
 const deviceWidth = Dimensions.get('window').width;
@@ -58,8 +60,11 @@ class App extends Component {
     addData: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
     card: React.PropTypes.any,
-    show: React.PropTypes.any,
+    // show: React.PropTypes.any,
     data: React.PropTypes.any,
+    showBar: React.PropTypes.any,
+    allMadeActive: React.PropTypes.any,
+    arrowUp: React.PropTypes.any
   }
 
   componentWillMount() {
@@ -170,25 +175,26 @@ class App extends Component {
   render() {
     console.log('index.js:(App.js)');
     console.log('this.props: ' , this.props);
-    if(this.props.arrowUp)  {
+    if (this.props.arrowUp)  {
       return (
 
         <Container theme={light} style={{backgroundColor: '#fff'}} >
-          <View style={{flex:1,backgroundColor:'rgba(238,238,238,1)'}}>
-            <View style={{flex: 2, paddingHorizontal:10, overflow: 'hidden',}}
+          <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+            <View style={{flex: 2, paddingHorizontal: 10, overflow: 'hidden'}}
               ref={(child) => {
                 this._viewRef = child;
               }} >
-                <View style={{flex:1, justifyContent:'center'}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Collage / Dressed like a princess</Text>
                 </View>
-                <View style={{flex:9,backgroundColor:'white',marginBottom:20}}>
-                  <View style={{flex:9}}>
+                <View style={{flex: 9, backgroundColor: 'white', marginBottom: 20, overflow: 'hidden'}}>
+                  <View style={{flex: 9}}>
                     <GestureView
                         style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
                         type="View"
                         gestures={[drag, pinch]}
                         tapCallback={() => {
+                          console.log('yo');
                           currentIndex = -1;
                           this._child = null;
                           this.showAll();
@@ -256,9 +262,7 @@ class App extends Component {
                             transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateAngle ? obj.rotateAngle : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
                           };
 
-                        // console.log(obj, "here");
-
-                        if (this.props.show === true) {
+                        if (this.props.allMadeActive) {
                           movable.opacity = 1;
                         } else {
                           if (obj.active === 1) {
@@ -291,7 +295,9 @@ class App extends Component {
 
                               }}
                               onMove={() => {
-                                this.makeActive(i);
+                                if (!this.props.allMadeActive)  {
+                                  this.makeActive(i);
+                                }
                               }}
                               type="Image"
                               source={{uri: obj.url}}
@@ -324,51 +330,71 @@ class App extends Component {
                       }
                     </View>
                   </View>
-                  <View style={{flex:1}}>
-                    <View style={{flex:1,backgroundColor: 'rgba(255,255,255,.8)',}}>
-                      <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems:'center',}}>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
+                  <View style={{flex: 1}}>
+                  {
+                    this.props.showBar ?
+                    <View style={{flex: 1,backgroundColor: 'rgba(255,255,255,.8)'}}>
+                      <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems: 'center'}}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
                             <Icon name="ios-add" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(currentIndex)}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(currentIndex)}>
                           <Icon name="ios-arrow-up" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.sendToBack(currentIndex)}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.sendToBack(currentIndex)}>
                           <Icon name="ios-arrow-down" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.flipImage(currentIndex)}>
-                          <Icon name="ios-arrow-back" />
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.flipImage(currentIndex)}>
+                          <View style={{flexDirection: 'row'}}>
+                            <View style={{paddingRight: 10}}>
+                              <Icon name="ios-arrow-back" />
+                            </View>
+                            <View>
+                              <Icon name="ios-arrow-forward" />
+                            </View>
+                          </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.flipImage(currentIndex)}>
-                          <Icon name="ios-arrow-forward" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.duplicateImage(currentIndex)}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.duplicateImage(currentIndex)}>
                           <Icon name="ios-copy" style={{}} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.removeImage(currentIndex)}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.removeImage(currentIndex)}>
                           <Icon name="ios-trash" style={{}} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1,alignItems:'center',borderWidth:1,borderColor:'rgba(235,235,235,1)'}} onPress={() => this.saveImage()}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.saveImage()}>
                           <Icon name="md-image" style={{}} />
                         </TouchableOpacity>
                       </View>
                     </View>
+                    :
+                    <View style={{flex: 1,flexDirection: 'row',justifyContent: 'flex-start',backgroundColor: 'rgba(255,255,255,.9)'}}>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}}
+                        >
+                            <Icon name="ios-undo" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}}
+                        >
+                          <Icon name="ios-redo" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.saveImage()}>
+                          <Icon name="md-image" style={{}} />
+                        </TouchableOpacity>
+                    </View>
+                  }
                   </View>
                 </View>
             </View>
-            <View style={{flex:1,backgroundColor:'rgba(238,238,238,1)',}}>
+            <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
               <ScrollMe />
             </View>
           </View>
         </Container>
       );
-    }
-    else {
-      return(
-        <View style={{flex:1}}>
-          <ScrollMe />
-        </View>
-      );
+    } else {
+        return (
+          <View style={{flex: 1}}>
+            <ScrollMe />
+          </View>
+        );
     }
 
   }
@@ -385,7 +411,7 @@ function bindAction(dispatch) {
     flipImage: i => dispatch(flipImage(i)),
     duplicateImage: i => dispatch(duplicateImage(i)),
     removeImage: i => dispatch(removeImage(i)),
-    addData: (obj) => dispatch(addData(obj)),
+    addData: (obj) => dispatch(addData(obj))
   };
 }
 
@@ -395,9 +421,11 @@ function mapStateToProps(state) {
     index: state.list.selectedIndex,
     list: state.list.list,
     card: state.card.card,
-    show: state.card.show,
-    arrowUp:  state.card.arrowUp,
-    collective:  state.card.collective,
+    // show: state.card.show,
+    arrowUp: state.card.arrowUp,
+    collective: state.card.collective,
+    showBar: state.card.showBar,
+    allMadeActive: state.card.allMadeActive
   };
 }
 
