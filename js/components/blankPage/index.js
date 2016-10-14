@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {View, PanResponder} from 'react-native';
+import {View, PanResponder, Animated} from 'react-native';
 import {Container, Header, Button, Icon} from 'native-base';
 import Editor from '../Editor';
 
@@ -32,51 +32,35 @@ class BlankPage extends Component {
   }
 
   componentWillMount() {
-    this._panResponder = PanResponder.create({
-              // Ask to be the responder:
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+    this._animatedValue = new Animated.ValueXY();
+    this._value = {x: 0, y: 0};
 
-      onPanResponderGrant: (evt, gestureState) => {
-        // console.log('kaash1');
-            // The guesture has started. Show visual feedback so the user knows
-            // what is happening!
-
-            // gestureState.{x,y}0 will be set to zero now
-      },
-      onPanResponderMove: (evt, gestureState) => {
-            // console.log('kaash2');
-            // The most recent move distance is gestureState.move{X,Y}
-
-            // The accumulated gesture distance since becoming responder is
-            // gestureState.d{x,y}
-      },
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
-      onPanResponderRelease: (evt, gestureState) => {
-        // console.log('kaash3');
-            // The user has released all touches while this view is the
-            // responder. This typically means a gesture has succeeded
-      },
-      onPanResponderTerminate: (evt, gestureState) => {
-        // console.log('kaash4');
-            // Another component has become the responder, so this gesture
-            // should be cancelled
-      },
-      onShouldBlockNativeResponder: (evt, gestureState) => {
-        // console.log('kaash5');
-            // Returns whether this component should block native components from becoming the JS
-            // responder. Returns true by default. Is currently only supported on android.
-        return true;
-      }
+    this._animatedValue.addListener((value) =>
+    {
+      this._value = value;
     });
+
+    this._panResponder = PanResponder.create({
+        onMoveShouldSetResponderCapture: () => true, //Tell iOS that we are allowing the movement
+        onMoveShouldSetPanResponderCapture: () => true, // Same here, tell iOS that we allow dragging
+        onPanResponderGrant: (e, gestureState) => {
+          this._animatedValue.setOffset({x: this._value.x, y: this._value.y});
+          this._animatedValue.setValue({x: 0, y: 0});
+        },
+        onPanResponderMove: Animated.event([
+          null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
+        ]), // Creates a function to handle the movement and set offsets
+        onPanResponderRelease: () => {
+          this._animatedValue.flattenOffset(); // Flatten the offset so it resets the default positioning
+        }
+      });
   }
 
   render() {
     console.log('index.js:BlankPage');
     // const {props: {name}} = this;
     //data to be sent to editor component.
+
     var data = [
         // {
         //   active: 0,
@@ -105,47 +89,67 @@ class BlankPage extends Component {
         //   width: 200
         // }
       ];
+
+    //   var interpolatedColorAnimation = this._animatedValue.y.interpolate({
+    //     inputRange: [0, deviceHeight - 100],
+    //     outputRange: ['rgba(229,27,66,1)', 'rgba(90,146,253,1)'],
+    //     extrapolate: 'clamp'
+    //   });
+    //
+    // var interpolatedRotateAnimation = this._animatedValue.x.interpolate({
+    //   inputRange: [0, deviceWidth/2, deviceWidth],
+    //   outputRange: ['-360deg', '0deg', '360deg']
+    // });
+
     return (
       <Container theme={light}>
-
-
-          <View
-          style={{flex: 1}}
-          >
-            <Header style={{backgroundColor: 'white'}}>
-              <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between'}}>
-                <View>
-                  <Button transparent>
-                      <Icon name="ios-arrow-back" style={{color: 'black'}}/>
-                  </Button>
-                </View>
-
-                <View>
-                  <Button style={{borderRadius: 0,paddingHorizontal: 20,backgroundColor: 'black'}}>POST</Button>
-                </View>
-
-                <View>
-                  <Button transparent>
-                      <Icon name="ios-menu" style={{color: 'black'}}/>
-                  </Button>
-                </View>
+        <View
+        style={{flex: 1}}
+        >
+          <Header style={{backgroundColor: 'white'}}>
+            <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between'}}>
+              <View>
+                <Button transparent>
+                    <Icon name="ios-arrow-back" style={{color: 'black'}}/>
+                </Button>
               </View>
-            </Header>
 
+              <View>
+                <Button style={{borderRadius: 0,paddingHorizontal: 20,backgroundColor: 'black'}}>POST</Button>
+              </View>
 
-
-            <Editor onChange={
-                (payload) => {
-                  this.onChange(payload);
-                }
+              <View>
+                <Button transparent>
+                    <Icon name="ios-menu" style={{color: 'black'}}/>
+                </Button>
+              </View>
+            </View>
+          </Header>
+          <Editor onChange={
+              (payload) => {
+                this.onChange(payload);
               }
-              data={data}
-            />
-          </View>
+            }
+            data={data}
+          />
+        </View>
       </Container>
-        );
+
+    );
   }
 }
+
+// var styles = StyleSheet.create({
+//   container1: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   },
+//   box: {
+//     width: 100,
+//     height: 100
+//   }
+// });
 
 function bindAction(dispatch) {
     return {

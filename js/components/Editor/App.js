@@ -2,18 +2,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {StyleSheet, Dimensions, PanResponder, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, PanResponder, View, TouchableOpacity, Animated} from 'react-native';
 import {Container, Icon, Text} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData} from './actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData,toggle} from './actions/card';
 
 import light from '../../themes/light';
-// import {takeSnapshot} from 'react-native-view-shot';
 import ScrollMe from '../scrollMe';
-// import Test from '../test';
-
-// import ParallaxScrollView from 'react-native-parallax-scroll-view';
-
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -55,12 +50,11 @@ class App extends Component {
     duplicateImage: React.PropTypes.func.isRequired,
     removeImage: React.PropTypes.func.isRequired,
     makeActive: React.PropTypes.func.isRequired,
-    // popRoute: React.PropTypes.func.isRequired,
     showAll: React.PropTypes.func.isRequired,
     addData: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    toggle: React.PropTypes.func.isRequired,
     card: React.PropTypes.any,
-    // show: React.PropTypes.any,
     data: React.PropTypes.any,
     showBar: React.PropTypes.any,
     allMadeActive: React.PropTypes.any,
@@ -68,45 +62,66 @@ class App extends Component {
   }
 
   componentWillMount() {
+    var self = this;
+    this._animatedValue = new Animated.ValueXY();
+    this._value = {x: 0, y: 0};
+
+    this._animatedValue.addListener((value) => this._value = value);
+
     this._panResponder = PanResponder.create({
-              // Ask to be the responder:
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+        onMoveShouldSetResponderCapture: () => true, //Tell iOS that we are allowing the movement
+        onMoveShouldSetPanResponderCapture: () => true, // Same here, tell iOS that we allow dragging
+        onPanResponderGrant: (e, gestureState) => {
+          this._animatedValue.setOffset({x: this._value.x, y: this._value.y});
+          this._animatedValue.setValue({x: 0, y: 0});
+        },
+        onPanResponderMove: Animated.event([
+          null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
+        ]), // Creates a function to handle the movement and set offsets
+        onPanResponderRelease: () => {
+          // this._animatedValue.flattenOffset(); // Flatten the offset so it resets the default positioning
 
-      onPanResponderGrant: (evt, gestureState) => {
-        // console.log('kaash1');
-            // The guesture has started. Show visual feedback so the user knows
-            // what is happening!
-
-            // gestureState.{x,y}0 will be set to zero now
-      },
-      onPanResponderMove: (evt, gestureState) => {
-            // console.log('kaash2');
-            // The most recent move distance is gestureState.move{X,Y}
-
-            // The accumulated gesture distance since becoming responder is
-            // gestureState.d{x,y}
-      },
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
-      onPanResponderRelease: (evt, gestureState) => {
-        // console.log('kaash3');
-            // The user has released all touches while this view is the
-            // responder. This typically means a gesture has succeeded
-      },
-      onPanResponderTerminate: (evt, gestureState) => {
-        // console.log('kaash4');
-            // Another component has become the responder, so this gesture
-            // should be cancelled
-      },
-      onShouldBlockNativeResponder: (evt, gestureState) => {
-        // console.log('kaash5');
-            // Returns whether this component should block native components from becoming the JS
-            // responder. Returns true by default. Is currently only supported on android.
-        return true;
-      }
-    });
+          console.log('@@@@@@@@@@@@@@@@@@@@@@@@' , this._animatedValue.y);
+          if (this._animatedValue.y._offset === 0) {
+            if (this._animatedValue.y._value > 0) {
+              console.log('below borderline');
+              this._animatedValue.setValue({x: 0, y: 0});
+            } else {
+              console.log('above borderline');
+              if (this._animatedValue.y._value > -1 * (deviceHeight / 4))  {
+                this._animatedValue.setValue({x: 0, y: 0});
+              } else {
+                console.log('goToTop');
+                this._animatedValue.setOffset({x: 0, y: 0});
+                this._animatedValue.setValue({x: 0, y: 0});
+                // this._animatedValue.setValue({x: 0, y: -1 * (deviceHeight / 2 + 37)});
+                self.toggle();
+              }
+            }
+          } else {
+            if ((this._animatedValue.y._value + this._animatedValue.y._offset) > 0)  {
+              console.log('...below borderline');
+              console.log('@@@ ' , this._animatedValue.y._value + this._animatedValue.y._offset);
+              this._animatedValue.setOffset({x: 0, y: 0});
+              this._animatedValue.setValue({x: 0, y: 0});
+            } else {
+              console.log('...above borderline');
+              console.log('... ' , this._animatedValue.y._value + this._animatedValue.y._offset);
+              if (this._animatedValue.y._value + this._animatedValue.y._offset > -150)  {
+                console.log('goto borderline');
+                this._animatedValue.setOffset({x: 0, y: 0});
+                this._animatedValue.setValue({x: 0, y: 0});
+              } else {
+                console.log('...gotoTop');
+                this._animatedValue.setOffset({x: 0, y: 0});
+                this._animatedValue.setValue({x: 0, y: 0});
+                // this._animatedValue.setValue({x: 0, y: -1 * (deviceHeight / 2 + 37)});
+                self.toggle();
+              }
+            }
+          }
+        }
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -172,12 +187,27 @@ class App extends Component {
     this.props.showAll();
   }
 
+  toggle()  {
+    this.props.toggle();
+  }
+
   render() {
     console.log('index.js:(App.js)');
     console.log('this.props: ' , this.props);
+
+    // var interpolatedColorAnimation = this._animatedValue.y.interpolate({
+    //     inputRange: [0, deviceHeight - 100],
+    //     outputRange: ['rgba(229,27,66,1)', 'rgba(90,146,253,1)'],
+    //     extrapolate: 'clamp'
+    //   });
+
+    // var interpolatedRotateAnimation = this._animatedValue.x.interpolate({
+    //   inputRange: [0, deviceWidth/2, deviceWidth],
+    //   outputRange: ['-360deg', '0deg', '360deg']
+    // });
+
     if (this.props.arrowUp)  {
       return (
-
         <Container theme={light} style={{backgroundColor: '#fff'}} >
           <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
             <View style={{flex: 2, paddingHorizontal: 10, overflow: 'hidden'}}
@@ -384,7 +414,19 @@ class App extends Component {
                 </View>
             </View>
             <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-              <ScrollMe />
+              <Animated.View
+              style=
+              {[
+                {
+                  transform: [
+                    {translateY: this._animatedValue.y}
+                  ]
+                }
+              ]}
+              {...this._panResponder.panHandlers}
+              >
+                <ScrollMe/>
+              </Animated.View>
             </View>
           </View>
         </Container>
@@ -411,21 +453,21 @@ function bindAction(dispatch) {
     flipImage: i => dispatch(flipImage(i)),
     duplicateImage: i => dispatch(duplicateImage(i)),
     removeImage: i => dispatch(removeImage(i)),
-    addData: (obj) => dispatch(addData(obj))
+    addData: (obj) => dispatch(addData(obj)),
+    toggle: ()=>dispatch(toggle())
   };
 }
 
 function mapStateToProps(state) {
   return {
-    // name: state.user.name,
     index: state.list.selectedIndex,
     list: state.list.list,
     card: state.card.card,
-    // show: state.card.show,
     arrowUp: state.card.arrowUp,
     collective: state.card.collective,
     showBar: state.card.showBar,
-    allMadeActive: state.card.allMadeActive
+    allMadeActive: state.card.allMadeActive,
+    goToBorderline: state.card.goToBorderline
   };
 }
 
