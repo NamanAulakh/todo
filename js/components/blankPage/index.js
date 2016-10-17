@@ -12,8 +12,8 @@ import {toggle} from '../../actions/display';
 // import Product from '../product';
 // import ScrollMe from '../scrollMe';
 
+import myTheme from '../../themes/base-theme';
 class BlankPage extends Component {
-
   static propTypes = {
     toggle: React.PropTypes.func.isRequired
   }
@@ -56,6 +56,19 @@ class BlankPage extends Component {
       });
   }
 
+  popRoute() {
+    this.props.popRoute();
+  }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //     let image = (nextProps.image !== this.state.image) ? `${nextProps.picture}?t=${new Date().getTime()}` : nextProps.picture;
+  //
+  //     this.setState({image: image});
+  // }
+  //
+  // shouldComponentUpdate(nextProps) {
+  //     return (nextProps.picture !== this.props.picture);
+  // }
   render() {
     console.log('index.js:BlankPage');
     // const {props: {name}} = this;
@@ -90,16 +103,6 @@ class BlankPage extends Component {
         // }
       ];
 
-    //   var interpolatedColorAnimation = this._animatedValue.y.interpolate({
-    //     inputRange: [0, deviceHeight - 100],
-    //     outputRange: ['rgba(229,27,66,1)', 'rgba(90,146,253,1)'],
-    //     extrapolate: 'clamp'
-    //   });
-    //
-    // var interpolatedRotateAnimation = this._animatedValue.x.interpolate({
-    //   inputRange: [0, deviceWidth/2, deviceWidth],
-    //   outputRange: ['-360deg', '0deg', '360deg']
-    // });
 
     return (
       <Container theme={light}>

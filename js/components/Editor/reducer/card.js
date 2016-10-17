@@ -41,29 +41,14 @@ const images = [
     width: 378
   },
   {
-    url: 'http://babylon.geekydev.com/images/185250876.png',
-    height: 400,
-    width: 162
-  },
-  {
     url: 'http://babylon.geekydev.com/images/177082432.png',
     height: 400,
     width: 149
   },
   {
-    url: 'http://babylon.geekydev.com/images/182139204.png',
-    height: 400,
-    width: 349
-  },
-  {
     url: 'http://babylon.geekydev.com/images/183369275.png',
     height: 400,
     width: 124
-  },
-  {
-    url: 'http://babylon.geekydev.com/images/185415448.png',
-    height: 400,
-    width: 266
   },
   {
     url: 'http://babylon.geekydev.com/images/181180070.png',
@@ -93,6 +78,8 @@ export type State = {
   collective: boolean,
   showBar: boolean,
   allMadeActive: boolean,
+  show: boolean,
+  screenshot: boolean
 }
 
 const initialState = {
@@ -100,13 +87,40 @@ const initialState = {
     arrowUp: true,
     collective: true,
     showBar: true,//make it false later
-    allMadeActive: false
+    allMadeActive: false,
+    show: false,
+    screenshot: false
 };
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function add(arr) {
+
+  var newArr = [];
+  arr.map(function(elem,i)  {
+      var obj = elem;
+      obj.active = 0;
+      newArr.push(obj);
+  });
+  let image = images[getRandomInt(0, images.length - 1)];
+  newArr.push({
+      top: 100,
+      left: 10,
+      height: image.height / 2,//getRandomInt(100, 200),
+      width: image.width / 2,//getRandomInt(100, 200),
+      rotate: 0,
+      active: 1,
+      rotateAngle: 0,
+      rotateNow: 0,
+      scaleX: 1,
+      scaleY: 1,
+      url: image.url//'../../../images/logo.png'
+  });
+  return newArr;
+
+}
 function move(index, arr, payload) {
   var newArr = [];
   arr.map(function(elem,i)  {
@@ -261,39 +275,9 @@ function removeImage(index, arr) {
 
     return newArr;
 }
-
 export default function (state:State = initialState, action:Action): State {
   // console.log('###Inside card store###');
 
-  if (action.type === ADD_CARD) {
-    state.card.map((element,index) => {
-      element.active = 0;
-    });
-
-    let image = images[getRandomInt(0, images.length - 1)];
-    return {
-      ...state,
-      card:
-        [
-          ...state.card,
-          {
-            top: 100,
-            left: 10,
-            height: image.height / 2,//getRandomInt(100, 200),
-            width: image.width / 2,//getRandomInt(100, 200),
-            rotate: 0,
-            active: 1,
-            rotateAngle: 0,
-            rotateNow: 0,
-            scaleX: 1,
-            scaleY: 1,
-            url: image.url//'../../../images/logo.png'
-          }
-        ],
-      show: false,
-      showBar: true
-    };
-  }
 
   if (action.type === SHOW_ALL) {
     return {
@@ -322,6 +306,14 @@ export default function (state:State = initialState, action:Action): State {
       show: true,
       showBar: state.allMadeActive ? false : true
     };
+  }
+  if (action.type === ADD_CARD) {
+       return {
+           ...state,
+           card: [...add(state.card)],
+           show: false,
+           showBar: false
+       };
   }
 
   if (action.type === TOGGLE) {
@@ -366,7 +358,14 @@ export default function (state:State = initialState, action:Action): State {
           show: state.show
       };
   }
-
+  if (action.type === SHOW_ALL) {
+      return {
+          ...state,
+          card: [...showAll(state.card)],
+          show: true
+      };
+  }
+  
   if (action.type === FLIP_IMAGE) {
       return {
           ...state,

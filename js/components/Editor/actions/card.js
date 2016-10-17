@@ -90,3 +90,10 @@ export function showAll():Action {
         type: SHOW_ALL
     };
 }
+
+export function takeScreenshot():Action {
+  console.log('hi i m in takeScreenshot');
+  return {
+    type: TOGGLE
+  };
+}

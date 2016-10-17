@@ -2,16 +2,24 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {StyleSheet, Dimensions, PanResponder, View, TouchableOpacity, Animated} from 'react-native';
-import {Container, Icon, Text} from 'native-base';
+
+import GenerateImage from './generateImage';
+import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio} from 'react-native';
+import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData,toggle} from './actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData, takeScreenshot, ,toggle} from './actions/card';
 
 import light from '../../themes/light';
 import ScrollMe from '../scrollMe';
 
+import myTheme from '../../themes/base-theme';
+import {takeSnapshot} from 'react-native-view-shot';
+
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
+
+const imageHeight = 1024/PixelRatio.get();
+const imageWidth = 1024/PixelRatio.get();
 
 const styles = StyleSheet.create({
   container: {
@@ -55,10 +63,13 @@ class App extends Component {
     onChange: React.PropTypes.func.isRequired,
     toggle: React.PropTypes.func.isRequired,
     card: React.PropTypes.any,
-    data: React.PropTypes.any,
     showBar: React.PropTypes.any,
     allMadeActive: React.PropTypes.any,
-    arrowUp: React.PropTypes.any
+    arrowUp: React.PropTypes.any,
+    takeScreenshot: React.PropTypes.func.isRequired,
+    show: React.PropTypes.any,
+    data: React.PropTypes.any,
+    screenshot: React.PropTypes.any
   }
 
   componentWillMount() {
@@ -148,6 +159,7 @@ class App extends Component {
   // }
 
   moveCard(obj, i) {
+
     this.props.moveCard(obj, i);
   }
 
@@ -170,9 +182,28 @@ class App extends Component {
   duplicateImage(i) {
     this.props.duplicateImage(i);
   }
-
+  takeScreenshot() {
+    this.props.takeScreenshot();
+  }
   saveImage() {
-    console.log('Save Image Clicked');
+    //
+    // this._mainView.measure( function (ox, oy,width, height, px, py) {
+    // mainViewWidth = width;
+    // mainViewHeight = height;
+    // console.log("width: " + width);
+    // console.log("height: " + height);
+    //
+    this.takeScreenshot();
+    console.log('toogglleee before',this.props.screenshot);
+    takeSnapshot(this._viewRef, {
+      format: 'png',
+      quality: 1
+    })
+    .then(
+      uri => {this.takeScreenshot();console.log('image saved',uri);},
+      error => alert('Oops, snapshot failed ' + error)
+    );
+    console.log('after toogglleee',this.props.screenshot);
   }
 
   removeImage(i) {
@@ -194,17 +225,6 @@ class App extends Component {
   render() {
     console.log('index.js:(App.js)');
     console.log('this.props: ' , this.props);
-
-    // var interpolatedColorAnimation = this._animatedValue.y.interpolate({
-    //     inputRange: [0, deviceHeight - 100],
-    //     outputRange: ['rgba(229,27,66,1)', 'rgba(90,146,253,1)'],
-    //     extrapolate: 'clamp'
-    //   });
-
-    // var interpolatedRotateAnimation = this._animatedValue.x.interpolate({
-    //   inputRange: [0, deviceWidth/2, deviceWidth],
-    //   outputRange: ['-360deg', '0deg', '360deg']
-    // });
 
     if (this.props.arrowUp)  {
       return (
@@ -436,6 +456,51 @@ class App extends Component {
           <View style={{flex: 1}}>
             <ScrollMe />
           </View>
+
+          <View style={{opacity:0}} pointerEvents="none">
+            <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
+              this._viewRef = child;
+            }}>
+              {!this.props.screenshot ?
+              <GenerateImage data = {this.props.card}
+                imageHeight = {imageHeight}
+                imageWidh = {imageWidth}
+                heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
+                />:<View></View>}
+            </View>
+          </View>
+
+        </View>
+        <Footer style={{backgroundColor: '#565051'}}>
+          <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
+            <Button transparent onPress={() => this.addCard()}>
+                <Icon name="ios-add" />
+            </Button>
+            <Button transparent onPress={() => this.bringToTop(currentIndex)}>
+              <Icon name="ios-arrow-up" />
+            </Button>
+            <Button transparent onPress={() => this.sendToBack(currentIndex)}>
+              <Icon name="ios-arrow-down" />
+            </Button>
+            <Button transparent onPress={() => this.flipImage(currentIndex)}>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <Icon name="ios-arrow-back" style={{paddingRight: 1}}/>
+                  <Icon name="ios-arrow-forward" style={{paddingLeft: 1}}/>
+                </View>
+            </Button>
+            <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
+              <Icon name="ios-copy" />
+            </Button>
+            <Button transparent onPress={() => this.removeImage(currentIndex)}>
+              <Icon name="ios-trash" />
+            </Button>
+            <Button transparent onPress={() => this.saveImage()}>
+              <Icon name="md-image" />
+            </Button>
+        </View>
+        </Footer>
+      </Container>
+
         );
     }
 
@@ -446,6 +511,7 @@ function bindAction(dispatch) {
   return {
     moveCard: (obj, i) => dispatch(moveCard(obj, i)),
     addCard: () => dispatch(addCard()),
+    takeScreenshot: () => dispatch(takeScreenshot()),
     makeActive: i => dispatch(makeActive(i)),
     bringToTop: i => dispatch(bringToTop(i)),
     sendToBack: i => dispatch(sendToBack(i)),
@@ -466,7 +532,9 @@ function mapStateToProps(state) {
     arrowUp: state.card.arrowUp,
     collective: state.card.collective,
     showBar: state.card.showBar,
-    allMadeActive: state.card.allMadeActive
+    allMadeActive: state.card.allMadeActive,
+    show: state.card.show,
+    screenshot: state.card.screenshot
   };
 }
 
