@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT} from '../actions/card';
 
 const images = [
   {
@@ -121,6 +121,7 @@ function add(arr) {
   return newArr;
 
 }
+
 function move(index, arr, payload) {
   var newArr = [];
   arr.map(function(elem,i)  {
@@ -275,9 +276,8 @@ function removeImage(index, arr) {
 
     return newArr;
 }
-export default function (state:State = initialState, action:Action): State {
-  // console.log('###Inside card store###');
 
+export default function (state:State = initialState, action:Action): State {
 
   if (action.type === SHOW_ALL) {
     return {
@@ -307,6 +307,7 @@ export default function (state:State = initialState, action:Action): State {
       showBar: state.allMadeActive ? false : true
     };
   }
+
   if (action.type === ADD_CARD) {
        return {
            ...state,
@@ -317,11 +318,14 @@ export default function (state:State = initialState, action:Action): State {
   }
 
   if (action.type === TOGGLE) {
-      console.log('...case:(TOGGLE)... ');
-
-      console.log('state.arrowUp:(Before toggle) ' , state.arrowUp);
       state.arrowUp = !state.arrowUp;
-      console.log('state.arrowUp:(After toggle) ' , state.arrowUp);
+      return {
+          ...state
+      };
+  }
+
+  if (action.type === TAKE_SCREENSHOT) {
+      state.screenshot = !state.screenshot;
       return {
           ...state
       };
@@ -358,6 +362,7 @@ export default function (state:State = initialState, action:Action): State {
           show: state.show
       };
   }
+
   if (action.type === SHOW_ALL) {
       return {
           ...state,
@@ -365,7 +370,7 @@ export default function (state:State = initialState, action:Action): State {
           show: true
       };
   }
-  
+
   if (action.type === FLIP_IMAGE) {
       return {
           ...state,
@@ -383,6 +388,7 @@ export default function (state:State = initialState, action:Action): State {
   }
 
   if (action.type === REMOVE_IMAGE) {
+    console.log('removeImage:(reducers)' , action.index);
       return {
           ...state,
           card: [...removeImage(action.index, state.card)],

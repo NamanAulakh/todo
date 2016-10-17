@@ -13,22 +13,17 @@ import {toggle} from '../../actions/display';
 // import ScrollMe from '../scrollMe';
 
 import myTheme from '../../themes/base-theme';
+
 class BlankPage extends Component {
   static propTypes = {
     toggle: React.PropTypes.func.isRequired
   }
 
   onChange(payload) {
-    console.log('onChange:BlankPage...');
-
     if (payload) {
       console.log('Data(payload) from interior store: ' , payload);
       // this.props.toggle();
-
     }
-
-    console.log('...onChange:BlankPage');
-
   }
 
   componentWillMount() {
@@ -56,10 +51,6 @@ class BlankPage extends Component {
       });
   }
 
-  popRoute() {
-    this.props.popRoute();
-  }
-  //
   // componentWillReceiveProps(nextProps) {
   //     let image = (nextProps.image !== this.state.image) ? `${nextProps.picture}?t=${new Date().getTime()}` : nextProps.picture;
   //
@@ -70,10 +61,6 @@ class BlankPage extends Component {
   //     return (nextProps.picture !== this.props.picture);
   // }
   render() {
-    console.log('index.js:BlankPage');
-    // const {props: {name}} = this;
-    //data to be sent to editor component.
-
     var data = [
         // {
         //   active: 0,
@@ -102,8 +89,6 @@ class BlankPage extends Component {
         //   width: 200
         // }
       ];
-
-
     return (
       <Container theme={light}>
         <View
@@ -137,22 +122,9 @@ class BlankPage extends Component {
           />
         </View>
       </Container>
-
     );
   }
 }
-
-// var styles = StyleSheet.create({
-//   container1: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center'
-//   },
-//   box: {
-//     width: 100,
-//     height: 100
-//   }
-// });
 
 function bindAction(dispatch) {
     return {

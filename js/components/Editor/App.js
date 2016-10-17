@@ -11,6 +11,7 @@ import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAl
 
 import light from '../../themes/light';
 import ScrollMe from '../scrollMe';
+import ToolBar from '../toolbar';
 
 import myTheme from '../../themes/base-theme';
 import {takeSnapshot} from 'react-native-view-shot';
@@ -27,15 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: deviceWidth,
     height: deviceHeight
-  },
-
-  baseText: {
-    fontFamily: 'Cochin'
-  },
-
-  titleText: {
-    fontSize: 20,
-    fontWeight: 'bold'
   }
 });
 
@@ -133,33 +125,31 @@ class App extends Component {
           }
         }
       });
+//................................................................................................................
+      // console.log('componentWillMount:App.js...');
+      //
+      // if (this.props.data.length !== 0) {
+      //   console.log('Populating interior store with following data from outside: ' , this.props.data.length);
+      //   this.props.addData(this.props.data);
+      // }
+      // else {
+      //   console.log('No data from outside');
+      // }
   }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps:(App.js)...');
-
-    console.log('nextProps : componentWillReceiveProps(App.js:Editor): ' , nextProps);
-    this.props.onChange(nextProps);
-
-    console.log('...componentWillReceiveProps:(App.js)');
-  }
-
-  // componentWillMount()  {
-  //   console.log('componentWillMount:App.js...');
+  // componentDidUpdate () {
+  //   console.log('brbvrhvribvibib',this.props.screenshot);
   //
-  //   // if (this.props.data.length !== 0) {
-  //   //   console.log('Populating interior store with following data from outside: ' , this.props.data.length);
-  //   //   this.props.addData(this.props.data);
-  //   // }
-  //   // else {
-  //   //   console.log('No data from outside');
-  //   // }
-  //   //
-  //   // console.log('...componentWillMount:App.js');
+  //
+  //
+  //
   // }
 
-  moveCard(obj, i) {
+  componentWillReceiveProps(nextProps) {
+    // console.log('nextProps : componentWillReceiveProps(App.js:Editor): ' , nextProps);
+    // this.props.onChange(nextProps);
+  }
 
+  moveCard(obj, i) {
     this.props.moveCard(obj, i);
   }
 
@@ -182,28 +172,32 @@ class App extends Component {
   duplicateImage(i) {
     this.props.duplicateImage(i);
   }
+
   takeScreenshot() {
     this.props.takeScreenshot();
   }
+
   saveImage() {
-    //
-    // this._mainView.measure( function (ox, oy,width, height, px, py) {
-    // mainViewWidth = width;
-    // mainViewHeight = height;
-    // console.log("width: " + width);
-    // console.log("height: " + height);
-    //
     this.takeScreenshot();
-    console.log('toogglleee before',this.props.screenshot);
-    takeSnapshot(this._viewRef, {
-      format: 'png',
-      quality: 1
-    })
-    .then(
-      uri => {this.takeScreenshot();console.log('image saved',uri);},
-      error => alert('Oops, snapshot failed ' + error)
-    );
-    console.log('after toogglleee',this.props.screenshot);
+    setTimeout(()=>{
+      if(this.props.screenshot) {
+        takeSnapshot(this._viewRef, {
+          format: 'png',
+          quality: 1
+        })
+        .then(
+          uri => {
+            this.takeScreenshot();
+            console.log('image saved',uri);
+          },
+          error => alert('Oops, snapshot failed ' + error)
+        );
+      }
+      else {
+        console.log('%%%%%%%%%%%%%%%%');
+      }
+    },2000);
+
   }
 
   removeImage(i) {
@@ -223,22 +217,16 @@ class App extends Component {
   }
 
   render() {
-    console.log('index.js:(App.js)');
-    console.log('this.props: ' , this.props);
-
     if (this.props.arrowUp)  {
       return (
-        <Container theme={light} style={{backgroundColor: '#fff'}} >
           <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-            <View style={{flex: 2, paddingHorizontal: 10, overflow: 'hidden'}}
-              ref={(child) => {
-                this._viewRef = child;
-              }} >
+            <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}
+               >
                 <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Collage / Dressed like a princess</Text>
                 </View>
-                <View style={{flex: 9, backgroundColor: 'white', marginBottom: 20, overflow: 'hidden'}}>
-                  <View style={{flex: 9}}>
+                <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
+                  <View style={{flex: 12,}}>
                     <GestureView
                         style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
                         type="View"
@@ -381,8 +369,6 @@ class App extends Component {
                     </View>
                   </View>
                   <View style={{flex: 1}}>
-                  {
-                    this.props.showBar ?
                     <View style={{flex: 1,backgroundColor: 'rgba(255,255,255,.8)'}}>
                       <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems: 'center'}}>
                         <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
@@ -415,21 +401,6 @@ class App extends Component {
                         </TouchableOpacity>
                       </View>
                     </View>
-                    :
-                    <View style={{flex: 1,flexDirection: 'row',justifyContent: 'flex-start',backgroundColor: 'rgba(255,255,255,.9)'}}>
-                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}}
-                        >
-                            <Icon name="ios-undo" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}}
-                        >
-                          <Icon name="ios-redo" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.saveImage()}>
-                          <Icon name="md-image" style={{}} />
-                        </TouchableOpacity>
-                    </View>
-                  }
                   </View>
                 </View>
             </View>
@@ -448,59 +419,27 @@ class App extends Component {
                 <ScrollMe/>
               </Animated.View>
             </View>
+          <View style={{flex:1,opacity:0}} pointerEvents="none">
+            <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
+              this._viewRef = child;
+              }}>
+              {this.props.screenshot ?
+              <GenerateImage data = {this.props.card}
+              imageHeight = {imageHeight}
+              imageWidh = {imageWidth}
+              heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
+              />
+              :
+              <View/>}
+            </View>
           </View>
-        </Container>
+          </View>
       );
     } else {
         return (
-          <Container>
           <View style={{flex: 1}}>
             <ScrollMe />
           </View>
-
-          <View style={{opacity:0}} pointerEvents="none">
-            <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
-              this._viewRef = child;
-            }}>
-              {!this.props.screenshot ?
-              <GenerateImage data = {this.props.card}
-                imageHeight = {imageHeight}
-                imageWidh = {imageWidth}
-                heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
-                />:<View></View>}
-            </View>
-          </View>
-
-        <Footer style={{backgroundColor: '#565051'}}>
-          <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
-            <Button transparent onPress={() => this.addCard()}>
-                <Icon name="ios-add" />
-            </Button>
-            <Button transparent onPress={() => this.bringToTop(currentIndex)}>
-              <Icon name="ios-arrow-up" />
-            </Button>
-            <Button transparent onPress={() => this.sendToBack(currentIndex)}>
-              <Icon name="ios-arrow-down" />
-            </Button>
-            <Button transparent onPress={() => this.flipImage(currentIndex)}>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <Icon name="ios-arrow-back" style={{paddingRight: 1}}/>
-                  <Icon name="ios-arrow-forward" style={{paddingLeft: 1}}/>
-                </View>
-            </Button>
-            <Button transparent onPress={() => this.duplicateImage(currentIndex)}>
-              <Icon name="ios-copy" />
-            </Button>
-            <Button transparent onPress={() => this.removeImage(currentIndex)}>
-              <Icon name="ios-trash" />
-            </Button>
-            <Button transparent onPress={() => this.saveImage()}>
-              <Icon name="md-image" />
-            </Button>
-        </View>
-        </Footer>
-      </Container>
-
         );
     }
 
