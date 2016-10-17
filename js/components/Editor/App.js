@@ -466,8 +466,7 @@ function mapStateToProps(state) {
     arrowUp: state.card.arrowUp,
     collective: state.card.collective,
     showBar: state.card.showBar,
-    allMadeActive: state.card.allMadeActive,
-    goToBorderline: state.card.goToBorderline
+    allMadeActive: state.card.allMadeActive
   };
 }
 
