@@ -14,6 +14,7 @@ export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
+export const TAKE_SCREENSHOT = 'TAKE_SCREENSHOT';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -80,6 +81,7 @@ export function duplicateImage(index:Number):Action {
 }
 
 export function removeImage(index:Number):Action {
+  console.log('removeImage:(actions)');
     return {
         type: REMOVE_IMAGE,
         index: index
@@ -92,8 +94,7 @@ export function showAll():Action {
 }
 
 export function takeScreenshot():Action {
-  console.log('hi i m in takeScreenshot');
   return {
-    type: TOGGLE
+    type: TAKE_SCREENSHOT
   };
 }

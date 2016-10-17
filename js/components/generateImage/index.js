@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {Animated, View,WebView,Image,Dimensions,Text,PixelRatio,Alert} from 'react-native';
-import {takeScreenshot} from './actions/card';
+import {takeScreenshot} from '../Editor/actions/card';
 
 import {connect} from 'react-redux';
 class GenerateImage extends Component {
