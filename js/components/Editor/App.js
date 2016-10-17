@@ -4,10 +4,10 @@ import {connect} from 'react-redux';
 
 
 import GenerateImage from './generateImage';
-import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio} from 'react-native';
+import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
 import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData, takeScreenshot, ,toggle} from './actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData, takeScreenshot, toggle} from './actions/card';
 
 import light from '../../themes/light';
 import ScrollMe from '../scrollMe';
@@ -453,6 +453,7 @@ class App extends Component {
       );
     } else {
         return (
+          <Container>
           <View style={{flex: 1}}>
             <ScrollMe />
           </View>
@@ -470,7 +471,6 @@ class App extends Component {
             </View>
           </View>
 
-        </View>
         <Footer style={{backgroundColor: '#565051'}}>
           <View style={{flexDirection: 'row', padding: 5,  justifyContent: 'space-between', flex: 1, alignSelf: 'stretch'}}>
             <Button transparent onPress={() => this.addCard()}>

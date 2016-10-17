@@ -157,7 +157,8 @@ class AppNavigator extends Component {
             case 'home':
                 return <Home navigator={navigator} />;
             case 'blankPage':
-                return <MinItems navigator={navigator} />;
+                return <BlankPage navigator={navigator} />;
+                // return <MinItems navigator={navigator} />;
             default :
                 return <Login navigator={navigator}  />;
         }
