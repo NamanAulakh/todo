@@ -14,7 +14,7 @@ import Home from './components/home/';
 import BlankPage from './components/blankPage/';
 import SplashPage from './components/splashscreen/';
 import SideBar from './components/sideBar';
-import MinItems from './components/MijnItems';
+import MinItems from './components/MijnItems/';
 
 // import Editor from './components/Editor';
 import {statusBarColor} from './themes/base-theme';

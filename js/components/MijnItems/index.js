@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Image, Dimensions,ScrollView} from 'react-native';
 import {Container, Header, Title, Button, Icon, InputGroup, Input
 } from 'native-base';
+import {GridView} from 'react-native-cascadeGrid';
 var {height, width} = Dimensions.get('window');
 const images = [
   {
@@ -100,41 +101,7 @@ class MinItems extends Component {
             <Icon style = {{fontSize: 20,color: 'rgba(199,199,199,1)'}} name = 'ios-arrow-forward'/>
           </View>
         </View>
-        <ScrollView>
-          <View style={{flex:1,flexDirection: 'row'}}>
-          <View>
-            {images.slice(images.length*2/3,images.length).map(function(item,i) {
-              height1 += item.height/item.width*width/3;
-              console.log('hi this is height',height1)
-              return(
-                <View key = {i} style = {{backgroundColor:'white', borderColor:'rgba(238,238,238,1)',borderWidth : 0.5,padding:5}}>
-                  <Image source={{uri : item.url}} style={{zIndex:1,height:(item.height/item.width)*(width/3-10),width:(width/3-10)}} />
-                </View>
-              )
-            })}
-          </View>
-          <View>
-            {images.slice(images.length/3,images.length*2/3).map(function(item,i) {
-              return(
-                <View key = {i} style = {{backgroundColor:'white', borderColor:'rgba(238,238,238,1)',borderWidth : 0.5,padding:5}}>
-                  <Image source={{uri : item.url}} style={{zIndex:1,height:(item.height/item.width)*(width/3-10),width:(width/3-10)}} />
-                </View>
-              )
-            })}
-          </View>
-            <View>
-              {images.slice(0,images.length/3).map(function(item,i) {
-                return(
-                  <View key = {i} style = {{backgroundColor:'white', borderColor:'rgba(238,238,238,1)',borderWidth : 0.5,padding:5}}>
-                    <Image source={{uri : item.url}} style={{zIndex:1,height:(item.height/item.width)*(width/3-10),width:(width/3-10)}} />
-                  </View>
-                )
-              })}
-            </View>
-
-
-          </View>
-        </ScrollView>
+          <GridView images = {images} columns = {3} horizontalFix = {true}  />
 
 
       </View>
