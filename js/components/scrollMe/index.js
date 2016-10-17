@@ -88,7 +88,7 @@ class ScrollMe extends Component {
                 <View style={{flex: 1,flexDirection: 'row'}}>
                   <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginRight: 15}}>
                     <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    <Image source={require('../../../images/logo.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
                     <View style={{flex: 3,padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
                       <Text style={{fontSize: 12}}>Product title</Text>
@@ -124,7 +124,7 @@ class ScrollMe extends Component {
                   </TouchableOpacity>
                   <TouchableOpacity style={{flex: 1,backgroundColor: 'white'}}>
                     <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    <Image source={require('../../../images/logo.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
                     <View style={{flex: 3,paddingHorizontal: 5,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
                       <Text style={{fontSize: 12}}>Product title</Text>
@@ -163,7 +163,7 @@ class ScrollMe extends Component {
                 <View style={{flex: 1,flexDirection: 'row',paddingTop: 15}}>
                   <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginRight: 15}}>
                     <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    <Image source={require('../../../images/logo.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
                     <View style={{flex: 3,padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
                       <Text style={{fontSize: 12}}>Product title</Text>
@@ -200,7 +200,7 @@ class ScrollMe extends Component {
                   </TouchableOpacity>
                   <TouchableOpacity style={{flex: 1,backgroundColor: 'white'}}>
                     <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    <Image source={require('../../../images/logo.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
                     <View style={{flex: 3,paddingHorizontal: 5,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
                       <Text style={{fontSize: 12}}>Product title</Text>
@@ -236,7 +236,7 @@ class ScrollMe extends Component {
                 <View style={{flex: 1,flexDirection: 'row',paddingTop: 15}}>
                   <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginRight: 15}}>
                     <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    <Image source={require('../../../images/logo.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
                     <View style={{flex: 3,padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
                       <Text style={{fontSize: 12}}>Product title</Text>
@@ -270,7 +270,7 @@ class ScrollMe extends Component {
                   </TouchableOpacity>
                   <TouchableOpacity style={{flex: 1,backgroundColor: 'white'}}>
                     <View style={{borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)',paddingVertical: 5}}>
-                    <Image source={require('../../../images/sample.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
+                    <Image source={require('../../../images/logo.png')} style={{flex: 1,width: deviceWidth / 2.35,height: deviceHeight / 4,marginLeft: 5}}/>
                     </View>
                     <View style={{flex: 3,paddingHorizontal: 5,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
                       <Text style={{fontSize: 12}}>Product title</Text>
