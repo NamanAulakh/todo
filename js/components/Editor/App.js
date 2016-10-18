@@ -5,22 +5,19 @@ import {connect} from 'react-redux';
 
 import GenerateImage from './generateImage';
 import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
-import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
+import {Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, removeImage,addData, takeScreenshot, toggle} from './actions/card';
 
-import light from '../../themes/light';
 import ScrollMe from '../scrollMe';
-import ToolBar from '../toolbar';
 
-import myTheme from '../../themes/base-theme';
 import {takeSnapshot} from 'react-native-view-shot';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
-const imageHeight = 1024/PixelRatio.get();
-const imageWidth = 1024/PixelRatio.get();
+const imageHeight = 1024 / PixelRatio.get();
+const imageWidth = 1024 / PixelRatio.get();
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +34,8 @@ let startWidth = 0;
 let startHeight = 0;
 let startY = 0;
 let startX = 0;
+let screenshotWidth = 0;
+let screenshotHeight = 0;
 
 class App extends Component {
 
@@ -220,19 +219,25 @@ class App extends Component {
     if (this.props.arrowUp)  {
       return (
           <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-            <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}
-               >
+            <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Collage / Dressed like a princess</Text>
                 </View>
                 <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
-                  <View style={{flex: 12,}}>
+                  <View
+                    style={{flex: 12}}
+                    onLayout = {
+                      (event) => {
+                      var {x, y, width, height} = event.nativeEvent.layout;
+                      console.log('thi is Dimensions',width,height);
+                      screenshotWidth = width;
+                      screenshotHeight = height;
+                    }}>
                     <GestureView
                         style={{width: deviceWidth, height: deviceHeight, position: 'absolute', backgroundColor: 'transparent'}}
                         type="View"
                         gestures={[drag, pinch]}
                         tapCallback={() => {
-                          console.log('yo');
                           currentIndex = -1;
                           this._child = null;
                           this.showAll();
@@ -427,7 +432,7 @@ class App extends Component {
               <GenerateImage data = {this.props.card}
               imageHeight = {imageHeight}
               imageWidh = {imageWidth}
-              heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
+              heightToWidhRatio = {screenshotHeight/screenshotWidth}
               />
               :
               <View/>}
