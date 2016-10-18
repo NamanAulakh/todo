@@ -15,6 +15,7 @@ export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
 export const TAKE_SCREENSHOT = 'TAKE_SCREENSHOT';
+export const CHANGE_CURRENT_INDEX = 'CHANGE_CURRENT_INDEX';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -30,6 +31,13 @@ export function addData(payload:Object):Action {
     return {
         type: DATA,
         payload: payload
+    };
+}
+
+export function changeCurrentIndex(index:Number):Action {
+    return {
+        type: CHANGE_CURRENT_INDEX,
+        index: index
     };
 }
 
@@ -81,7 +89,6 @@ export function duplicateImage(index:Number):Action {
 }
 
 export function removeImage(index:Number):Action {
-  console.log('removeImage:(actions)');
     return {
         type: REMOVE_IMAGE,
         index: index

@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX} from '../actions/card';
 
 const images = [
   {
@@ -89,7 +89,8 @@ const initialState = {
     showBar: true,//make it false later
     allMadeActive: false,
     show: false,
-    screenshot: false
+    screenshot: false,
+    currentIndex: -1
 };
 
 function getRandomInt(min, max) {
@@ -331,6 +332,13 @@ export default function (state:State = initialState, action:Action): State {
       };
   }
 
+  if (action.type === CHANGE_CURRENT_INDEX) {
+      state.currentIndex = action.index;
+      return {
+          ...state
+      };
+  }
+
   if (action.type === DATA) {
 
       // let image = images[getRandomInt(0, images.length - 1)];
@@ -388,7 +396,7 @@ export default function (state:State = initialState, action:Action): State {
   }
 
   if (action.type === REMOVE_IMAGE) {
-    console.log('removeImage:(reducers)' , action.index);
+    console.log('^^^^^^' , action.index);
       return {
           ...state,
           card: [...removeImage(action.index, state.card)],

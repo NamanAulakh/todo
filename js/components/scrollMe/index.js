@@ -33,17 +33,27 @@ class ScrollMe extends Component {
     // }
 
     toggle()  {
+      console.log('toggle:(scrollMe)...');
+
       this.props.toggle();
+      console.log('After toggle: ',this.props.arrowUp);
+      //hack
+      // if(this.props.arrowUp)  {
+      //   this.props.onChange(true);
+      // }
+
+      console.log('...toggle:(scrollMe)');
+
     }
 
-    componentWillReceiveProps(nextProps) {
-      console.log('componentWillReceiveProps:(scrollMe)...');
-
-      console.log('nextProps: ' , nextProps);
-
-      console.log('...componentWillReceiveProps:(scrollMe)');
-
-    }
+    // componentWillReceiveProps(nextProps) {
+    //   console.log('componentWillReceiveProps:(scrollMe)...');
+    //
+    //   console.log('nextProps: ' , nextProps);
+    //
+    //   console.log('...componentWillReceiveProps:(scrollMe)');
+    //
+    // }
 
     // componentWillMount()  {
     //   console.log('componentWillMount:scrollMe...');
@@ -54,7 +64,6 @@ class ScrollMe extends Component {
     // }
 
     render() {
-      // console.log('index.js:(scrollMe): ' , this.props);
         return (
             <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
               <TouchableOpacity>
@@ -307,6 +316,7 @@ function bindAction(dispatch) {
 
 function mapStateToProps(state) {
     return {
+        card: state.card.card,
         arrowUp: state.card.arrowUp,
         collective: state.card.collective
     };

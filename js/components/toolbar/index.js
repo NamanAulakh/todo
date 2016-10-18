@@ -21,13 +21,6 @@ const deviceHeight = Dimensions.get('window').height;
 const imageHeight = 1024/PixelRatio.get();
 const imageWidth = 1024/PixelRatio.get();
 
-// let currentIndex = -1;
-// let startWidth = 0;
-// // let startRotate = 0;
-// let startHeight = 0;
-// let startY = 0;
-// let startX = 0;
-
 class ToolBar extends Component {
 
   static propTypes = {
@@ -50,20 +43,21 @@ class ToolBar extends Component {
     takeScreenshot: React.PropTypes.func.isRequired,
     show: React.PropTypes.any,
     data: React.PropTypes.any,
-    screenshot: React.PropTypes.any
+    screenshot: React.PropTypes.any,
+    currentIndex: React.PropTypes.any
   }
-
-  componentWillMount() {
-
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // console.log('this.props : componentWillReceiveProps(ToolBar.js:Editor): ' , this.props);
-    // console.log('nextProps : componentWillReceiveProps(ToolBar.js:Editor): ' , nextProps);
-  }
-
+  //
+  // componentWillMount() {
+  //
+  // }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //   // console.log('this.props : componentWillReceiveProps(ToolBar.js:Editor): ' , this.props);
+  //   // console.log('nextProps : componentWillReceiveProps(ToolBar.js:Editor): ' , nextProps);
+  // }
+  //
   moveCard(obj, i) {
-    this.props.moveCard(obj, i);
+    this.moveCard(obj, i);
   }
 
   addCard() {
@@ -92,16 +86,24 @@ class ToolBar extends Component {
 
   saveImage() {
     this.takeScreenshot();
-    console.log('toogglleee before',this.props.screenshot);
-    takeSnapshot(this._viewRef, {
-      format: 'png',
-      quality: 1
-    })
-    .then(
-      uri => {this.takeScreenshot();console.log('image saved',uri);},
-      error => alert('Oops, snapshot failed ' + error)
-    );
-    console.log('after toogglleee',this.props.screenshot);
+    setTimeout(()=>{
+      if(this.props.screenshot) {
+        takeSnapshot(this.props._viewRef, {
+          format: 'png',
+          quality: 1
+        })
+        .then(
+          uri => {
+            this.takeScreenshot();
+            console.log('image saved',uri);
+          },
+          error => alert('Oops, snapshot failed ' + error)
+        );
+      }
+      else {
+        console.log('%%%%%%%%%%%%%%%%');
+      }
+    },2000);
   }
 
   removeImage(i) {
@@ -128,13 +130,13 @@ class ToolBar extends Component {
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
                 <Icon name="ios-add" />
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(currentIndex)}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(this.props.currentIndex)}>
               <Icon name="ios-arrow-up" />
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.sendToBack(currentIndex)}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.sendToBack(this.props.currentIndex)}>
               <Icon name="ios-arrow-down" />
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.flipImage(currentIndex)}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.flipImage(this.props.currentIndex)}>
               <View style={{flexDirection: 'row'}}>
                 <View style={{paddingRight: 10}}>
                   <Icon name="ios-arrow-back" />
@@ -144,10 +146,10 @@ class ToolBar extends Component {
                 </View>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.duplicateImage(currentIndex)}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.duplicateImage(this.props.currentIndex)}>
               <Icon name="ios-copy" style={{}} />
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.removeImage(currentIndex)}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.removeImage(this.props.currentIndex)}>
               <Icon name="ios-trash" style={{}} />
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.saveImage()}>
@@ -179,7 +181,6 @@ function bindAction(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    index: state.list.selectedIndex,
     list: state.list.list,
     card: state.card.card,
     arrowUp: state.card.arrowUp,
@@ -187,7 +188,8 @@ function mapStateToProps(state) {
     showBar: state.card.showBar,
     allMadeActive: state.card.allMadeActive,
     show: state.card.show,
-    screenshot: state.card.screenshot
+    screenshot: state.card.screenshot,
+    currentIndex: state.card.currentIndex
   };
 }
 
