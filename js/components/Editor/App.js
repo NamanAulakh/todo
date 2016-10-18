@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import GenerateImage from './generateImage';
 import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
-import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
+import {Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
 import {moveCard, makeActive, showAll, toggle} from './actions/card';
 
@@ -14,20 +14,13 @@ import ToolBar from '../toolbar';
 import CustomAnimation from '../customAnimation';
 import Gesture from '../gesture';
 
+import {takeSnapshot} from 'react-native-view-shot';
+
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
-const imageHeight = 1024/PixelRatio.get();
-const imageWidth = 1024/PixelRatio.get();
-
-
-
-// let currentIndex = -1;
-// let startWidth = 0;
-// // let startRotate = 0;
-// let startHeight = 0;
-// let startY = 0;
-// let startX = 0;
+const imageHeight = 1024 / PixelRatio.get();
+const imageWidth = 1024 / PixelRatio.get();
 
 class App extends Component {
 
@@ -66,8 +59,7 @@ class App extends Component {
     if (this.props.arrowUp)  {
       return (
           <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-            <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}
-               >
+            <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Collage / Dressed like a princess</Text>
                 </View>

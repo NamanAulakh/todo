@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {View, Text, Image, Dimensions,ScrollView} from 'react-native';
-import {Container, Header, Title, Button, Icon, InputGroup, Input
+import {Container, Header, Title, Button, Icon, InputGroup, Input, Spinner
 } from 'native-base';
 import {GridView} from 'react-native-cascadeGrid';
 var {height, width} = Dimensions.get('window');
 const images = [
   {
-    url: 'http://babylon.geekydev.com/images/170991132.png',
+    url: 'http://babylon.geekydev.com/images/170991132.pn',
     height: 400,
     width: 188
   },
@@ -71,7 +71,15 @@ const images = [
     width: 350
   }
 ];
-
+class OnloadImage extends Component {
+  render() {
+    return(
+      <View>
+        <Spinner/>
+      </View>
+    )
+  }
+}
 class MinItems extends Component {
   componentDidMount() {
 
@@ -101,7 +109,7 @@ class MinItems extends Component {
             <Icon style = {{fontSize: 20,color: 'rgba(199,199,199,1)'}} name = 'ios-arrow-forward'/>
           </View>
         </View>
-          <GridView images = {images} columns = {3} horizontalFix = {true}  />
+          <GridView images = {images} columns = {3} horizontalFix = {true} />
 
 
       </View>
