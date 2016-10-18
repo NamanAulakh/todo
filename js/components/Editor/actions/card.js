@@ -5,6 +5,7 @@ import type {Action} from './types';
 
 export const MOVE_CARD = 'MOVE_CARD';
 export const ADD_CARD = 'ADD_CARD';
+export const ADD_TEXT = 'ADD_TEXT';
 export const MAKE_ACTIVE = 'MAKE_ACTIVE';
 export const BRING_TO_TOP = 'BRING_TO_TOP';
 export const SEND_TO_BACK = 'SEND_TO_BACK';
@@ -14,6 +15,7 @@ export const DUPLICATE_IMAGE = 'DUPLICATE_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
+export const UPDATE_TEXT = 'UPDATE_TEXT';
 export const TAKE_SCREENSHOT = 'TAKE_SCREENSHOT';
 export const CHANGE_CURRENT_INDEX = 'CHANGE_CURRENT_INDEX';
 
@@ -25,11 +27,25 @@ export function moveCard(payload:Object, index:Number):Action {
         index: index
     };
 }
+export function updateText(text,i) {
+  return {
+    type: UPDATE_TEXT,
+    text: text,
+    Index: i
+  }
+}
 
 export function addData(payload:Object):Action {
 
     return {
         type: DATA,
+        payload: payload
+    };
+}
+export function addText(payload:String):Action {
+
+    return {
+        type: ADD_TEXT,
         payload: payload
     };
 }

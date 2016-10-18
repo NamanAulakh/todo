@@ -1,14 +1,14 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
-import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
+import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity,TextInput,Alert} from 'react-native';
+import {Container, Header, Footer, Title, Button, Icon, InputGroup, Input} from 'native-base';
 
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
-import {showAll,  moveCard, makeActive, changeCurrentIndex} from '../Editor/actions/card';
+import {showAll,  moveCard, makeActive, changeCurrentIndex, updateText} from '../actions/card';
 
 import {drag, pinch, GestureView} from 'react-native-gestures';
 
@@ -34,6 +34,7 @@ class Gesture extends Component {
     moveCard: React.PropTypes.func.isRequired,
     makeActive: React.PropTypes.func.isRequired,
     changeCurrentIndex: React.PropTypes.func.isRequired,
+    updateText: React.PropTypes.func.isRequired,
     currentIndex: React.PropTypes.any,
     allMadeActive: React.PropTypes.any
   }
@@ -43,11 +44,19 @@ class Gesture extends Component {
   }
 
   makeActive(i) {
+
     this.props.makeActive(i);
+
+    console.log('kfvijrfjrfijrfjirjf log ',this.refs[i]._textInput.focus());
+  }
+  updateText(text,i) {
+    this.props.updateText(text,i);
   }
 
   showAll() {
     this.props.showAll();
+    this.refs[this.props.currentIndex]._textInput.setNativeProps({'editable':false});
+
   }
 
   changeCurrentIndex(index) {
@@ -130,6 +139,7 @@ class Gesture extends Component {
             this.props.card.map((obj, i) => {
               // console.log("obj:", obj);
               // this.props.onChange(obj);
+              var autoFocus = true;
               const movable = {
                 width: obj.width,
                 height: obj.height,
@@ -149,19 +159,25 @@ class Gesture extends Component {
                 movable.borderWidth = 1;
                 movable.borderColor = '#d6d7da';
                 movable.opacity = 1;
+
               } else {
                 // movable.backgroundColor = 'rgba(76,174,76, 0.5)';
                 movable.opacity = 0.5;
+
               }
             }
 
               return (
+
                 <GestureView
-                  key={ obj.url + '_' + i }
-                  style={movable}
                   pointerEvents="box-none"
+                  key={i}
+                  type={obj.type}
+                  style={movable}
+
                   gestures={[drag, pinch]}
                   tapCallback={() => {
+
                     this.makeActive(i);
                   }}
                   onRelease={(x, y, layout) => {
@@ -172,11 +188,12 @@ class Gesture extends Component {
 
                   }}
                   onMove={() => {
+
                     if (!this.props.allMadeActive)  {
+
                       this.makeActive(i);
                     }
                   }}
-                  type="Image"
                   source={{uri: obj.url}}
                   gestureCallback={() => {}}
                   ref={(child) => {
@@ -201,7 +218,21 @@ class Gesture extends Component {
                       };
                   }}
                   onError={() => {}}
-                />
+                >
+                <View pointerEvents="none">
+                  <InputGroup  style = {{borderWidth: 1}} >
+                          <Input
+                            ref = {i}
+                           multiline = {true}
+                           autoFocus = {obj.autoFocus}
+                           style = {{height:obj.height,width:obj.width}}
+                           onChangeText = {(text)=>{this.updateText(text,i)}}
+                           placeholder='Type your text here'/>
+                  </InputGroup>
+                </View>
+                </GestureView>
+
+
               );
             })
           }
@@ -216,7 +247,8 @@ function bindAction(dispatch) {
     moveCard: (obj, i) => dispatch(moveCard(obj, i)),
     showAll: () => dispatch(showAll()),
     makeActive: i => dispatch(makeActive(i)),
-    changeCurrentIndex: i => dispatch(changeCurrentIndex(i))
+    changeCurrentIndex: i => dispatch(changeCurrentIndex(i)),
+    updateText: (text,i) => dispatch(updateText(text,i))
   };
 }
 

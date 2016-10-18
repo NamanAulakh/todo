@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, UPDATE_TEXT, ADD_TEXT, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX} from '../actions/card';
 
 const images = [
   {
@@ -117,10 +117,51 @@ function add(arr) {
       rotateNow: 0,
       scaleX: 1,
       scaleY: 1,
-      url: image.url//'../../../images/logo.png'
+      url: image.url,//'../../../images/logo.png'
+      type: 'Image'
   });
   return newArr;
 
+}
+function updateText(text,index,arr) {
+  console.log('ijfijfjrifjijrfjrifjirfjrifjrijfirjfjirfjirj');
+  var newArr = [];
+  arr.map(function(elem,i)  {
+      var obj = elem;
+      if (index === i) {
+          obj.text = text;
+      }
+      console.log('dedkeokdoekdf',obj.text = text);
+      newArr.push(obj);
+  });
+
+  return newArr;
+}
+function addText(arr,payload) {
+  var newArr = [];
+  console.log('+++++++++++++++++++==================+++++++++++++',payload);
+  arr.map(function(elem,i)  {
+      var obj = elem;
+      obj.active = 0;
+      newArr.push(obj);
+  });
+
+  newArr.push({
+      top: 100,
+      left: 10,
+      height: getRandomInt(100, 200),
+      width: getRandomInt(100, 200),
+      rotate: 0,
+      active: 1,
+      rotateAngle: 0,
+      rotateNow: 0,
+      scaleX: 1,
+      scaleY: 1,
+      type: 'View',
+      autoFocus: true,
+      text: payload
+  });
+  return newArr;
 }
 
 function move(index, arr, payload) {
@@ -147,13 +188,16 @@ function move(index, arr, payload) {
 }
 
 function active(index, arr) {
+    console.log('hi I m in on move');
     var newArr = [];
     arr.map(function(elem,i)  {
         var obj = elem;
         if (index === i) {
             obj.active = 1;
+            obj.autoFocus = true;
         } else {
             obj.active = 0;
+            obj.autoFocus = false;
         }
         newArr.push(obj);
     });
@@ -317,6 +361,14 @@ export default function (state:State = initialState, action:Action): State {
            showBar: false
        };
   }
+  if (action.type === ADD_TEXT) {
+       return {
+           ...state,
+           card: [...addText(state.card, action.payload)],
+           show: false,
+           showBar: false
+       };
+  }
 
   if (action.type === TOGGLE) {
       state.arrowUp = !state.arrowUp;
@@ -391,6 +443,13 @@ export default function (state:State = initialState, action:Action): State {
       return {
           ...state,
           card: [...duplicateImage(action.index, state.card)],
+          show: state.show
+      };
+  }
+  if (action.type === UPDATE_TEXT) {
+      return {
+          ...state,
+          card: [...updateText(action.text,action.index, state.card)],
           show: state.show
       };
   }
