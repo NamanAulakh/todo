@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, UPDATE_TEXT, ADD_TEXT, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,TOGGLE_IS_ANIMATING,TOGGLE_IS_ANIMATED,UPDATE_TEXT,ADD_TEXT} from '../actions/card';
 
 const images = [
   {
@@ -79,7 +79,9 @@ export type State = {
   showBar: boolean,
   allMadeActive: boolean,
   show: boolean,
-  screenshot: boolean
+  screenshot: boolean,
+  isAnimating: boolean,
+  isAnimated: boolean
 }
 
 const initialState = {
@@ -90,7 +92,9 @@ const initialState = {
     allMadeActive: false,
     show: false,
     screenshot: false,
-    currentIndex: -1
+    currentIndex: -1,
+    isAnimating: false,
+    isAnimated: false
 };
 
 function getRandomInt(min, max) {
@@ -376,6 +380,20 @@ export default function (state:State = initialState, action:Action): State {
 
   if (action.type === TOGGLE) {
       state.arrowUp = !state.arrowUp;
+      return {
+          ...state
+      };
+  }
+
+  if (action.type === TOGGLE_IS_ANIMATING) {
+      state.isAnimating = !state.isAnimating;
+      return {
+          ...state
+      };
+  }
+
+  if (action.type === TOGGLE_IS_ANIMATED) {
+      state.isAnimated = !state.isAnimated;
       return {
           ...state
       };

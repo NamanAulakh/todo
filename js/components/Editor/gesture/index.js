@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity,TextInput,Alert} from 'react-native';
 import {Container, Header, Footer, Title, Button, Icon, InputGroup, Input} from 'native-base';
 
-
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
@@ -68,10 +67,10 @@ class Gesture extends Component {
     this.props.changeCurrentIndex(index);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.props.card.map((obj, i) => {
-    if (this.props.allMadeActive) {
-      console.log('this.props.allMadeActive');
+  componentWillUpdate(nextProps) {
+    nextProps.card.map((obj, i) => {
+    if (nextProps.allMadeActive) {
+      console.log('nextProps.allMadeActive: true');
     } else {
       if (obj.active === 1) {
         this.changeCurrentIndex(i);
