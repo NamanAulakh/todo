@@ -2,24 +2,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-
-import GenerateImage from '../generateImage';
-import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
-import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
-import {drag, pinch, GestureView} from 'react-native-gestures';
+import {View,TouchableOpacity} from 'react-native';
+import {Icon} from 'native-base';
 import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot, toggle, removeImage, addText} from '../actions/card';
 
-import light from '../../../themes/light';
-import ScrollMe from '../../scrollMe';
-
-import myTheme from '../../../themes/base-theme';
 import {takeSnapshot} from 'react-native-view-shot';
-
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
-
-const imageHeight = 1024/PixelRatio.get();
-const imageWidth = 1024/PixelRatio.get();
 
 class ToolBar extends Component {
 
@@ -41,21 +28,14 @@ class ToolBar extends Component {
     allMadeActive: React.PropTypes.any,
     arrowUp: React.PropTypes.any,
     takeScreenshot: React.PropTypes.func.isRequired,
+    addText: React.PropTypes.func.isRequired,
     show: React.PropTypes.any,
     data: React.PropTypes.any,
     screenshot: React.PropTypes.any,
-    currentIndex: React.PropTypes.any
+    currentIndex: React.PropTypes.any,
+    _viewRef: React.PropTypes.any
   }
-  //
-  // componentWillMount() {
-  //
-  // }
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   // console.log('this.props : componentWillReceiveProps(ToolBar.js:Editor): ' , this.props);
-  //   // console.log('nextProps : componentWillReceiveProps(ToolBar.js:Editor): ' , nextProps);
-  // }
-  //
+
   moveCard(obj, i) {
     this.moveCard(obj, i);
   }
@@ -91,7 +71,7 @@ class ToolBar extends Component {
   saveImage() {
     this.takeScreenshot();
     setTimeout(()=>{
-      if(this.props.screenshot) {
+      if (this.props.screenshot) {
         takeSnapshot(this.props._viewRef, {
           format: 'png',
           quality: 1
@@ -103,8 +83,7 @@ class ToolBar extends Component {
           },
           error => alert('Oops, snapshot failed ' + error)
         );
-      }
-      else {
+      } else {
         console.log('%%%%%%%%%%%%%%%%');
       }
     },2000);
@@ -134,7 +113,7 @@ class ToolBar extends Component {
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
                 <Icon name="ios-add" />
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addText('hi this is kuldeeep')}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addText()}>
                 <Icon name="ios-text" />
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(this.props.currentIndex)}>

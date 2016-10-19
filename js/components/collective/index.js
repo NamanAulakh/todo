@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {View,TouchableOpacity,Image,Dimensions} from 'react-native';
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
+import {View,TouchableOpacity,Image} from 'react-native';
 import {Text,Icon} from 'native-base';
+
 import Icone from '../../../node_modules/react-native-vector-icons/FontAwesome.js';
+
 class Collective extends Component {
   render() {
     return (
-      <TouchableOpacity style={{flex:1,backgroundColor: 'white',borderWidth: 2}}>
+      <TouchableOpacity style={{flex: 1,backgroundColor: 'white',borderWidth: 2}}>
         <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/sample.png')}/>
         <View style={{padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
           <Text style={{fontSize: 12}}>Product title</Text>

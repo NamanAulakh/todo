@@ -1,18 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {View, PanResponder, Animated} from 'react-native';
+import {View} from 'react-native';
 import {Container, Header, Button, Icon} from 'native-base';
 import Editor from '../Editor';
 
 import light from '../../themes/light';
 import {toggle} from '../../actions/display';
-
-// import DoIt from '../doIt';
-// import Product from '../product';
-// import ScrollMe from '../scrollMe';
-
-import myTheme from '../../themes/base-theme';
 
 class BlankPage extends Component {
   static propTypes = {
@@ -26,31 +20,6 @@ class BlankPage extends Component {
     }
   }
 
-  componentWillMount() {
-    this._animatedValue = new Animated.ValueXY();
-    this._value = {x: 0, y: 0};
-
-    this._animatedValue.addListener((value) =>
-    {
-      this._value = value;
-    });
-
-    this._panResponder = PanResponder.create({
-        onMoveShouldSetResponderCapture: () => true, //Tell iOS that we are allowing the movement
-        onMoveShouldSetPanResponderCapture: () => true, // Same here, tell iOS that we allow dragging
-        onPanResponderGrant: (e, gestureState) => {
-          this._animatedValue.setOffset({x: this._value.x, y: this._value.y});
-          this._animatedValue.setValue({x: 0, y: 0});
-        },
-        onPanResponderMove: Animated.event([
-          null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
-        ]), // Creates a function to handle the movement and set offsets
-        onPanResponderRelease: () => {
-          this._animatedValue.flattenOffset(); // Flatten the offset so it resets the default positioning
-        }
-      });
-  }
-
   // componentWillReceiveProps(nextProps) {
   //     let image = (nextProps.image !== this.state.image) ? `${nextProps.picture}?t=${new Date().getTime()}` : nextProps.picture;
   //
@@ -60,35 +29,9 @@ class BlankPage extends Component {
   // shouldComponentUpdate(nextProps) {
   //     return (nextProps.picture !== this.props.picture);
   // }
+
   render() {
-    var data = [
-        // {
-        //   active: 0,
-        //   height: 200,
-        //   left: 10,
-        //   rotate: 0,
-        //   rotateBefore: 0,
-        //   rotateNow: 0,
-        //   scaleX: 1,
-        //   scaleY: 1,
-        //   top: 100,
-        //   url: 'http://babylon.geekydev.com/images/195679393.png',
-        //   width: 200
-        // },
-        // {
-        //   active: 0,
-        //   height: 200,
-        //   left: 10,
-        //   rotate: 0,
-        //   rotateBefore: 0,
-        //   rotateNow: 0,
-        //   scaleX: 1,
-        //   scaleY: 1,
-        //   top: 100,
-        //   url: 'http://babylon.geekydev.com/images/170991132.png',
-        //   width: 200
-        // }
-      ];
+    var data = [];
     return (
       <Container theme={light}>
         <View

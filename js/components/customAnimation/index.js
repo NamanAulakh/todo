@@ -1,11 +1,8 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity,easing,duration} from 'react-native';
-import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
-import clamp from 'clamp';
+import {Dimensions, PanResponder, View,Animated,duration} from 'react-native';
 
-const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 import ScrollMe from '../scrollMe';
@@ -67,6 +64,8 @@ class CustomAnimation extends Component {
             ).start();
           } else {
               console.log('goToTop');
+              this.toggle();
+              this.setOffset(1);
               Animated.timing(
                 this._animatedValue.y,
                 {toValue: deviceHeight > 600 ? ((-1 * (deviceHeight)) + 180) : ((-1 * (deviceHeight)) + 160)},
@@ -83,6 +82,8 @@ class CustomAnimation extends Component {
             ).start();
           } else {
               console.log('...goto borderline');
+              this.toggle();
+              this.setOffset(0);
               Animated.timing(
                 this._animatedValue.y,
                 {toValue: -1 * this._animatedValue.y._offset},
@@ -95,18 +96,25 @@ class CustomAnimation extends Component {
   }
 
   componentWillReceiveProps(nextProps)  {
-    if(!nextProps.arrowUp)  {
+    if (!nextProps.arrowUp)  {
       console.log('***gotoTop');
-
-      Animated.timing(
-        this._animatedValue.y,
-        {toValue: deviceHeight > 600 ? ((-1 * (deviceHeight)) + 180) : ((-1 * (deviceHeight)) + 160)},
-        duration: 20000
-      ).start();
-      console.log('&&&&:100' , this._animatedValue.y);
+      this.setOffset(1);
+      if (this._animatedValue.y._offset === 0) {
+        Animated.timing(
+          this._animatedValue.y,
+          {toValue: deviceHeight > 600 ? ((-1 * (deviceHeight)) + 180) : ((-1 * (deviceHeight)) + 160)},
+          duration: 20000,
+        ).start();
+      } else {
+        Animated.timing(
+          this._animatedValue.y,
+          {toValue: 0},
+          duration: 20000,
+        ).start();
+      }
     } else {
       console.log('***goto borderline');
-      console.log('&&&&:108' , this._animatedValue.y);
+      this.setOffset(0);
       Animated.timing(
         this._animatedValue.y,
         {toValue: -1 * this._animatedValue.y._offset},
@@ -116,23 +124,22 @@ class CustomAnimation extends Component {
   }
 
   render() {
-    console.log('render:this.props.offset ' , this.props.offset);
       return (
-        <View pointerEvents= {this.props.offset === 0 ? "box-none"  : "none"} style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-          <Animated.View
-          style=
-          {[
-            {
-              transform: [
-                {translateY: this._animatedValue.y}
-              ]
-            }
-          ]}
-          {...this._panResponder.panHandlers}
-          >
+        <Animated.View
+        style=
+        {[
+          {
+            transform: [
+              {translateY: this._animatedValue.y}
+            ]
+          }
+        ]}
+        {...this._panResponder.panHandlers}
+        >
+          <View pointerEvents= "auto">
             <ScrollMe/>
-          </Animated.View>
-        </View>
+          </View>
+        </Animated.View>
       );
   }
 }

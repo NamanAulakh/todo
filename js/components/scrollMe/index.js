@@ -4,19 +4,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {TouchableOpacity,View, ScrollView,Dimensions} from 'react-native';
+import {TouchableOpacity,View, ScrollView} from 'react-native';
 import Collective from '../collective';
 import MinItems from '../MijnItems/';
 
 import {toggle} from '../Editor/actions/card';
-import {toggleTab} from '../../actions/display'
+import {toggleTab} from '../../actions/display';
 import {Text, Button, Icon} from 'native-base';
-
-// import myTheme from '../../themes/base-theme';
-// import styles from './style';
-
-
-const deviceWidth = Dimensions.get('window').width;
 
 class ScrollMe extends Component {
 
@@ -28,12 +22,6 @@ class ScrollMe extends Component {
         currentTab: React.PropTypes.any
     }
 
-    // navigateTo(route, index) {
-    //     this.props.closeDrawer();
-    //     this.props.setIndex(index);
-    //     this.props.replaceOrPushRoute(route);
-    // }
-
     toggle()  {
       this.props.toggle();
     }
@@ -42,9 +30,15 @@ class ScrollMe extends Component {
       this.props.toggleTab();
     }
 
+    scrollEvent() {
+      console.log('ScrollEvent');
+    }
+
     render() {
         return (
-            <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+            <View
+            style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}
+            >
               <TouchableOpacity>
                 <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginVertical: 5,flexDirection: 'row'}}>
                   <Button transparent style={{flex: 1,alignSelf: 'center'}} onPress={() => this.toggle()}>
@@ -61,9 +55,15 @@ class ScrollMe extends Component {
                   </Button>
                 </TouchableOpacity>
               </TouchableOpacity>
-              <ScrollView style={{flex: 9,marginHorizontal: 10,marginTop: 10}}>
-                {this.props.collective ? <Collective/> : <MinItems/>}
-              </ScrollView>
+              <View
+              >
+                <ScrollView
+                ref="scrollView"
+                style={{flex: 9,marginHorizontal: 10,marginTop: 10}}
+                >
+                  {this.props.collective ? <Collective/> : <MinItems/>}
+                </ScrollView>
+              </View>
             </View>
         );
     }

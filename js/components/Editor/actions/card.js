@@ -34,8 +34,8 @@ export function updateText(text,i) {
   return {
     type: UPDATE_TEXT,
     text: text,
-    Index: i
-  }
+    index: i
+  };
 }
 
 export function addData(payload:Object):Action {
@@ -60,7 +60,7 @@ export function changeCurrentIndex(index:Number):Action {
     };
 }
 
-export function setOffset(index:Number):Action {
+export function setOffset(value:Number):Action {
     return {
         type: SET_OFFSET,
         value: value
