@@ -7,12 +7,12 @@ import GenerateImage from '../generateImage';
 import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
 import {Container, Header, Footer, Title, Button, Icon} from 'native-base';
 import {drag, pinch, GestureView} from 'react-native-gestures';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot, toggle, removeImage} from '../Editor/actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot, toggle, removeImage, addText} from '../actions/card';
 
-import light from '../../themes/light';
-import ScrollMe from '../scrollMe';
+import light from '../../../themes/light';
+import ScrollMe from '../../scrollMe';
 
-import myTheme from '../../themes/base-theme';
+import myTheme from '../../../themes/base-theme';
 import {takeSnapshot} from 'react-native-view-shot';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -63,6 +63,10 @@ class ToolBar extends Component {
   addCard() {
     this.props.addCard();
   }
+  addText(str) {
+    this.props.addText(str);
+  }
+
 
   bringToTop(i) {
     this.props.bringToTop(i);
@@ -125,6 +129,8 @@ class ToolBar extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+
+      <Button primary style={{position:'absolute',zIndex:1,left:50}} onPress={() => this.addText('hi this is kuldeeep')}>Add Text</Button>
         <View style={{flex: 1,backgroundColor: 'rgba(255,255,255,.8)'}}>
           <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems: 'center'}}>
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
@@ -166,6 +172,7 @@ function bindAction(dispatch) {
   return {
     moveCard: (obj, i) => dispatch(moveCard(obj, i)),
     addCard: () => dispatch(addCard()),
+    addText: (str) => dispatch(addText(str)),
     takeScreenshot: () => dispatch(takeScreenshot()),
     makeActive: i => dispatch(makeActive(i)),
     bringToTop: i => dispatch(bringToTop(i)),

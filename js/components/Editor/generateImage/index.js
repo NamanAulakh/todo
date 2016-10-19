@@ -21,18 +21,37 @@ class GenerateImage extends Component {
           <View style={{width:requiredWidth,height:requiredHeight,alignSelf:'center'}}>
             {
               images.map(function(item,i) {
-                return(
-                    <Image
-                    key={i}
-                    style={{
-                      position:'absolute',
-                      top:(item.top)*verticalScale,
-                      left:(item.left)*horizontalScale,
-                      width:item.width*horizontalScale,
-                      height:item.height*verticalScale,
-                      transform: [{rotate: `${item.rotateAngle}deg`},{scaleX: item.scaleX}, {scaleY: item.scaleY}]}}
-                    source = {{uri : item.url}}/>
-                  );
+                if(item.url) {
+                  return(
+                      <Image
+                      key={i}
+                      style={{
+                        position:'absolute',
+                        top:(item.top)*verticalScale,
+                        left:(item.left)*horizontalScale,
+                        width:item.width*horizontalScale,
+                        height:item.height*verticalScale,
+                        transform: [{rotate: `${item.rotateAngle}deg`},{scaleX: item.scaleX}, {scaleY: item.scaleY}]}}
+                      source = {{uri : item.url}}/>
+                    );
+                  } else {
+                    return(
+                      <View
+                        key={i}
+                        style={{
+                          position:'absolute',
+                          top:(item.top)*verticalScale,
+                          left:(item.left)*horizontalScale,
+                          width:item.width*horizontalScale,
+                          height:item.height*verticalScale,
+                          transform: [{rotate: `${item.rotateAngle}deg`},{scaleX: item.scaleX}, {scaleY: item.scaleY}],
+                          backgroundColor: 'red'
+
+                        }}>
+                        <Text>{item.text}</Text>
+                      </View>
+                    )
+                  }
               })
             }
           </View>

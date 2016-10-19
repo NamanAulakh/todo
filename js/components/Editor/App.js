@@ -10,9 +10,9 @@ import {drag, pinch, GestureView} from 'react-native-gestures';
 import {moveCard, makeActive, showAll, toggle} from './actions/card';
 
 import ScrollMe from '../scrollMe';
-import ToolBar from '../toolbar';
+import ToolBar from './toolbar';
 import CustomAnimation from '../customAnimation';
-import Gesture from '../gesture';
+import Gesture from './gesture';
 
 import {takeSnapshot} from 'react-native-view-shot';
 
