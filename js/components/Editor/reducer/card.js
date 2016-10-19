@@ -124,14 +124,15 @@ function add(arr) {
 
 }
 function updateText(text,index,arr) {
-  console.log('ijfijfjrifjijrfjrifjirfjrifjrijfirjfjirfjirj');
+  console.log('index',index);
   var newArr = [];
   arr.map(function(elem,i)  {
       var obj = elem;
       if (index === i) {
           obj.text = text;
+      } else {
+        obj.text = elem.text
       }
-      console.log('dedkeokdoekdf',obj.text = text);
       newArr.push(obj);
   });
 
@@ -149,8 +150,8 @@ function addText(arr,payload) {
   newArr.push({
       top: 100,
       left: 10,
-      height: getRandomInt(100, 200),
-      width: getRandomInt(100, 200),
+      height: 50,//getRandomInt(100, 200),
+      width: 100,//getRandomInt(100, 200),
       rotate: 0,
       active: 1,
       rotateAngle: 0,
@@ -304,7 +305,10 @@ function duplicateImage(index, arr) {
         newItem.scaleY = item.scaleY;
         newItem.active = 1;
         newItem.url = item.url;
+        newItem.text = item.text;
+        newItem.type = item.type;
         newArr.push(newItem);
+
     }
 
     return newArr;

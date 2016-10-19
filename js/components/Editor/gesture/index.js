@@ -46,16 +46,21 @@ class Gesture extends Component {
   makeActive(i) {
 
     this.props.makeActive(i);
-
-    console.log('kfvijrfjrfijrfjirjf log ',this.refs[i]._textInput.focus());
+    if (this.refs[i]) {
+    this.refs[i]._textInput.focus();
   }
+}
   updateText(text,i) {
+    console.log("frfr",i);
     this.props.updateText(text,i);
   }
 
   showAll() {
+
     this.props.showAll();
-    this.refs[this.props.currentIndex]._textInput.setNativeProps({'editable':false});
+    if (this.refs[this.props.currentIndex]) {
+      this.refs[this.props.currentIndex]._textInput.setNativeProps({'editable':false});
+    }
 
   }
 
@@ -220,12 +225,13 @@ class Gesture extends Component {
                   onError={() => {}}
                 >
                 <View pointerEvents="none">
-                  <InputGroup  style = {{borderWidth: 1}} >
+                  <InputGroup  borderType='transparent' style=  {{borderWidth:0}} >
                           <Input
                             ref = {i}
+                            value = {obj.text}
                            multiline = {true}
                            autoFocus = {obj.autoFocus}
-                           style = {{height:obj.height,width:obj.width}}
+                           style = {{height:obj.height,width:obj.width,borderBottomColor:'transparent',borderBottomWidth:0}}
                            onChangeText = {(text)=>{this.updateText(text,i)}}
                            placeholder='Type your text here'/>
                   </InputGroup>

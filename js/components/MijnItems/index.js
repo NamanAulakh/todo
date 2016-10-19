@@ -6,7 +6,7 @@ import {GridView} from 'react-native-cascadeGrid';
 var {height, width} = Dimensions.get('window');
 const images = [
   {
-    url: 'http://babylon.geekydev.com/images/170991132.pn',
+    url: 'http://babylon.geekydev.com/images/170991132.png',
     height: 400,
     width: 188
   },
@@ -109,7 +109,7 @@ class MinItems extends Component {
             <Icon style = {{fontSize: 20,color: 'rgba(199,199,199,1)'}} name = 'ios-arrow-forward'/>
           </View>
         </View>
-          <GridView images = {images} columns = {3} horizontalFix = {true} />
+          <GridView images = {images} columns = {2} fixDimension = {true} />
 
 
       </View>

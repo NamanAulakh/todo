@@ -44,8 +44,7 @@ class GenerateImage extends Component {
                           left:(item.left)*horizontalScale,
                           width:item.width*horizontalScale,
                           height:item.height*verticalScale,
-                          transform: [{rotate: `${item.rotateAngle}deg`},{scaleX: item.scaleX}, {scaleY: item.scaleY}],
-                          backgroundColor: 'red'
+                          transform: [{rotate: `${item.rotateAngle}deg`},{scaleX: item.scaleX}, {scaleY: item.scaleY}]
 
                         }}>
                         <Text>{item.text}</Text>

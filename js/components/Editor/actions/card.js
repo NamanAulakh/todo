@@ -31,7 +31,7 @@ export function updateText(text,i) {
   return {
     type: UPDATE_TEXT,
     text: text,
-    Index: i
+    index: i
   }
 }
 
