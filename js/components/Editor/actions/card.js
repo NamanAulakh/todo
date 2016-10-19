@@ -16,6 +16,8 @@ export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
 export const TAKE_SCREENSHOT = 'TAKE_SCREENSHOT';
 export const CHANGE_CURRENT_INDEX = 'CHANGE_CURRENT_INDEX';
+export const TOGGLE_IS_ANIMATING = 'TOGGLE_IS_ANIMATING';
+export const TOGGLE_IS_ANIMATED = 'TOGGLE_IS_ANIMATED';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -50,6 +52,18 @@ export function addCard():Action {
 export function toggle():Action {
     return {
         type: TOGGLE
+    };
+}
+
+export function toggleIsAnimating():Action {
+    return {
+        type: TOGGLE_IS_ANIMATING
+    };
+}
+
+export function toggleIsAnimated():Action {
+    return {
+        type: TOGGLE_IS_ANIMATED
     };
 }
 

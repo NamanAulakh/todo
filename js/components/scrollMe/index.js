@@ -62,7 +62,7 @@ class ScrollMe extends Component {
                   </Button>
                 </TouchableOpacity>
               </TouchableOpacity>
-              <ScrollView style={{flex: 9,marginHorizontal: 10,marginTop: 15}}>
+              <ScrollView style={{flex: 9,marginHorizontal: 10,marginTop: 10}}>
                 {this.props.collective ? <Collective/> : <MinItems/>}
               </ScrollView>
             </View>
