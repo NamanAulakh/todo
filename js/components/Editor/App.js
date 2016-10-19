@@ -57,52 +57,42 @@ class App extends Component {
   }
 
   render() {
-    console.log('this.props.isAnimated:(App.js): ' , this.props.isAnimated);
-    if(this.props.isAnimated) {
-      return (
-        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-          <ScrollMe/>
-        </View>
-      );
-    } else {
-      return (
-        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-          <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text>Collage / Dressed like a princess</Text>
-              </View>
-              <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
-                <View style={{flex: 10,}}>
-                  <Gesture/>
-                </View>
-                <View style={{flex: 1}}>
-                  <ToolBar
-                  _viewRef = {this._viewRef}
-                  />
-                </View>
-              </View>
-          </View>
-          <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-            <CustomAnimation/>
-          </View>
-          <View style={{flex:1,opacity:0}} pointerEvents="none">
-            <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
-              this._viewRef = child;
-              }}>
-              {this.props.screenshot ?
-              <GenerateImage data = {this.props.card}
-              imageHeight = {imageHeight}
-              imageWidh = {imageWidth}
-              heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
-              />
-              :
-              <View/>}
+    return (
+      <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+        <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <Text>Collage / Dressed like a princess</Text>
             </View>
+            <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
+              <View style={{flex: 10,}}>
+                <Gesture/>
+              </View>
+              <View style={{flex: 1}}>
+                <ToolBar
+                _viewRef = {this._viewRef}
+                />
+              </View>
+            </View>
+        </View>
+        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+          <CustomAnimation/>
+        </View>
+        <View style={{flex:1,opacity:0}} pointerEvents="none">
+          <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
+            this._viewRef = child;
+            }}>
+            {this.props.screenshot ?
+            <GenerateImage data = {this.props.card}
+            imageHeight = {imageHeight}
+            imageWidh = {imageWidth}
+            heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
+            />
+            :
+            <View/>}
           </View>
         </View>
-      );
-    }
-
+      </View>
+    );
   }
 }
 

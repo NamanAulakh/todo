@@ -9,7 +9,7 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 import ScrollMe from '../scrollMe';
-import {toggle,toggleIsAnimating,toggleIsAnimated} from '../Editor/actions/card';
+import {toggle,toggleIsAnimating,toggleIsAnimated,setOffset} from '../Editor/actions/card';
 
 class CustomAnimation extends Component {
 
@@ -17,6 +17,7 @@ class CustomAnimation extends Component {
     toggle: React.PropTypes.func.isRequired,
     toggleIsAnimating: React.PropTypes.func.isRequired,
     toggleIsAnimated: React.PropTypes.func.isRequired,
+    setOffset: React.PropTypes.func.isRequired,
     arrowUp: React.PropTypes.any,
     isAnimating: React.PropTypes.any,
     isAnimated: React.PropTypes.any
@@ -34,135 +35,90 @@ class CustomAnimation extends Component {
     this.props.toggleIsAnimated();
   }
 
+  setOffset(value)  {
+    this.props.setOffset(value);
+  }
+
   componentWillMount() {
-    var self = this;
     this._animatedValue = new Animated.ValueXY();
     this._value = {x: 0, y: 0};
 
     this._animatedValue.addListener((value) => this._value = value);
 
     this._panResponder = PanResponder.create({
-        onMoveShouldSetResponderCapture: () => true, //Tell iOS that we are allowing the movement
-        onMoveShouldSetPanResponderCapture: () => true, // Same here, tell iOS that we allow dragging
-        onPanResponderGrant: (e, gestureState) => {
-          this._animatedValue.setOffset({x: this._value.x, y: this._value.y});
-          this._animatedValue.setValue({x: 0, y: 0});
-        },
-        onPanResponderMove: Animated.event([
-          null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
-        ]), // Creates a function to handle the movement and set offsets
-        onPanResponderRelease: (e, {vy}) => {
-          // this._animatedValue.flattenOffset(); // Flatten the offset so it resets the default positioning
-          var velocity;
-          console.log('vy: ' , vy);
-          if (vy >= 0) {
-                    velocity = clamp(vy, 4.5, 10);
-                    console.log('velocity: ' , velocity);
-                } else if (vy < 0) {
-                    velocity = clamp(vy * -1, 4.5, 10) * -1;
-                    console.log('velocity: ' , velocity);
-                }
-
-
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@@' , this._animatedValue.y);
-          if (this._animatedValue.y._offset === 0) {
-            if (this._animatedValue.y._value > 0) {
-              console.log('below borderline');
-              // this._animatedValue.setValue({x: 0, y: 0});
-              Animated.timing(          // Uses easing functions
-                this._animatedValue.y,    // The value to drive
-                {toValue: 0},
-                duration: 20000        // Configuration
-              ).start();
-            } else {
-              console.log('above borderline');
-              if (this._animatedValue.y._value > -1 * (deviceHeight / 4))  {
-                // this._animatedValue.setValue({x: 0, y: 0});
-                Animated.timing(          // Uses easing functions
-                  this._animatedValue.y,    // The value to drive
-                  {toValue: 0},
-                  duration: 20000        // Configuration
-                ).start();
-              } else {
-                console.log('goToTop');
-                console.log('this._animatedValue.y._value: ' , this._animatedValue.y._value);
-                self.toggleIsAnimating();
-                // this._animatedValue.setOffset({x: 0, y: 0});
-                // this._animatedValue.setValue({x: 0, y: 0});
-                Animated.timing(          // Uses easing functions
-                  this._animatedValue.y,    // The value to drive
-                  {toValue: deviceHeight > 600 ? ((-1 * (deviceHeight)) + 180) : ((-1 * (deviceHeight)) + 160)},
-                  duration: 20000        // Configuration
-                ).start();
-
-                setTimeout(()=>{
-                  console.log('+++++' , self.props.isAnimating);
-                  if(self.props.isAnimating)  {
-                    self.toggleIsAnimated();
-                    self.toggleIsAnimating();
-                    console.log('self.props.isAnimating: ' , self.props.isAnimating);
-                    console.log('self.props.isAnimated: ' , self.props.isAnimated);
-                  } else {
-                    console.log('else');
-                  }
-                },2000);
-                // this._animatedValue.setValue({x: 0, y: -1 * (deviceHeight / 2 + 37)});
-                // self.toggle();
-              }
-            }
+      onMoveShouldSetResponderCapture: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+      onPanResponderGrant: (e, gestureState) => {
+        this._animatedValue.setOffset({x: this._value.x, y: this._value.y});
+        this._animatedValue.setValue({x: 0, y: 0});
+      },
+      onPanResponderMove: Animated.event([
+        null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
+      ]), // Creates a function to handle the movement and set offsets
+      onPanResponderRelease: (e) => {
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@' , this._animatedValue.y);
+        if (this._animatedValue.y._offset === 0) {
+          if (this._animatedValue.y._value > (-1 * (deviceHeight / 4))) {
+            console.log('goto borderline');
+            Animated.timing(
+              this._animatedValue.y,
+              {toValue: 0},
+              duration: 20000
+            ).start();
           } else {
-            if ((this._animatedValue.y._value + this._animatedValue.y._offset) > 0)  {
-              console.log('...below borderline');
-              console.log('@@@ ' , this._animatedValue.y._value + this._animatedValue.y._offset);
-              this._animatedValue.setOffset({x: 0, y: 0});
-              this._animatedValue.setValue({x: 0, y: 0});
-            } else {
-              console.log('...above borderline');
-              console.log('... ' , this._animatedValue.y._value + this._animatedValue.y._offset);
-              if (this._animatedValue.y._value + this._animatedValue.y._offset > -150)  {
-                console.log('goto borderline');
-                this._animatedValue.setOffset({x: 0, y: 0});
-                this._animatedValue.setValue({x: 0, y: 0});
-              } else {
-                console.log('...gotoTop');
-                this._animatedValue.setOffset({x: 0, y: 0});
-                this._animatedValue.setValue({x: 0, y: 0});
-                // this._animatedValue.setValue({x: 0, y: -1 * (deviceHeight / 2 + 37)});
-                self.toggle();
-              }
-            }
+              console.log('goToTop');
+              Animated.timing(
+                this._animatedValue.y,
+                {toValue: deviceHeight > 600 ? ((-1 * (deviceHeight)) + 180) : ((-1 * (deviceHeight)) + 160)},
+                duration: 20000
+              ).start();
+          }
+        } else {
+          if (this._animatedValue.y._value < deviceHeight / 3)  {
+            console.log('...gotoTop');
+            Animated.timing(
+              this._animatedValue.y,
+              {toValue: 0},
+              duration: 20000
+            ).start();
+          } else {
+              console.log('...goto borderline');
+              Animated.timing(
+                this._animatedValue.y,
+                {toValue: -1 * this._animatedValue.y._offset},
+                duration: 20000
+              ).start();
           }
         }
-      });
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps)  {
-    console.log('nextProps: ' , nextProps);
     if(!nextProps.arrowUp)  {
-      // this._animatedValue.setOffset({x: 0, y: 0});
-      // this._animatedValue.setValue({x: 0, y: 0});
-      Animated.timing(          // Uses easing functions
-        this._animatedValue.y,    // The value to drive
+      console.log('***gotoTop');
+
+      Animated.timing(
+        this._animatedValue.y,
         {toValue: deviceHeight > 600 ? ((-1 * (deviceHeight)) + 180) : ((-1 * (deviceHeight)) + 160)},
-                // Configuration
+        duration: 20000
       ).start();
-      // this.toggleIsAnimating();
-      // setTimeout(() => {
-      //   this.toggleIsAnimated();
-      // },2000);
+      console.log('&&&&:100' , this._animatedValue.y);
     } else {
-      Animated.timing(          // Uses easing functions
-        this._animatedValue.y,    // The value to drive
-        {toValue: 0},
-                // Configuration
+      console.log('***goto borderline');
+      console.log('&&&&:108' , this._animatedValue.y);
+      Animated.timing(
+        this._animatedValue.y,
+        {toValue: -1 * this._animatedValue.y._offset},
+        duration: 20000
       ).start();
     }
   }
 
   render() {
-    console.log('@@@@@@@' , this._animatedValue.y);
+    console.log('render:this.props.offset ' , this.props.offset);
       return (
-        <View pointerEvents= {this.props.isAnimated ? "none"  : "box-none"} style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+        <View pointerEvents= {this.props.offset === 0 ? "box-none"  : "none"} style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
           <Animated.View
           style=
           {[
@@ -185,7 +141,8 @@ function bindAction(dispatch) {
   return {
     toggle: ()=>dispatch(toggle()),
     toggleIsAnimating: ()=>dispatch(toggleIsAnimating()),
-    toggleIsAnimated: ()=>dispatch(toggleIsAnimated())
+    toggleIsAnimated: ()=>dispatch(toggleIsAnimated()),
+    setOffset: (value)=>dispatch(setOffset(value))
   };
 }
 
@@ -193,7 +150,8 @@ function mapStateToProps(state) {
   return {
     arrowUp: state.card.arrowUp,
     isAnimating: state.card.isAnimating,//decide in which store to put this variable
-    isAnimated: state.card.isAnimated
+    isAnimated: state.card.isAnimated,
+    offset: state.card.offset
   };
 }
 

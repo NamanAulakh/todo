@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,TOGGLE_IS_ANIMATING,TOGGLE_IS_ANIMATED,UPDATE_TEXT,ADD_TEXT} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,TOGGLE_IS_ANIMATING,TOGGLE_IS_ANIMATED,UPDATE_TEXT,ADD_TEXT,SET_OFFSET} from '../actions/card';
 
 const images = [
   {
@@ -94,7 +94,8 @@ const initialState = {
     screenshot: false,
     currentIndex: -1,
     isAnimating: false,
-    isAnimated: false
+    isAnimated: false,
+    offset: 0
 };
 
 function getRandomInt(min, max) {
@@ -127,6 +128,7 @@ function add(arr) {
   return newArr;
 
 }
+
 function updateText(text,index,arr) {
   console.log('ijfijfjrifjijrfjrifjirfjrifjrijfirjfjirfjirj');
   var newArr = [];
@@ -141,6 +143,7 @@ function updateText(text,index,arr) {
 
   return newArr;
 }
+
 function addText(arr,payload) {
   var newArr = [];
   console.log('+++++++++++++++++++==================+++++++++++++',payload);
@@ -365,6 +368,7 @@ export default function (state:State = initialState, action:Action): State {
            showBar: false
        };
   }
+
   if (action.type === ADD_TEXT) {
        return {
            ...state,
@@ -407,6 +411,14 @@ export default function (state:State = initialState, action:Action): State {
       return {
           ...state
       };
+  }
+
+  if (action.type === SET_OFFSET) {
+    console.log('reducer: ' , action.value);
+    // state.currentIndex = action.index;
+    return {
+        ...state
+    };
   }
 
   if (action.type === DATA) {
@@ -464,6 +476,7 @@ export default function (state:State = initialState, action:Action): State {
           show: state.show
       };
   }
+
   if (action.type === UPDATE_TEXT) {
       return {
           ...state,
@@ -473,7 +486,6 @@ export default function (state:State = initialState, action:Action): State {
   }
 
   if (action.type === REMOVE_IMAGE) {
-    console.log('^^^^^^' , action.index);
       return {
           ...state,
           card: [...removeImage(action.index, state.card)],

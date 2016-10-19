@@ -129,12 +129,13 @@ class ToolBar extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-
-      <Button primary style={{position:'absolute',zIndex:1,left:50}} onPress={() => this.addText('hi this is kuldeeep')}>Add Text</Button>
         <View style={{flex: 1,backgroundColor: 'rgba(255,255,255,.8)'}}>
           <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems: 'center'}}>
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
                 <Icon name="ios-add" />
+            </TouchableOpacity>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addText('hi this is kuldeeep')}>
+                <Icon name="ios-text" />
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.bringToTop(this.props.currentIndex)}>
               <Icon name="ios-arrow-up" />

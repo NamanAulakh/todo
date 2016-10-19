@@ -39,7 +39,6 @@ class ScrollMe extends Component {
     }
 
     toggleTab() {
-      console.log('hi this is toggle');
       this.props.toggleTab();
     }
 
