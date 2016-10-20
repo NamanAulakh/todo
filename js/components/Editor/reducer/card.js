@@ -122,7 +122,8 @@ function add(arr) {
       scaleX: 1,
       scaleY: 1,
       url: image.url,//'../../../images/logo.png'
-      type: 'Image'
+      type: 'Image',
+      text: ''
   });
   return newArr;
 
@@ -163,28 +164,50 @@ function addText(arr,payload) {
       scaleX: 1,
       scaleY: 1,
       type: 'View',
-      autoFocus: true,
-      text: payload
+      text: payload,
+      url: ''
   });
   return newArr;
 }
 
 function move(index, arr, payload) {
+  console.log('++++++++++++++++moving+++++++++',payload);
   var newArr = [];
   arr.map(function(elem,i)  {
     var obj = elem;
+    console.log('37483748384838',obj);
     if (index === i) {
-      obj.top = payload.y;
-      obj.left = payload.x;
-      obj.height = payload.height;
-      obj.width = payload.width;
-      obj.rotate = payload.rotate;
-      obj.rotateNow = payload.rotateNow;
-      obj.rotateAngle = payload.rotateAngle;
-      obj.scaleX = elem.scaleX;
-      obj.scaleY = elem.scaleY;
-      obj.active = elem.active;
-      obj.url = elem.url;
+      if(elem.type === 'View') {
+        obj.top = payload.y;
+        obj.left = payload.x;
+        obj.height = payload.height;
+        obj.width = payload.width;
+        obj.rotate = payload.rotate;
+        obj.rotateNow = payload.rotateNow;
+        obj.rotateAngle = payload.rotateAngle;
+        obj.scaleX = elem.scaleX;
+        obj.scaleY = elem.scaleY;
+        obj.active = elem.active;
+        obj.text = elem.text;
+        obj.url = '';
+        obj.type = elem.type;
+      } else {
+        obj.top = payload.y;
+        obj.left = payload.x;
+        obj.height = payload.height;
+        obj.width = payload.width;
+        obj.rotate = payload.rotate;
+        obj.rotateNow = payload.rotateNow;
+        obj.rotateAngle = payload.rotateAngle;
+        obj.scaleX = elem.scaleX;
+        obj.scaleY = elem.scaleY;
+        obj.active = elem.active;
+        obj.url = elem.url;
+        obj.type = elem.type;
+        obj.text = '';
+
+      }
+
     }
     newArr.push(obj);
   });
@@ -193,18 +216,19 @@ function move(index, arr, payload) {
 }
 
 function active(index, arr) {
-    console.log('hi I m in on move');
+    console.log('hi I m in on move',arr);
     var newArr = [];
     arr.map(function(elem,i)  {
         var obj = elem;
         if (index === i) {
             obj.active = 1;
-            obj.autoFocus = true;
+
         } else {
             obj.active = 0;
-            obj.autoFocus = false;
+
         }
         newArr.push(obj);
+          console.log('hi I m in on move',obj.active);
     });
 
     return newArr;
@@ -235,7 +259,7 @@ function sendToBack(index, arr) {
     var lastItem = null;
 
     arr.map(function(elem, i)  {
-        var obj = elem;
+         var obj = elem;
         if (index === i) {
             lastItem = obj;
         } else {
@@ -245,6 +269,7 @@ function sendToBack(index, arr) {
 
     if (lastItem) {
         newArr.unshift(lastItem);
+        console.log('888888888888888888888 - -- This is lastItem',lastItem);
     }
 
     return newArr;
@@ -308,9 +333,12 @@ function duplicateImage(index, arr) {
         newItem.scaleX = item.scaleX;
         newItem.scaleY = item.scaleY;
         newItem.active = 1;
-        newItem.url = item.url;
-        newItem.text = item.text;
         newItem.type = item.type;
+        if(newItem.type === "Image")
+        newItem.url = item.url;
+        if(newItem.type === "View")
+        newItem.text = item.text;
+
         newArr.push(newItem);
 
     }

@@ -73,7 +73,9 @@ class ToolBar extends Component {
   }
 
   sendToBack(i) {
+    console.log('before send to back',i,this.props.card[i]);
     this.props.sendToBack(i);
+    console.log('after send to back',this.props.card[i]);
   }
 
   flipImage(i) {

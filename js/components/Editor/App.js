@@ -22,6 +22,9 @@ const deviceHeight = Dimensions.get('window').height;
 const imageHeight = 1024 / PixelRatio.get();
 const imageWidth = 1024 / PixelRatio.get();
 
+const screenshotWidth = 0;
+const screenshotHeight = 0;
+
 class App extends Component {
 
   static propTypes = {
@@ -72,7 +75,13 @@ class App extends Component {
                 <Text>Collage / Dressed like a princess</Text>
               </View>
               <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
-                <View style={{flex: 10,}}>
+                <View style={{flex: 10}}
+                  onLayout = {(event) => {
+                    var {x, y, width, height} = event.nativeEvent.layout;
+                   console.log('thi is Dimensions',width,height);
+                        screenshotWidth = width;
+                        screenshotHeight = height;
+                  }}>
                   <Gesture/>
                 </View>
                 <View style={{flex: 1}}>
@@ -93,7 +102,7 @@ class App extends Component {
               <GenerateImage data = {this.props.card}
               imageHeight = {imageHeight}
               imageWidh = {imageWidth}
-              heightToWidhRatio = {(deviceHeight-115)/deviceWidth}
+              heightToWidhRatio = {screenshotHeight/screenshotWidth}
               />
               :
               <View/>}

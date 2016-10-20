@@ -8,7 +8,7 @@ class Collective extends Component {
   render() {
     return (
       <TouchableOpacity style={{flex:1,backgroundColor: 'white',borderWidth: 2}}>
-        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/sample.png')}/>
+        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/logo.png')}/>
         <View style={{padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
           <Text style={{fontSize: 12}}>Product title</Text>
           <View style={{flexDirection: 'row'}}>
