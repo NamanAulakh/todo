@@ -7,13 +7,8 @@ import Icone from '../../../node_modules/react-native-vector-icons/FontAwesome.j
 class Collective extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <TouchableOpacity style={{flex:1,backgroundColor: 'white',borderWidth: 2}}>
-        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/logo.png')}/>
-=======
       <TouchableOpacity style={{flex: 1,backgroundColor: 'white',borderWidth: 2}}>
-        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/sample.png')}/>
->>>>>>> e7997542b07d5304b7b1eb66cfd11ff592ddef03
+        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/logo.png')}/>
         <View style={{padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
           <Text style={{fontSize: 12}}>Product title</Text>
           <View style={{flexDirection: 'row'}}>

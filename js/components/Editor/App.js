@@ -1,18 +1,17 @@
-
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 
 import GenerateImage from './generateImage';
-import {Dimensions,View,Text,PixelRatio} from 'react-native';
+import {View,Text,PixelRatio} from 'react-native';
 import {moveCard, makeActive, showAll, toggle} from './actions/card';
 
 import ToolBar from './toolbar';
 import CustomAnimation from '../customAnimation';
 import Gesture from './gesture';
 
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
+// const deviceWidth = Dimensions.get('window').width;
+// const deviceHeight = Dimensions.get('window').height;
 
 const imageHeight = 1024 / PixelRatio.get();
 const imageWidth = 1024 / PixelRatio.get();
@@ -55,15 +54,11 @@ class App extends Component {
             <View style={{flex: 1, justifyContent: 'center'}}>
               <Text>Collage / Dressed like a princess</Text>
             </View>
-            <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
-              <View style={{flex: 10}}>
-                <Gesture/>
-              </View>
-<<<<<<< HEAD
               <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
                 <View style={{flex: 10}}
                   onLayout = {(event) => {
-                    var {x, y, width, height} = event.nativeEvent.layout;
+                    var width = event.nativeEvent.layout.width,
+                        height = event.nativeEvent.layout.height;
                    console.log('thi is Dimensions',width,height);
                         screenshotWidth = width;
                         screenshotHeight = height;
@@ -80,43 +75,19 @@ class App extends Component {
           <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
             <CustomAnimation/>
           </View>
-          <View style={{flex:1,opacity:0}} pointerEvents="none">
-            <View style={{height:imageHeight, width:imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
+          <View style={{flex: 1,opacity: 0}} pointerEvents="none">
+            <View style={{height: imageHeight, width: imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
               this._viewRef = child;
               }}>
               {this.props.screenshot ?
               <GenerateImage data = {this.props.card}
               imageHeight = {imageHeight}
               imageWidh = {imageWidth}
-              heightToWidhRatio = {screenshotHeight/screenshotWidth}
+              heightToWidhRatio = {screenshotHeight / screenshotWidth}
               />
               :
               <View/>}
-=======
-              <View style={{flex: 1}}>
-                <ToolBar
-                _viewRef = {this._viewRef}
-                />
-              </View>
->>>>>>> e7997542b07d5304b7b1eb66cfd11ff592ddef03
             </View>
-        </View>
-        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-          <CustomAnimation/>
-        </View>
-        <View style={{flex: 1, opacity: 0}} pointerEvents="none">
-          <View style={{height: imageHeight, width: imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
-            this._viewRef = child;
-            }}>
-            {this.props.screenshot ?
-            <GenerateImage data = {this.props.card}
-            imageHeight = {imageHeight}
-            imageWidh = {imageWidth}
-            heightToWidhRatio = {(deviceHeight - 115) / deviceWidth}
-            />
-            :
-            <View/>}
-          </View>
         </View>
       </View>
     );

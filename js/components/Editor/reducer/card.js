@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,TOGGLE_IS_ANIMATING,TOGGLE_IS_ANIMATED,UPDATE_TEXT,ADD_TEXT,SET_OFFSET} from '../actions/card';
+import {MOVE_CARD, ADD_IMAGE, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,TOGGLE_IS_ANIMATING,TOGGLE_IS_ANIMATED,UPDATE_TEXT,ADD_TEXT,SET_OFFSET} from '../actions/card';
 
 const images = [
   {
@@ -102,7 +102,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function add(arr) {
+function addImage(arr) {
 
   var newArr = [];
   arr.map(function(elem,i)  {
@@ -123,8 +123,7 @@ function add(arr) {
       scaleX: 1,
       scaleY: 1,
       url: image.url,//'../../../images/logo.png'
-      type: 'Image',
-      text: ''
+      type: 'Image'
   });
   return newArr;
 
@@ -167,8 +166,7 @@ function addText(arr,payload) {
       scaleX: 1,
       scaleY: 1,
       type: 'View',
-      text: payload,
-      url: ''
+      text: payload
   });
   return newArr;
 }
@@ -192,7 +190,6 @@ function move(index, arr, payload) {
         obj.scaleY = elem.scaleY;
         obj.active = elem.active;
         obj.text = elem.text;
-        obj.url = '';
         obj.type = elem.type;
       } else {
         obj.top = payload.y;
@@ -207,7 +204,6 @@ function move(index, arr, payload) {
         obj.active = elem.active;
         obj.url = elem.url;
         obj.type = elem.type;
-        obj.text = '';
 
       }
 
@@ -392,10 +388,10 @@ export default function (state:State = initialState, action:Action): State {
     };
   }
 
-  if (action.type === ADD_CARD) {
+  if (action.type === ADD_IMAGE) {
        return {
            ...state,
-           card: [...add(state.card)],
+           card: [...addImage(state.card)],
            show: false,
            showBar: false
        };
