@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TOGGLE,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,TOGGLE_IS_ANIMATING,TOGGLE_IS_ANIMATED,UPDATE_TEXT,ADD_TEXT,SET_OFFSET} from '../actions/card';
+import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,ADD_DATA,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,UPDATE_TEXT,ADD_TEXT} from '../actions/card';
 
 const images = [
   {
@@ -75,27 +75,16 @@ const images = [
 export type State = {
   card: Array,
   arrowUp: boolean,
-  collective: boolean,
-  showBar: boolean,
   allMadeActive: boolean,
-  show: boolean,
-  screenshot: boolean,
-  isAnimating: boolean,
-  isAnimated: boolean
+  screenshot: boolean
 }
 
 const initialState = {
     card: [],
     arrowUp: true,
-    collective: true,
-    showBar: true,//make it false later
     allMadeActive: false,
-    show: false,
     screenshot: false,
-    currentIndex: -1,
-    isAnimating: false,
-    isAnimated: false,
-    offset: 0
+    currentIndex: -1
 };
 
 function getRandomInt(min, max) {
@@ -335,6 +324,8 @@ function removeImage(index, arr) {
 
 export default function (state:State = initialState, action:Action): State {
 
+  // console.log('Interior store: ' , action);
+
   if (action.type === SHOW_ALL) {
     return {
       ...state,
@@ -382,27 +373,6 @@ export default function (state:State = initialState, action:Action): State {
        };
   }
 
-  if (action.type === TOGGLE) {
-      state.arrowUp = !state.arrowUp;
-      return {
-          ...state
-      };
-  }
-
-  if (action.type === TOGGLE_IS_ANIMATING) {
-      state.isAnimating = !state.isAnimating;
-      return {
-          ...state
-      };
-  }
-
-  if (action.type === TOGGLE_IS_ANIMATED) {
-      state.isAnimated = !state.isAnimated;
-      return {
-          ...state
-      };
-  }
-
   if (action.type === TAKE_SCREENSHOT) {
       state.screenshot = !state.screenshot;
       return {
@@ -417,14 +387,7 @@ export default function (state:State = initialState, action:Action): State {
       };
   }
 
-  if (action.type === SET_OFFSET) {
-    state.offset = action.value;
-    return {
-        ...state
-    };
-  }
-
-  if (action.type === DATA) {
+  if (action.type === ADD_DATA) {
 
       // let image = images[getRandomInt(0, images.length - 1)];
       action.payload.map(

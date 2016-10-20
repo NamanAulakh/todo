@@ -8,8 +8,7 @@ import {TouchableOpacity,View, ScrollView} from 'react-native';
 import Collective from '../collective';
 import MinItems from '../MijnItems/';
 
-import {toggle} from '../Editor/actions/card';
-import {toggleTab} from '../../actions/display';
+import {toggleTab,toggle} from '../../actions/display';
 import {Text, Button, Icon} from 'native-base';
 
 class ScrollMe extends Component {
@@ -17,7 +16,6 @@ class ScrollMe extends Component {
     static propTypes = {
         toggle: React.PropTypes.func.isRequired,
         arrowUp: React.PropTypes.any,
-        collective: React.PropTypes.any,
         toggleTab: React.PropTypes.func.isRequired,
         currentTab: React.PropTypes.any
     }
@@ -27,11 +25,8 @@ class ScrollMe extends Component {
     }
 
     toggleTab() {
-      this.props.toggleTab();
-    }
-
-    scrollEvent() {
-      console.log('ScrollEvent');
+      console.log('toggleTab');
+      this.props.currentTab();
     }
 
     render() {
@@ -40,15 +35,15 @@ class ScrollMe extends Component {
             style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}
             >
               <TouchableOpacity>
-                <TouchableOpacity style={{flex: 1,backgroundColor: 'white',marginVertical: 5,flexDirection: 'row'}}>
+                <TouchableOpacity style={{flex: 1,backgroundColor: 'white',flexDirection: 'row'}}>
                   <Button transparent style={{flex: 1,alignSelf: 'center'}} onPress={() => this.toggle()}>
                     <Icon name={this.props.arrowUp ? 'ios-arrow-up' : 'ios-arrow-down'}/>
                   </Button>
-                  <TouchableOpacity onPress={() => this.toggleTab()} transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.collective ? 2 : 1 ,marginRight: 10,borderColor: this.props.collective ? 'black' : 'rgba(135,135,135,1)' ,paddingBottom: 2}}>
-                    <Text style={{color: this.props.collective ? 'black' : 'rgba(135,135,135,1)'}}>Collective</Text>
+                  <TouchableOpacity onPress={() => this.toggleTab()} transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.currentTab ? 2 : 1 ,marginRight: 10,borderColor: this.props.currentTab ? 'black' : 'rgba(135,135,135,1)' ,paddingBottom: 2}}>
+                    <Text style={{color: this.props.currentTab ? 'black' : 'rgba(135,135,135,1)'}}>Collective</Text>
                   </TouchableOpacity>
                   <TouchableOpacity transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.collective ? 0.5 : 2 ,borderColor: this.props.collective ? 'rgba(135,135,135,1)' : 'black' ,paddingBottom: 2}}>
-                    <Text style={{color: this.props.collective ? 'rgba(135,135,135,1)' : 'black'}}>Mijn items</Text>
+                    <Text style={{color: this.props.currentTab ? 'rgba(135,135,135,1)' : 'black'}}>Mijn items</Text>
                   </TouchableOpacity>
                   <Button transparent style={{flex: 1,alignSelf: 'center'}}>
                     <Icon name= "ios-camera-outline"/>
@@ -61,7 +56,7 @@ class ScrollMe extends Component {
                 ref="scrollView"
                 style={{flex: 9,marginHorizontal: 10,marginTop: 10}}
                 >
-                  {this.props.collective ? <Collective/> : <MinItems/>}
+                  {!this.props.currentTab ? <Collective/> : <MinItems/>}
                 </ScrollView>
               </View>
             </View>
@@ -77,11 +72,10 @@ function bindAction(dispatch) {
 }
 
 function mapStateToProps(state) {
+    console.log('***: ' , state);
     return {
-        card: state.card.card,
-        arrowUp: state.card.arrowUp,
-        collective: state.card.collective,
-        currentTab: state.card.currentTab
+      arrowUp: state.display.arrowUp,
+      currentTab: state.display.currentTab,
     };
 }
 

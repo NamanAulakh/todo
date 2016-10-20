@@ -4,14 +4,13 @@ import {connect} from 'react-redux';
 
 import {View,TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot, toggle, removeImage, addText} from '../actions/card';
+import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot,removeImage, addText} from '../actions/card';
 
 import {takeSnapshot} from 'react-native-view-shot';
 
 class ToolBar extends Component {
 
   static propTypes = {
-    name: React.PropTypes.string,
     moveCard: React.PropTypes.func.isRequired,
     addCard: React.PropTypes.func.isRequired,
     bringToTop: React.PropTypes.func.isRequired,
@@ -22,14 +21,10 @@ class ToolBar extends Component {
     makeActive: React.PropTypes.func.isRequired,
     showAll: React.PropTypes.func.isRequired,
     addData: React.PropTypes.func.isRequired,
-    toggle: React.PropTypes.func.isRequired,
     card: React.PropTypes.any,
-    showBar: React.PropTypes.any,
     allMadeActive: React.PropTypes.any,
-    arrowUp: React.PropTypes.any,
     takeScreenshot: React.PropTypes.func.isRequired,
     addText: React.PropTypes.func.isRequired,
-    show: React.PropTypes.any,
     data: React.PropTypes.any,
     screenshot: React.PropTypes.any,
     currentIndex: React.PropTypes.any,
@@ -101,10 +96,6 @@ class ToolBar extends Component {
     this.props.showAll();
   }
 
-  toggle()  {
-    this.props.toggle();
-  }
-
   render() {
     return (
       <View style={{flex: 1}}>
@@ -161,8 +152,7 @@ function bindAction(dispatch) {
     flipImage: i => dispatch(flipImage(i)),
     duplicateImage: i => dispatch(duplicateImage(i)),
     removeImage: i => dispatch(removeImage(i)),
-    addData: (obj) => dispatch(addData(obj)),
-    toggle: ()=>dispatch(toggle())
+    addData: (obj) => dispatch(addData(obj))
   };
 }
 
@@ -170,11 +160,7 @@ function mapStateToProps(state) {
   return {
     list: state.list.list,
     card: state.card.card,
-    arrowUp: state.card.arrowUp,
-    collective: state.card.collective,
-    showBar: state.card.showBar,
     allMadeActive: state.card.allMadeActive,
-    show: state.card.show,
     screenshot: state.card.screenshot,
     currentIndex: state.card.currentIndex
   };

@@ -6,30 +6,18 @@ import {Dimensions, PanResponder, View,Animated,duration} from 'react-native';
 const deviceHeight = Dimensions.get('window').height;
 
 import ScrollMe from '../scrollMe';
-import {toggle,toggleIsAnimating,toggleIsAnimated,setOffset} from '../Editor/actions/card';
+import {toggle,setOffset} from '../../actions/display';
 
 class CustomAnimation extends Component {
 
   static propTypes = {
     toggle: React.PropTypes.func.isRequired,
-    toggleIsAnimating: React.PropTypes.func.isRequired,
-    toggleIsAnimated: React.PropTypes.func.isRequired,
     setOffset: React.PropTypes.func.isRequired,
-    arrowUp: React.PropTypes.any,
-    isAnimating: React.PropTypes.any,
-    isAnimated: React.PropTypes.any
+    arrowUp: React.PropTypes.any
   }
 
   toggle()  {
     this.props.toggle();
-  }
-
-  toggleIsAnimating()  {
-    this.props.toggleIsAnimating();
-  }
-
-  toggleIsAnimated()  {
-    this.props.toggleIsAnimated();
   }
 
   setOffset(value)  {
@@ -147,18 +135,15 @@ class CustomAnimation extends Component {
 function bindAction(dispatch) {
   return {
     toggle: ()=>dispatch(toggle()),
-    toggleIsAnimating: ()=>dispatch(toggleIsAnimating()),
-    toggleIsAnimated: ()=>dispatch(toggleIsAnimated()),
     setOffset: (value)=>dispatch(setOffset(value))
   };
 }
 
 function mapStateToProps(state) {
+  console.log('CustomAnimation: ' , state);
   return {
-    arrowUp: state.card.arrowUp,
-    isAnimating: state.card.isAnimating,//decide in which store to put this variable
-    isAnimated: state.card.isAnimated,
-    offset: state.card.offset
+    arrowUp: state.display.arrowUp,
+    offset: state.display.offset
   };
 }
 
