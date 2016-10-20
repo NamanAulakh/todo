@@ -20,6 +20,7 @@ export const TAKE_SCREENSHOT = 'TAKE_SCREENSHOT';
 export const CHANGE_CURRENT_INDEX = 'CHANGE_CURRENT_INDEX';
 export const TOGGLE_IS_ANIMATING = 'TOGGLE_IS_ANIMATING';
 export const TOGGLE_IS_ANIMATED = 'TOGGLE_IS_ANIMATED';
+export const SET_OFFSET = 'SET_OFFSET';
 
 export function moveCard(payload:Object, index:Number):Action {
 
@@ -34,7 +35,7 @@ export function updateText(text,i) {
     type: UPDATE_TEXT,
     text: text,
     index: i
-  }
+  };
 }
 
 export function addData(payload:Object):Action {
@@ -56,6 +57,13 @@ export function changeCurrentIndex(index:Number):Action {
     return {
         type: CHANGE_CURRENT_INDEX,
         index: index
+    };
+}
+
+export function setOffset(value:Number):Action {
+    return {
+        type: SET_OFFSET,
+        value: value
     };
 }
 

@@ -4,17 +4,12 @@ import {connect} from 'react-redux';
 
 
 import GenerateImage from './generateImage';
-import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity} from 'react-native';
-import {Button, Icon} from 'native-base';
-import {drag, pinch, GestureView} from 'react-native-gestures';
+import {Dimensions,View,Text,PixelRatio} from 'react-native';
 import {moveCard, makeActive, showAll, toggle} from './actions/card';
 
-import ScrollMe from '../scrollMe';
 import ToolBar from './toolbar';
 import CustomAnimation from '../customAnimation';
 import Gesture from './gesture';
-
-import {takeSnapshot} from 'react-native-view-shot';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -37,11 +32,10 @@ class App extends Component {
     arrowUp: React.PropTypes.any,
     data: React.PropTypes.any,
     screenshot: React.PropTypes.any,
-    isAnimated: React.PropTypes.any
+    offset: React.PropTypes.any
   }
 
   componentWillMount() {
-    var self = this;
 //................................................................................................................
       // console.log('componentWillMount:App.js...');
       //
@@ -54,26 +48,18 @@ class App extends Component {
       // }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log('nextProps : componentWillReceiveProps(App.js:Editor): ' , nextProps);
-    // this.props.onChange(nextProps);
-  }
-
   render() {
-    console.log('this.props.isAnimated:(App.js): ' , this.props.isAnimated);
-    if(this.props.isAnimated) {
-      return (
-        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-          <ScrollMe/>
-        </View>
-      );
-    } else {
-      return (
-        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
-          <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text>Collage / Dressed like a princess</Text>
+    return (
+      <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+        <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <Text>Collage / Dressed like a princess</Text>
+            </View>
+            <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
+              <View style={{flex: 10}}>
+                <Gesture/>
               </View>
+<<<<<<< HEAD
               <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
                 <View style={{flex: 10}}
                   onLayout = {(event) => {
@@ -106,12 +92,34 @@ class App extends Component {
               />
               :
               <View/>}
+=======
+              <View style={{flex: 1}}>
+                <ToolBar
+                _viewRef = {this._viewRef}
+                />
+              </View>
+>>>>>>> e7997542b07d5304b7b1eb66cfd11ff592ddef03
             </View>
+        </View>
+        <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
+          <CustomAnimation/>
+        </View>
+        <View style={{flex: 1, opacity: 0}} pointerEvents="none">
+          <View style={{height: imageHeight, width: imageWidth, backgroundColor: 'transparent'}} ref={(child) => {
+            this._viewRef = child;
+            }}>
+            {this.props.screenshot ?
+            <GenerateImage data = {this.props.card}
+            imageHeight = {imageHeight}
+            imageWidh = {imageWidth}
+            heightToWidhRatio = {(deviceHeight - 115) / deviceWidth}
+            />
+            :
+            <View/>}
           </View>
         </View>
-      );
-    }
-
+      </View>
+    );
   }
 }
 
@@ -129,7 +137,7 @@ function mapStateToProps(state) {
     card: state.card.card,
     arrowUp: state.card.arrowUp,
     screenshot: state.card.screenshot,
-    isAnimated: state.card.isAnimated
+    offset: state.card.isAnimated
   };
 }
 
