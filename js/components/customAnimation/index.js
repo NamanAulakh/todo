@@ -41,17 +41,17 @@ class CustomAnimation extends Component {
         null, {dx: this._animatedValue.x, dy: this._animatedValue.y}
       ]), // Creates a function to handle the movement and set offsets
       onPanResponderRelease: (e) => {
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@' , this._animatedValue.y);
+        // console.log('@@@@@@@@@@@@@@@@@@@@@@@@' , this._animatedValue.y);
         if (this._animatedValue.y._offset === 0) {
           if (this._animatedValue.y._value > (-1 * (deviceHeight / 4))) {
-            console.log('goto borderline');
+            // console.log('goto borderline');
             Animated.timing(
               this._animatedValue.y,
               {toValue: 0},
               duration: 20000
             ).start();
           } else {
-              console.log('goToTop');
+              // console.log('goToTop');
               this.toggle();
               this.setOffset(1);
               Animated.timing(
@@ -62,14 +62,14 @@ class CustomAnimation extends Component {
           }
         } else {
           if (this._animatedValue.y._value < deviceHeight / 3)  {
-            console.log('...gotoTop');
+            // console.log('...gotoTop');
             Animated.timing(
               this._animatedValue.y,
               {toValue: 0},
               duration: 20000
             ).start();
           } else {
-              console.log('...goto borderline');
+              // console.log('...goto borderline');
               this.toggle();
               this.setOffset(0);
               Animated.timing(
@@ -84,8 +84,9 @@ class CustomAnimation extends Component {
   }
 
   componentWillReceiveProps(nextProps)  {
+    console.log('+++' , nextProps);
     if (!nextProps.arrowUp)  {
-      console.log('***gotoTop');
+      // console.log('***gotoTop');
       this.setOffset(1);
       if (this._animatedValue.y._offset === 0) {
         Animated.timing(
@@ -101,7 +102,7 @@ class CustomAnimation extends Component {
         ).start();
       }
     } else {
-      console.log('***goto borderline');
+      // console.log('***goto borderline');
       this.setOffset(0);
       Animated.timing(
         this._animatedValue.y,
@@ -140,7 +141,6 @@ function bindAction(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('CustomAnimation: ' , state);
   return {
     arrowUp: state.display.arrowUp,
     offset: state.display.offset

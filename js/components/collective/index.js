@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View,TouchableOpacity,Image} from 'react-native';
+import {View,TouchableOpacity,Image,ScrollView} from 'react-native';
 import {Text,Icon} from 'native-base';
 
 import Icone from '../../../node_modules/react-native-vector-icons/FontAwesome.js';
@@ -7,8 +7,10 @@ import Icone from '../../../node_modules/react-native-vector-icons/FontAwesome.j
 class Collective extends Component {
   render() {
     return (
+      <View style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
       <TouchableOpacity style={{flex: 1,backgroundColor: 'white',borderWidth: 2}}>
-        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/sample.png')}/>
+        <Image style={{resizeMode: 'cover',width: null}} source={require('../../../images/logo.png')}/>
         <View style={{padding: 4,borderBottomWidth: 1,borderColor: 'rgba(235,235,235,1)'}}>
           <Text style={{fontSize: 12}}>Product title</Text>
           <View style={{flexDirection: 'row'}}>
@@ -39,6 +41,8 @@ class Collective extends Component {
           </View>
         </View>
       </TouchableOpacity>
+      </ScrollView>
+      </View>
     );
   }
 }

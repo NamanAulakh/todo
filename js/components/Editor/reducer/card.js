@@ -2,7 +2,7 @@
 'use strict';
 
 import type {Action} from '../actions/types';
-import {MOVE_CARD, ADD_CARD, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,ADD_DATA,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,UPDATE_TEXT,ADD_TEXT} from '../actions/card';
+import {MOVE_CARD, ADD_IMAGE, MAKE_ACTIVE, BRING_TO_TOP, SEND_TO_BACK, FLIP_IMAGE, DUPLICATE_IMAGE, REMOVE_IMAGE, SHOW_ALL,DATA,TAKE_SCREENSHOT,CHANGE_CURRENT_INDEX,UPDATE_TEXT,ADD_TEXT,ADD_DATA} from '../actions/card';
 
 const images = [
   {
@@ -91,7 +91,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function add(arr) {
+function addImage(arr) {
 
   var newArr = [];
   arr.map(function(elem,i)  {
@@ -119,7 +119,7 @@ function add(arr) {
 }
 
 function updateText(text,index,arr) {
-  console.log('index',index);
+  // console.log('index',index);
   var newArr = [];
   arr.map(function(elem,i)  {
       var obj = elem;
@@ -136,7 +136,7 @@ function updateText(text,index,arr) {
 
 function addText(arr,payload) {
   var newArr = [];
-  console.log('+++++++++++++++++++==================+++++++++++++',payload);
+  // console.log('+++++++++++++++++++==================+++++++++++++',payload);
   arr.map(function(elem,i)  {
       var obj = elem;
       obj.active = 0;
@@ -155,28 +155,47 @@ function addText(arr,payload) {
       scaleX: 1,
       scaleY: 1,
       type: 'View',
-      autoFocus: true,
       text: payload
   });
   return newArr;
 }
 
 function move(index, arr, payload) {
+  // console.log('++++++++++++++++moving+++++++++',payload);
   var newArr = [];
   arr.map(function(elem,i)  {
     var obj = elem;
+    // console.log('37483748384838',obj);
     if (index === i) {
-      obj.top = payload.y;
-      obj.left = payload.x;
-      obj.height = payload.height;
-      obj.width = payload.width;
-      obj.rotate = payload.rotate;
-      obj.rotateNow = payload.rotateNow;
-      obj.rotateAngle = payload.rotateAngle;
-      obj.scaleX = elem.scaleX;
-      obj.scaleY = elem.scaleY;
-      obj.active = elem.active;
-      obj.url = elem.url;
+      if(elem.type === 'View') {
+        obj.top = payload.y;
+        obj.left = payload.x;
+        obj.height = payload.height;
+        obj.width = payload.width;
+        obj.rotate = payload.rotate;
+        obj.rotateNow = payload.rotateNow;
+        obj.rotateAngle = payload.rotateAngle;
+        obj.scaleX = elem.scaleX;
+        obj.scaleY = elem.scaleY;
+        obj.active = elem.active;
+        obj.text = elem.text;
+        obj.type = elem.type;
+      } else {
+        obj.top = payload.y;
+        obj.left = payload.x;
+        obj.height = payload.height;
+        obj.width = payload.width;
+        obj.rotate = payload.rotate;
+        obj.rotateNow = payload.rotateNow;
+        obj.rotateAngle = payload.rotateAngle;
+        obj.scaleX = elem.scaleX;
+        obj.scaleY = elem.scaleY;
+        obj.active = elem.active;
+        obj.url = elem.url;
+        obj.type = elem.type;
+
+      }
+
     }
     newArr.push(obj);
   });
@@ -185,18 +204,19 @@ function move(index, arr, payload) {
 }
 
 function active(index, arr) {
-    console.log('hi I m in on move');
+    // console.log('hi I m in on move',arr);
     var newArr = [];
     arr.map(function(elem,i)  {
         var obj = elem;
         if (index === i) {
             obj.active = 1;
-            obj.autoFocus = true;
+
         } else {
             obj.active = 0;
-            obj.autoFocus = false;
+
         }
         newArr.push(obj);
+          // console.log('hi I m in on move',obj.active);
     });
 
     return newArr;
@@ -227,7 +247,7 @@ function sendToBack(index, arr) {
     var lastItem = null;
 
     arr.map(function(elem, i)  {
-        var obj = elem;
+         var obj = elem;
         if (index === i) {
             lastItem = obj;
         } else {
@@ -237,6 +257,7 @@ function sendToBack(index, arr) {
 
     if (lastItem) {
         newArr.unshift(lastItem);
+        // console.log('888888888888888888888 - -- This is lastItem',lastItem);
     }
 
     return newArr;
@@ -260,7 +281,7 @@ function flipImage(index, arr) {
 
     arr.map(function(elem, i)  {
         var obj = elem;
-        console.log(obj.rotateAngle);
+        // console.log(obj.rotateAngle);
         if (index === i) {
           if ((obj.rotateAngle % 360 < -45 && obj.rotateAngle % 360 > -135) ||
               (obj.rotateAngle % 360 > 45 && obj.rotateAngle % 360 < 136) ||
@@ -300,9 +321,12 @@ function duplicateImage(index, arr) {
         newItem.scaleX = item.scaleX;
         newItem.scaleY = item.scaleY;
         newItem.active = 1;
-        newItem.url = item.url;
-        newItem.text = item.text;
         newItem.type = item.type;
+        if(newItem.type === "Image")
+        newItem.url = item.url;
+        if(newItem.type === "View")
+        newItem.text = item.text;
+
         newArr.push(newItem);
 
     }
@@ -355,10 +379,11 @@ export default function (state:State = initialState, action:Action): State {
     };
   }
 
-  if (action.type === ADD_CARD) {
+  if (action.type === ADD_IMAGE) {
+    state.allMadeActive = false;
        return {
            ...state,
-           card: [...add(state.card)],
+           card: [...addImage(state.card)],
            show: false,
            showBar: false
        };
@@ -416,14 +441,6 @@ export default function (state:State = initialState, action:Action): State {
           ...state,
           card: [...sendToBack(action.index, state.card)],
           show: state.show
-      };
-  }
-
-  if (action.type === SHOW_ALL) {
-      return {
-          ...state,
-          card: [...showAll(state.card)],
-          show: true
       };
   }
 

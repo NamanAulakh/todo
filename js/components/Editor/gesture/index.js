@@ -1,14 +1,13 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {StyleSheet, Dimensions, PanResponder, View,Text,PixelRatio, Animated, TouchableOpacity,TextInput,Alert} from 'react-native';
-import {Container, Header, Footer, Title, Button, Icon, InputGroup, Input} from 'native-base';
+import {StyleSheet, Dimensions, View, Image} from 'react-native';
+import {InputGroup, Input} from 'native-base';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 import {showAll,  moveCard, makeActive, changeCurrentIndex, updateText} from '../actions/card';
-
 import {drag, pinch, GestureView} from 'react-native-gestures';
 
 const styles = StyleSheet.create({
@@ -35,32 +34,40 @@ class Gesture extends Component {
     changeCurrentIndex: React.PropTypes.func.isRequired,
     updateText: React.PropTypes.func.isRequired,
     currentIndex: React.PropTypes.any,
-    allMadeActive: React.PropTypes.any
+    allMadeActive: React.PropTypes.any,
+    card: React.PropTypes.any
   }
 
   moveCard(obj, i) {
+    // console.log('Somebody is calling me',obj);
     this.props.moveCard(obj, i);
   }
 
   makeActive(i) {
-
-    this.props.makeActive(i);
     if (this.refs[i]) {
-    this.refs[i]._textInput.focus();
+      this.refs[i]._textInput.setNativeProps({'editable': true});
+      this.refs[i]._textInput.focus();
+    } else {
+        if (this.refs[this.props.currentIndex]) {
+          this.refs[this.props.currentIndex]._textInput.setNativeProps({'editable': false});
+          // console.log('++++++++++++++++editable++++++++++++',this.refs[this.props.currentIndex]._textInput);
+        }
+      }
+    this.props.makeActive(i);
   }
-}
+
   updateText(text,i) {
-    console.log("frfr",i);
+    // console.log("frfr",i);
     this.props.updateText(text,i);
   }
 
   showAll() {
-
-    this.props.showAll();
+    // console.log('++++++++++++++++  SHOW ALL  ++++++++++++');
     if (this.refs[this.props.currentIndex]) {
-      this.refs[this.props.currentIndex]._textInput.setNativeProps({'editable':false});
+      this.refs[this.props.currentIndex]._textInput.setNativeProps({'editable': false});
+      // console.log('++++++++++++++++editable++++++++++++',this.refs[this.props.currentIndex]._textInput);
     }
-
+      this.props.showAll();
   }
 
   changeCurrentIndex(index) {
@@ -70,12 +77,12 @@ class Gesture extends Component {
   componentWillUpdate(nextProps) {
     nextProps.card.map((obj, i) => {
     if (nextProps.allMadeActive) {
-      console.log('nextProps.allMadeActive: true');
+      // console.log('nextProps.allMadeActive: true');
     } else {
       if (obj.active === 1) {
         this.changeCurrentIndex(i);
       } else {
-        console.log('movable.opacity = 0.5');
+        // console.log('movable.opacity = 0.5');
       }
     }
     });
@@ -142,13 +149,13 @@ class Gesture extends Component {
             this.props.card.map((obj, i) => {
               // console.log("obj:", obj);
               // this.props.onChange(obj);
-              var autoFocus = true;
               const movable = {
                 width: obj.width,
                 height: obj.height,
                 position: 'absolute',
                 left: obj.left,
                 top: obj.top,
+                borderStyle: (obj.type === 'View') ? 'dashed' : 'solid',
                 transform: [{rotate: `${obj.rotate ? obj.rotate : (obj.rotateAngle ? obj.rotateAngle : 0)}deg`}, {scaleX: obj.scaleX}, {scaleY: obj.scaleY}]
               };
 
@@ -160,7 +167,7 @@ class Gesture extends Component {
                 // movable.backgroundColor = 'rgba(76,174,76, 1)';
                 movable.borderRadius = 0;
                 movable.borderWidth = 1;
-                movable.borderColor = '#d6d7da';
+                movable.borderColor = 'pink';
                 movable.opacity = 1;
 
               } else {
@@ -175,15 +182,14 @@ class Gesture extends Component {
                 <GestureView
                   pointerEvents="box-none"
                   key={i}
-                  type={obj.type}
                   style={movable}
-
+                  type = "View"
                   gestures={[drag, pinch]}
                   tapCallback={() => {
-
                     this.makeActive(i);
                   }}
                   onRelease={(x, y, layout) => {
+                    // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$",layout);
                     const coordinate = layout;
                     coordinate.rotateAngle = obj.rotate ? obj.rotate : 0;
                     coordinate.rotateNow = 0;
@@ -191,13 +197,12 @@ class Gesture extends Component {
 
                   }}
                   onMove={() => {
-
-                    if (!this.props.allMadeActive)  {
+                    if (!this.props.allMadeActive) {
 
                       this.makeActive(i);
                     }
                   }}
-                  source={{uri: obj.url}}
+
                   gestureCallback={() => {}}
                   ref={(child) => {
                       if (obj.active === 1) {
@@ -206,6 +211,7 @@ class Gesture extends Component {
                     }
                   }
                   toStyle={(layout) => {
+
                       const coordinate = layout;
                       coordinate.rotateNow = layout.rotate ? layout.rotate : (obj.rotateNow ? obj.rotateNow :  0);
                       coordinate.rotateAngle = obj.rotateAngle;
@@ -222,18 +228,22 @@ class Gesture extends Component {
                   }}
                   onError={() => {}}
                 >
+                {(obj.type === 'View') ?
                 <View pointerEvents="none">
-                  <InputGroup  borderType='transparent' style=  {{borderWidth:0}} >
+                  <InputGroup  borderType = "transparent" style = {{borderWidth: 0}} >
                           <Input
                             ref = {i}
                             value = {obj.text}
-                           multiline = {true}
-                           autoFocus = {obj.autoFocus}
-                           style = {{height:obj.height,width:obj.width,borderBottomColor:'transparent',borderBottomWidth:0}}
-                           onChangeText = {(text)=>{this.updateText(text,i)}}
-                           placeholder='Type your text here'/>
+                            multiline = {true}
+                            autoFocus = {true}
+                            style = {{height: obj.height,width: obj.width,color: 'blue',opacity: movable.opacity}}
+                            onChangeText = {(text)=>this.updateText(text,i)}
+                            placeholder = "Type your text here"/>
                   </InputGroup>
-                </View>
+                </View> : <View pointerEvents="none" style = {{flex: 1}} >
+                <Image source = {{uri: obj.url}}
+                style={{flex: 1}}/>
+                </View>}
                 </GestureView>
 
 

@@ -14,9 +14,9 @@ export type State = {
 const initialState = {
     display: [],
     renderUp: false,
-    currentTab: false,
+    currentTab: true,
     arrowUp: true,
-    offset: 0,
+    offset: 0
 };
 
 export default function (state:State = initialState, action:Action): State {
@@ -24,11 +24,17 @@ export default function (state:State = initialState, action:Action): State {
   // console.log('Exterior store: ', action);
 
   if (action.type === TOGGLE_TAB) {
-    console.log('...Inside display store...',action.type);
+    if (action.tabValue === 'Collective') {
       return {
           ...state,
           currentTab: true
       };
+    } else {
+      return {
+          ...state,
+          currentTab: false
+      };
+    }
   }
 
   if (action.type === TOGGLE) {

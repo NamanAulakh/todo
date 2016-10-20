@@ -5,13 +5,14 @@ import {View} from 'react-native';
 import {Container, Header, Button, Icon} from 'native-base';
 import Editor from '../Editor';
 import CustomAnimation from '../customAnimation';
-
-import light from '../../themes/light';
+import ScrollMe from '../scrollMe';
 import {toggle} from '../../actions/display';
 
 class BlankPage extends Component {
   static propTypes = {
-    toggle: React.PropTypes.func.isRequired
+    toggle: React.PropTypes.func.isRequired,
+    offset: React.PropTypes.any,
+    arrowUp: React.PropTypes.any
   }
 
   onChange(payload) {
@@ -23,47 +24,82 @@ class BlankPage extends Component {
 
   render() {
     var data = [];
-    return (
-      <Container>
-        <View
-        style={{flex: 1}}
-        >
-          <Header style={{backgroundColor: 'white'}}>
-            <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between'}}>
-              <View>
-                <Button transparent>
-                    <Icon name="ios-arrow-back" style={{color: 'black'}}/>
-                </Button>
-              </View>
+    if (this.props.arrowUp)  {
+      return (
+        <Container>
+          <View
+          style={{flex: 1}}
+          >
+            <Header style={{backgroundColor: 'white'}}>
+              <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between'}}>
+                <View>
+                  <Button transparent>
+                      <Icon name="ios-arrow-back" style={{color: 'black'}}/>
+                  </Button>
+                </View>
 
-              <View>
-                <Button style={{borderRadius: 0,paddingHorizontal: 20,backgroundColor: 'black'}}>POST</Button>
-              </View>
+                <View>
+                  <Button style={{borderRadius: 0,paddingHorizontal: 20,backgroundColor: 'black'}}>POST</Button>
+                </View>
 
-              <View>
-                <Button transparent>
-                    <Icon name="ios-menu" style={{color: 'black'}}/>
-                </Button>
+                <View>
+                  <Button transparent>
+                      <Icon name="ios-menu" style={{color: 'black'}}/>
+                  </Button>
+                </View>
               </View>
-            </View>
-          </Header>
-          <View style={{flex: 1}}>
-            <View style={{flex: 8}}>
-              <Editor onChange={
-                  (payload) => {
-                    this.onChange(payload);
+            </Header>
+            <View style={{flex: 1}}>
+              <View style={{flex: 8}}>
+                <Editor onChange={
+                    (payload) => {
+                      this.onChange(payload);
+                    }
                   }
-                }
-                data={data}
-              />
-            </View>
-            <View style={{flex: 2}}>
-              <CustomAnimation/>
+                  data={data}
+                />
+              </View>
+              <View style={{flex: 2}}>
+                <CustomAnimation/>
+              </View>
             </View>
           </View>
-        </View>
-      </Container>
-    );
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          <View
+          style={{flex: 1}}
+          >
+            <Header style={{backgroundColor: 'white'}}>
+              <View style={{flex: 1,flexDirection: 'row',justifyContent: 'space-between'}}>
+                <View>
+                  <Button transparent>
+                      <Icon name="ios-arrow-back" style={{color: 'black'}}/>
+                  </Button>
+                </View>
+
+                <View>
+                  <Button style={{borderRadius: 0,paddingHorizontal: 20,backgroundColor: 'black'}}>POST</Button>
+                </View>
+
+                <View>
+                  <Button transparent>
+                      <Icon name="ios-menu" style={{color: 'black'}}/>
+                  </Button>
+                </View>
+              </View>
+            </Header>
+            <View style={{flex: 1}}>
+              <View style={{flex: 2}}>
+                <ScrollMe/>
+              </View>
+            </View>
+          </View>
+        </Container>
+      );
+    }
   }
 }
 
@@ -74,9 +110,9 @@ function bindAction(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('BlankPage: ' , state);
   return {
-      display: state.display
+      offset: state.display.offset,
+      arrowUp: state.display.arrowUp
   };
 }
 

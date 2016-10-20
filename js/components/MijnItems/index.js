@@ -81,10 +81,6 @@ class OnloadImage extends Component {
   }
 }
 class MinItems extends Component {
-  componentDidMount() {
-
-    console.log('device',width)
-  }
   render() {
     var height1,height2,height3;
     return(
@@ -109,7 +105,7 @@ class MinItems extends Component {
             <Icon style = {{fontSize: 20,color: 'rgba(199,199,199,1)'}} name = 'ios-arrow-forward'/>
           </View>
         </View>
-          <GridView images = {images} columns = {2} fixDimension = {true} />
+          <GridView images = {images} columns = {3} fixDimension = {true} />
 
 
       </View>

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {View,TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
-import {moveCard, addCard, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot,removeImage, addText} from '../actions/card';
+import {moveCard, addImage, makeActive, bringToTop, sendToBack, flipImage, showAll, duplicateImage, addData, takeScreenshot,removeImage, addText} from '../actions/card';
 
 import {takeSnapshot} from 'react-native-view-shot';
 
@@ -12,7 +12,7 @@ class ToolBar extends Component {
 
   static propTypes = {
     moveCard: React.PropTypes.func.isRequired,
-    addCard: React.PropTypes.func.isRequired,
+    addImage: React.PropTypes.func.isRequired,
     bringToTop: React.PropTypes.func.isRequired,
     sendToBack: React.PropTypes.func.isRequired,
     flipImage: React.PropTypes.func.isRequired,
@@ -35,8 +35,8 @@ class ToolBar extends Component {
     this.moveCard(obj, i);
   }
 
-  addCard() {
-    this.props.addCard();
+  addImage() {
+    this.props.addImage();
   }
   addText(str) {
     this.props.addText(str);
@@ -48,7 +48,9 @@ class ToolBar extends Component {
   }
 
   sendToBack(i) {
+    // console.log('before send to back',i,this.props.card[i]);
     this.props.sendToBack(i);
+    // console.log('after send to back',this.props.card[i]);
   }
 
   flipImage(i) {
@@ -101,7 +103,7 @@ class ToolBar extends Component {
       <View style={{flex: 1}}>
         <View style={{flex: 1,backgroundColor: 'rgba(255,255,255,.8)'}}>
           <View style={{flexDirection: 'row',  justifyContent: 'space-between', flex: 1, alignItems: 'center'}}>
-            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addCard()}>
+            <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addImage()}>
                 <Icon name="ios-add" />
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1,alignItems: 'center',borderWidth: 1,borderColor: 'rgba(235,235,235,1)'}} onPress={() => this.addText()}>
@@ -142,7 +144,7 @@ class ToolBar extends Component {
 function bindAction(dispatch) {
   return {
     moveCard: (obj, i) => dispatch(moveCard(obj, i)),
-    addCard: () => dispatch(addCard()),
+    addImage: () => dispatch(addImage()),
     addText: (str) => dispatch(addText(str)),
     takeScreenshot: () => dispatch(takeScreenshot()),
     makeActive: i => dispatch(makeActive(i)),

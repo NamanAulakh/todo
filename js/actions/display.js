@@ -7,10 +7,10 @@ export const TOGGLE = 'TOGGLE';
 export const TOGGLE_TAB = 'TOGGLE_TAB';
 export const SET_OFFSET = 'SET_OFFSET';
 
-export function toggleTab():Action {
-  console.log('hi this is toggle Actions');
+export function toggleTab(tabValue: String):Action {
   return {
-    type: TOGGLE_TAB
+    type: TOGGLE_TAB,
+    tabValue: tabValue
   };
 }
 

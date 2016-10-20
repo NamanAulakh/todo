@@ -4,7 +4,7 @@
 import type {Action} from './types';
 
 export const MOVE_CARD = 'MOVE_CARD';
-export const ADD_CARD = 'ADD_CARD';
+export const ADD_IMAGE = 'ADD_IMAGE';
 export const ADD_TEXT = 'ADD_TEXT';
 export const MAKE_ACTIVE = 'MAKE_ACTIVE';
 export const BRING_TO_TOP = 'BRING_TO_TOP';
@@ -56,9 +56,9 @@ export function changeCurrentIndex(index:Number):Action {
     };
 }
 
-export function addCard():Action {
+export function addImage():Action {
     return {
-        type: ADD_CARD
+        type: ADD_IMAGE
     };
 }
 
