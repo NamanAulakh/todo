@@ -4,7 +4,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {TouchableOpacity,View, ScrollView} from 'react-native';
+import {TouchableOpacity,View} from 'react-native';
 import Collective from '../collective';
 import MinItems from '../MijnItems/';
 
@@ -33,24 +33,24 @@ class ScrollMe extends Component {
             <View
             style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}
             >
-              <View style={{backgroundColor: 'white',flexDirection: 'row'}}>
+              <TouchableOpacity style={{backgroundColor: 'white',flexDirection: 'row'}}>
                 <Button transparent style={{flex: 1,alignSelf: 'center'}} onPress={() => this.toggle()}>
                   <Icon name={this.props.arrowUp ? 'ios-arrow-up' : 'ios-arrow-down'}/>
                 </Button>
                 <TouchableOpacity transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.currentTab ? 2 : 1 ,marginRight: 10,borderColor: this.props.currentTab ? 'black' : 'rgba(135,135,135,1)' ,paddingBottom: 2}}
                 onPress={() => this.toggleTab('Collective')}
                 >
-                  <Text style={{color: this.props.currentTab ? 'black' : 'rgba(135,135,135,1)'}}>Collective</Text>
+                  <Text style={{fontFamily: 'Avenir',color: this.props.currentTab ? 'black' : 'rgba(135,135,135,1)'}}>Collectie</Text>
                 </TouchableOpacity>
-                <TouchableOpacity transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.currentTab ? 0.5 : 2 ,borderColor: this.props.currentTab ? 'rgba(135,135,135,1)' : 'black' ,paddingBottom: 2}}
+                <TouchableOpacity transparent style={{flex: 4,alignSelf: 'center',borderBottomWidth: this.props.currentTab ? 1 : 2 ,borderColor: this.props.currentTab ? 'rgba(135,135,135,1)' : 'black' ,paddingBottom: 2}}
                 onPress={() => this.toggleTab('Mijn')}
                 >
-                  <Text style={{color: this.props.currentTab ? 'rgba(135,135,135,1)' : 'black'}}>Mijn items</Text>
+                  <Text style={{fontFamily: 'Avenir',color: this.props.currentTab ? 'rgba(135,135,135,1)' : 'black'}}>Mijn items</Text>
                 </TouchableOpacity>
                 <Button transparent style={{flex: 1,alignSelf: 'center'}}>
                   <Icon name= "ios-camera-outline"/>
                 </Button>
-              </View>
+              </TouchableOpacity>
                   {this.props.currentTab ? <Collective/> : <MinItems/>}
             </View>
         );
@@ -67,7 +67,7 @@ function bindAction(dispatch) {
 function mapStateToProps(state) {
     return {
       arrowUp: state.display.arrowUp,
-      currentTab: state.display.currentTab,
+      currentTab: state.display.currentTab
     };
 }
 

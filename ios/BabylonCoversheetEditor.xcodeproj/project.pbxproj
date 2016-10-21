@@ -46,6 +46,9 @@
 		BF31FACF644442CEAB1016CE /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8EA73188E67470181B9763C /* Arial Black.ttf */; };
 		D36AC78F3E4D4D6AA70A5640 /* Georgia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6806E505C984D4698173A43 /* Georgia.ttf */; };
 		D64AECB16F074900A2F161C6 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7A278FFFD9646C4B41140EE /* Ionicons.ttf */; };
+		E095C7B81DBA1A3A00687AF0 /* Avenir.ttc in Resources */ = {isa = PBXBuildFile; fileRef = E095C7A61DBA18BE00687AF0 /* Avenir.ttc */; };
+		E095C7B91DBA1A3A00687AF0 /* HarrietDisplay-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E095C7A71DBA18BE00687AF0 /* HarrietDisplay-LightItalic.otf */; };
+		E095C7BA1DBA1A3A00687AF0 /* HarrietDisplay-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E095C7A81DBA18BE00687AF0 /* HarrietDisplay-MediumItalic.otf */; };
 		E719AA3774A8494A99972C1D /* Andale Mono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D63586FFC76B4DCF9D5EA646 /* Andale Mono.ttf */; };
 		E89FFDC39C3E4F8C82510484 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C90BF3C53A644010B9C192DA /* libCodePush.a */; };
 		EE5246FACDFA44F790047465 /* Comic Sans MS.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F33E8C01665344418FF0D7B9 /* Comic Sans MS.ttf */; };
@@ -214,6 +217,9 @@
 		D1784DC268044578BC150080 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		D5268127D0334E218F7FA7ED /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		D63586FFC76B4DCF9D5EA646 /* Andale Mono.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Andale Mono.ttf"; path = "../node_modules/native-base/Fonts/Andale Mono.ttf"; sourceTree = "<group>"; };
+		E095C7A61DBA18BE00687AF0 /* Avenir.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Avenir.ttc; sourceTree = "<group>"; };
+		E095C7A71DBA18BE00687AF0 /* HarrietDisplay-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HarrietDisplay-LightItalic.otf"; sourceTree = "<group>"; };
+		E095C7A81DBA18BE00687AF0 /* HarrietDisplay-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HarrietDisplay-MediumItalic.otf"; sourceTree = "<group>"; };
 		E3265EEF50AA4514A839C676 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F33E8C01665344418FF0D7B9 /* Comic Sans MS.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Comic Sans MS.ttf"; path = "../node_modules/native-base/Fonts/Comic Sans MS.ttf"; sourceTree = "<group>"; };
 		F6806E505C984D4698173A43 /* Georgia.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Georgia.ttf; path = "../node_modules/native-base/Fonts/Georgia.ttf"; sourceTree = "<group>"; };
@@ -326,6 +332,9 @@
 				D63586FFC76B4DCF9D5EA646 /* Andale Mono.ttf */,
 				C8EA73188E67470181B9763C /* Arial Black.ttf */,
 				846031F5DCB94D7BA7FFA8FD /* Arial.ttf */,
+				E095C7A61DBA18BE00687AF0 /* Avenir.ttc */,
+				E095C7A71DBA18BE00687AF0 /* HarrietDisplay-LightItalic.otf */,
+				E095C7A81DBA18BE00687AF0 /* HarrietDisplay-MediumItalic.otf */,
 				F33E8C01665344418FF0D7B9 /* Comic Sans MS.ttf */,
 				92771D30764240A2A9690E86 /* Courier New.ttf */,
 				F6806E505C984D4698173A43 /* Georgia.ttf */,
@@ -745,6 +754,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E095C7B81DBA1A3A00687AF0 /* Avenir.ttc in Resources */,
+				E095C7B91DBA1A3A00687AF0 /* HarrietDisplay-LightItalic.otf in Resources */,
+				E095C7BA1DBA1A3A00687AF0 /* HarrietDisplay-MediumItalic.otf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				72BB1BFBEE264C6B988A50EE /* Entypo.ttf in Resources */,

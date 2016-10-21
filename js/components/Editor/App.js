@@ -39,9 +39,7 @@ class App extends Component {
     return (
       <View style={{flex: 1,backgroundColor: 'rgba(238,238,238,1)'}}>
         <View style={{flex: 9, paddingHorizontal: 10, overflow: 'hidden'}}>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <Text>Collage / Dressed like a princess</Text>
-            </View>
+            
               <View style={{flex: 9, backgroundColor: 'white', marginBottom: 10, overflow: 'hidden'}}>
                 <View style={{flex: 10}}
                   onLayout = {(event) => {

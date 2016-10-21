@@ -4,6 +4,7 @@ import {Container, Header, Title, Button, Icon, InputGroup, Input, Spinner
 } from 'native-base';
 import {GridView} from 'react-native-cascadeGrid';
 var {height, width} = Dimensions.get('window');
+
 const images = [
   {
     url: 'http://babylon.geekydev.com/images/170991132.png',
@@ -71,6 +72,7 @@ const images = [
     width: 350
   }
 ];
+
 class OnloadImage extends Component {
   render() {
     return(
@@ -80,6 +82,7 @@ class OnloadImage extends Component {
     )
   }
 }
+
 class MinItems extends Component {
   render() {
     var height1,height2,height3;
@@ -91,23 +94,22 @@ class MinItems extends Component {
             <Icon name = 'md-search'/>
           </Button>
             <InputGroup borderType='regular' style={{backgroundColor:'white',flexDirection:'row',flex:1,height: 30}}>
-              <Input style = {{color:'black',marginTop:-5,fontWeight:'bold'}} placeholder='Zoekterm'/>
+              <Input style = {{color:'black',marginTop:-5,fontWeight:'bold'}} placeholder='Zoekterm'
+              />
             </InputGroup>
             </View>
         </View>
         <View>
           <View style={{backgroundColor:'white', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 5, alignItems:'center', borderBottomColor: 'rgba(238,238,238,1)', borderBottomWidth: 1}}>
-            <Text>Mijn liked items</Text>
+            <Text style={{fontFamily: 'Avenir'}}>Mijn liked items</Text>
             <Icon style = {{fontSize: 20,color: 'rgba(199,199,199,1)'}} name = 'ios-arrow-forward'/>
           </View>
           <View style={{backgroundColor:'white', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 5, alignItems:'center', borderBottomColor: 'rgba(238,238,238,1)', borderBottomWidth: 1}}>
-            <Text>Mijn liked items</Text>
+            <Text style={{fontFamily: 'Avenir'}}>Mijn liked items</Text>
             <Icon style = {{fontSize: 20,color: 'rgba(199,199,199,1)'}} name = 'ios-arrow-forward'/>
           </View>
         </View>
           <GridView images = {images} columns = {3} fixDimension = {true} />
-
-
       </View>
     )
   }
