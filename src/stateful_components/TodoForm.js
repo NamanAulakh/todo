@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Text,
-  View
+  View,
+  AsyncStorage
 } from 'react-native';
 import * as todoFormStyles  from '../styles/todoForm';
 import Form from '../stateless_components/Form';
@@ -13,13 +14,36 @@ class TodoForm extends Component {
 
     this.state = {
       value: '',
-      todoList: []
+      todoList: [],
+      loading: true
     };
 
     this.onChangeText = this.onChangeText.bind(this);
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.deleteAll = this.deleteAll.bind(this);
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('todoList')
+    .then((todoList) => {
+      if (todoList !== null)
+        return this.setState({
+          todoList: JSON.parse(todoList),
+          loading: false
+        });
+
+      this.setState({
+        loading: false
+      });
+    })
+    .catch((err) => {
+      console.log(err, 'error in fetching from async storage');
+
+      this.setState({
+        loading: false
+      });
+    });
   }
 
   onChangeText(value) {
@@ -37,7 +61,7 @@ class TodoForm extends Component {
     this.setState({
       todoList: todoList.concat(value),
       value: ''
-    });
+    }, () => AsyncStorage.setItem('todoList', JSON.stringify(this.state.todoList)));
   }
 
   deleteItem(value) {
@@ -56,13 +80,23 @@ class TodoForm extends Component {
     const {
       todoForm,
       formStyles,
-      todoListStyles
+      todoListStyles,
+      loadingStyles,
+      loadingText
     } = todoFormStyles.styles;
 
     const {
       value,
-      todoList
+      todoList,
+      loading
     } = this.state;
+
+    if (loading)
+      return (
+        <View style={loadingStyles}>
+          <Text style={loadingText}>Loading...</Text>
+        </View>
+      );
 
     return(
       <View style={todoForm}>
