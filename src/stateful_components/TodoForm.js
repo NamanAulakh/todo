@@ -22,6 +22,7 @@ class TodoForm extends Component {
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.deleteAll = this.deleteAll.bind(this);
+    this.alterAsyncStorage = this.alterAsyncStorage.bind(this);
   }
 
   componentDidMount() {
@@ -61,19 +62,23 @@ class TodoForm extends Component {
     this.setState({
       todoList: todoList.concat(value),
       value: ''
-    }, () => AsyncStorage.setItem('todoList', JSON.stringify(this.state.todoList)));
+    }, () => this.alterAsyncStorage(this.state.todoList));
   }
 
   deleteItem(value) {
     this.setState({
       todoList: this.state.todoList.filter(item => item !== value)
-    });
+    }, () => this.alterAsyncStorage(this.state.todoList));
   }
 
   deleteAll() {
     this.setState({
       todoList: []
-    });
+    }, () => this.alterAsyncStorage(this.state.todoList));
+  }
+
+  alterAsyncStorage(changedTodoList) {
+    AsyncStorage.setItem('todoList', JSON.stringify(changedTodoList))
   }
 
   render() {

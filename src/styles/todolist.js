@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   chillImage: {
     flex: 3,
     padding: 10,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   image: {
