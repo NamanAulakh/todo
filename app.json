@@ -1,9 +1,16 @@
 {
   "expo": {
+    "name": "TodoChill",
+    "icon": "./src/images/chill.png",
+    "version": "1.0.0",
+    "slug": "todo-chill",
     "sdkVersion": "20.0.0",
     "androidStatusBar": {
       "barStyle": "dark-content",
       "backgroundColor": "#0A48A5"
+    },
+    "android": {
+      "package": "com.todoChill.todochill"
     }
   }
 }
