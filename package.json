@@ -2,6 +2,10 @@
   "name": "todo-crna",
   "version": "0.2.0",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NamanAulakh/todo"
+  },
   "devDependencies": {
     "react-native-scripts": "1.2.0",
     "jest-expo": "~20.0.0",
